@@ -8,8 +8,9 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Aplikasi PNBP',
-	'theme'=>'cosmos',
+	'theme'=>'beagle',
 	'timeZone'=>'Asia/Jakarta',	
+	'language'=>'id',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

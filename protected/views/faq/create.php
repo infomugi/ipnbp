@@ -3,11 +3,11 @@
 /* @var $model Faq */
 
 $this->breadcrumbs=array(
-	'Faqs'=>array('index'),
-	'Add',
-	);
+'Faqs'=>array('admin'),
+'Tambah',
+);
 
-	$this->pageTitle='Add Faq';
-	?>
+$this->pageTitle='Tambah Faq';
+?>
 
-	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -1,126 +1,87 @@
 <?php
-/* @var $this SettingController */
-/* @var $model Setting */
+/* @var $this ShopController */
+/* @var $model Shop */
 
 $this->breadcrumbs=array(
-	'Settings'=>array('index'),
+	'Warung'=>array('index'),
 	$model->name,
 	);
 
-$this->pageTitle='Detail Setting - '.$model->name;
+$this->pageTitle='Konfigurasi Situs';
 ?>
 
-<span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
-		array('create'),
-		array('class' => 'btn btn-primary btn-flat','title'=>'Add Setting'));
+<?php echo CHtml::link('Edit', 
+	array('update',
+		), array('class' => 'btn btn-success', 'title'=>'Edit Situs'));
 		?>
-		<?php echo CHtml::link('<i class="fa fa-tasks"></i>',
-			array('index'),
-			array('class' => 'btn btn-primary btn-flat', 'title'=>'List Setting'));
-			?>
-			<?php echo CHtml::link('<i class="fa fa-table"></i>',
-				array('admin'),
-				array('class' => 'btn btn-primary btn-flat','title'=>'Manage Setting'));
+
+		<?php echo CHtml::link('Logo', 
+			array('logo',
+				), array('class' => 'btn btn-success', 'title'=>'Logo'));
 				?>
-				<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
-					array('update', 'id'=>$model->id_setting,
-						), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Setting'));
+
+				<?php echo CHtml::link('Favicon', 
+					array('favicon',
+						), array('class' => 'btn btn-success', 'title'=>'Favicon'));
 						?>
-						<?php echo CHtml::link('<i class="fa fa-check"></i>', 
-							array('active', 'id'=>$model->id_setting,
-								), array('class' => 'btn btn-success btn-flat', 'title'=>'Set Active'));
+
+						<?php echo CHtml::link('Seo', 
+							array('seo',
+								), array('class' => 'btn btn-success', 'title'=>'Seo'));
 								?>
-								<?php echo CHtml::link('<i class="fa fa-close"></i>', 
-									array('nonactive', 'id'=>$model->id_setting,
-										), array('class' => 'btn btn-warning btn-flat', 'title'=>'Set Non Active'));
-										?>												
 
-									</span> 
+								<?php echo CHtml::link('Social Media', 
+									array('socialmedia',
+										), array('class' => 'btn btn-success', 'title'=>'Social Media'));
+										?>			
 
-									<span class="hidden-xs">
+										<HR>
 
-										<?php echo CHtml::link('Add',
-											array('create'),
-											array('class' => 'btn btn-primary btn-flat','title'=>'Add Setting'));
-											?>
-											<?php echo CHtml::link('List',
-												array('index'),
-												array('class' => 'btn btn-primary btn-flat', 'title'=>'List Setting'));
-												?>
-												<?php echo CHtml::link('Manage',
-													array('admin'),
-													array('class' => 'btn btn-primary btn-flat','title'=>'Manage Setting'));
-													?>
-													<?php echo CHtml::link('Edit', 
-														array('update', 'id'=>$model->id_setting,
-															), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Setting'));
-															?>
-															<?php if($model->active==0){ ?>
-															<?php echo CHtml::link('<i class="fa fa-check"></i>', 
-																array('publish', 'id'=>$model->id_setting), 
-																array('class' => 'btn btn-success waves-effect waves-light tooltips', 'title'=>'Publish')
-																);
-																?>	
-																<?php }else{ ?>
-																<?php echo CHtml::link('<i class="fa fa-minus-square"></i>', 
-																	array('default', 'id'=>$model->id_setting), 
-																	array('class' => 'btn btn-danger waves-effect waves-light tooltips', 'title'=>'Set Default')
-																	);
-																	?>		
-																	<?php } ?>																	
+											<h4><i class="fa fa-archive"/></i> Nama Situs</h4>
+											<?php $this->widget('zii.widgets.CDetailView', array(
+												'data'=>$model,
+												'htmlOptions'=>array("class"=>"table"),
+												'attributes'=>array(
+													'name',
+													'address',
+													'phone',
+													'email',
+													),
+													)); ?>
 
-																</span>
+													<h4><i class="fa fa-globe"/></i> SEO</h4>
+													<?php $this->widget('zii.widgets.CDetailView', array(
+														'data'=>$model,
+														'htmlOptions'=>array("class"=>"table"),
+														'attributes'=>array(
+															'description',
+															'keywords',
+															),
+															)); ?>
 
-																<HR>
+															<h4><i class="fa fa-facebook"/></i> Media Sosial</h4>
+															<?php $this->widget('zii.widgets.CDetailView', array(
+																'data'=>$model,
+																'htmlOptions'=>array("class"=>"table"),
+																'attributes'=>array(
+																	'facebook',
+																	'instagram',
+																	'twitter',
+																	),
+																	)); ?>	
 
+																<!-- 	<h4><i class="fa fa-image"/></i> Logo & Favicon</h4>
 																	<?php $this->widget('zii.widgets.CDetailView', array(
 																		'data'=>$model,
 																		'htmlOptions'=>array("class"=>"table"),
 																		'attributes'=>array(
-																			'name',
-																			'description',
+																			'logo',
+																			'favicon',
 																			),
-																			)); ?>
-
-
-																	<?php $form=$this->beginWidget('CActiveForm', array(
-																		'id'=>'setting-form',
-																		'enableAjaxValidation'=>false,
-																		'enableClientValidation' => true,
-																		'clientOptions' => array(
-																			'validateOnSubmit' => true,
-																			),
-																		'errorMessageCssClass' => 'label label-danger',
-																		'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
-																		)); ?>
-
-																		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
-
-																		<div class="form-group">
-																			<div class="col-sm-12">
-																				<?php echo $form->error($model,'content'); ?>
-																				<?php echo $form->textArea($model,'content',array('class'=>'form-control','id'=>'code')); ?>
-																			</div>
-																		</div>  
-
-																		<div class="panel-footer text-right">
-																			<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Update', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-																			<BR><BR>
-																			</div>
-
-																			<?php $this->endWidget(); ?>
-
+																			)); ?>		 -->																									
 
 																			<STYLE>
 																				th{width:150px;}
 																			</STYLE>
-
-																			<link href="<?php echo Yii::app()->theme->baseUrl; ?>/admin/assets/plugins/codemirror/codemirror.css" rel="stylesheet">
-
-																			<!-- CodeMirror -->
-																			<script src="<?php echo Yii::app()->theme->baseUrl; ?>/admin/assets/plugins/codemirror/codemirror.js"></script>
-																			<script src="<?php echo Yii::app()->theme->baseUrl; ?>/admin/assets/plugins/codemirror/xml.js"></script>
-																			<script src="<?php echo Yii::app()->theme->baseUrl; ?>/admin/assets/plugins/codemirror/custom.codemirror.js"></script>
 

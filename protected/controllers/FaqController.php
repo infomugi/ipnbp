@@ -78,8 +78,6 @@ class FaqController extends Controller
 		if(isset($_POST['Faq']))
 		{
 			$model->attributes=$_POST['Faq'];
-			$model->created_date = date('Y-m-d h:i:s');
-			$model->update_date = date('Y-m-d h:i:s');			
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id_faq));
 		}

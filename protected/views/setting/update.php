@@ -1,14 +1,14 @@
 <?php
-/* @var $this SettingController */
-/* @var $model Setting */
+/* @var $this ShopController */
+/* @var $model Shop */
 
 $this->breadcrumbs=array(
-	'Settings'=>array('index'),
+	'Shops'=>array('index'),
 	$model->name=>array('view','id'=>$model->id_setting),
 	'Edit',
 	);
 
-	$this->pageTitle='Edit Setting';
+	$this->pageTitle='Edit Shop';
 	?>
 
 	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

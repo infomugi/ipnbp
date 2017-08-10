@@ -105,7 +105,7 @@ class UsersController extends Controller
 				Yii::app()->user->setFlash('Success', 'Profile '.$model->first_name.' has been update.');
 			$this->redirect(array('profile','view'=>$model->username));
 		}			
-		$this->layout="profile";
+		$this->layout="page";
 		$this->render('profile',array(
 			'model'=>$this->loadProfile($view),
 

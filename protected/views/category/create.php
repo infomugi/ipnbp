@@ -3,11 +3,11 @@
 /* @var $model Category */
 
 $this->breadcrumbs=array(
-	'Categories'=>array('index'),
-	'Add',
-	);
+'Categories'=>array('index'),
+'Tambah',
+);
 
-	$this->pageTitle='Add Category';
-	?>
+$this->pageTitle='Tambah Category';
+?>
 
-	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -16,7 +16,7 @@ class SettingController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			// 'postOnly + delete', // we only allow deletion via POST request
-		);
+			);
 	}
 
 	/**
@@ -26,49 +26,37 @@ class SettingController extends Controller
 	 */
 	public function accessRules()
 	{
-		return array(
+		return array(	
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','publish','default'),
+				'actions'=>array(
+					'update','site','logo','favicon','seo','socialmedia'
+					),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
-				),	
+				),
 			array('deny',
 				'users'=>array('*'),
 				),
 			);
 	}
 
-
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
+	public function actionSite()
+	{
+		$this->render('view',array(
+			'model'=>$this->loadModel(1),
+			));
+	}
+
 	public function actionView($id)
 	{
-
-		$model=$this->loadModel($id);
-
-		if(isset($_POST['Setting']))
-		{
-			$model->attributes=$_POST['Setting'];
-			$model->update_date = date('Y-m-d H:i:s');
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_setting));
-		}
-				
-		if(Yii::app()->request->isAjaxRequest)
-		{
-			$this->renderPartial('view_ajax',array(
-				'model'=>$this->loadModel($id),
-				), false, true);
-		}
-		else
-		{
-			$this->render('view',array(
-				'model'=>$this->loadModel($id),
-				));
-		}
-	}
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+			));
+	}	
 
 	/**
 	 * Creates a new model.
@@ -77,6 +65,7 @@ class SettingController extends Controller
 	public function actionCreate()
 	{
 		$model=new Setting;
+		$model->setScenario('create');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -84,16 +73,16 @@ class SettingController extends Controller
 		if(isset($_POST['Setting']))
 		{
 			$model->attributes=$_POST['Setting'];
-			$model->user_id = YII::app()->user->id;
-			$model->status = 0;
-			$model->created_date = date('Y-m-d H:i:s');
-			if($model->save())
+			$model->created_by = YII::app()->user->id;
+			$model->created_date = date('Y-m-d h:i:s');
+			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id_setting));
+			}
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -101,9 +90,10 @@ class SettingController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+		$model=$this->loadModel(1);
+		$model->setScenario('update');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -111,14 +101,17 @@ class SettingController extends Controller
 		if(isset($_POST['Setting']))
 		{
 			$model->attributes=$_POST['Setting'];
-			$model->update_date = date('Y-m-d H:i:s');
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_setting));
+			$model->update_by = YII::app()->user->id;
+			$model->update_date = date('Y-m-d h:i:s');
+			if($model->save()){
+				$this->redirect(array('site'));
+				// $this->redirect(array('view','id'=>$model->id_setting));
+			}
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -140,16 +133,10 @@ class SettingController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Setting', array(
-			'criteria'=>array(
-				'condition'=>'status=1',
-				'order'=>'name ASC',
-				)
-			));
-
+		$dataProvider=new CActiveDataProvider('Setting');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+			));
 	}
 
 	/**
@@ -164,7 +151,7 @@ class SettingController extends Controller
 
 		$this->render('admin',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -195,24 +182,110 @@ class SettingController extends Controller
 		}
 	}
 
-	public function actionPublish($id)
+	public function actionLogo()
 	{
-		$model=$this->loadModel($id);
-		$model->update_date = date('Y-m-d H:i:s');
-		$model->active = 1;
-		$model->save();
-		Yii::app()->user->setFlash('success', '<b>Successfully!</b> <i>'.$model->name.'</i> has enable.');
-		$this->redirect(array('index'));
+		$model=$this->loadModel(1);
+		$model->setScenario('logo');
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Setting']))
+		{
+			$model->attributes=$_POST['Setting'];
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'logo'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'logo'); 
+				$model->logo=$model->id_setting.'.'.$tmp->extensionName; 
+			}
+
+			if($model->save())
+			{	
+				if(strlen(trim($model->logo)) > 0) {
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/setting/'.$model->logo);
+				}
+				$this->redirect(array('site'));
+				// $this->redirect(array('view','id'=>$model->id_setting));
+			}
+		}
+
+		$this->render('logo',array(
+			'model'=>$model,
+			));
+	}
+
+	public function actionFavicon()
+	{
+		$model=$this->loadModel(1);
+		$model->setScenario('favicon');
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Setting']))
+		{
+			$model->attributes=$_POST['Setting'];
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'favicon'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'favicon'); 
+				$model->favicon=$model->id_setting.'.'.$tmp->extensionName; 
+			}
+
+			if($model->save())
+			{	
+				if(strlen(trim($model->favicon)) > 0) {
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/setting/'.$model->favicon);
+				}
+				$this->redirect(array('site'));
+				// $this->redirect(array('view','id'=>$model->id_setting));
+			}
+		}
+
+		$this->render('favicon',array(
+			'model'=>$model,
+			));
 	}	
 
-	public function actionDefault($id)
+	public function actionSeo()
 	{
-		$model=$this->loadModel($id);
-		$model->update_date = date('Y-m-d H:i:s');		
-		$model->active = 0;
-		$model->save();
-		Yii::app()->user->setFlash('warning', '<b>Successfully!</b> <i>'.$model->name.'</i> has disable.');
-		$this->redirect(array('index'));
+		$model=$this->loadModel(1);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Setting']))
+		{
+			$model->attributes=$_POST['Setting'];
+			if($model->save())
+				$this->redirect(array('site'));
+				// $this->redirect(array('view','id'=>$model->id_setting));
+		}
+
+		$this->render('seo',array(
+			'model'=>$model,
+			));
+	}	
+
+	public function actionSocialMedia()
+	{
+		$model=$this->loadModel(1);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Setting']))
+		{
+			$model->attributes=$_POST['Setting'];
+			if($model->save())
+				$this->redirect(array('site'));
+				// $this->redirect(array('view','id'=>$model->id_setting));
+		}
+
+		$this->render('socialmedia',array(
+			'model'=>$model,
+			));
 	}	
 
 }

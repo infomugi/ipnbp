@@ -71,7 +71,7 @@ $this->pageTitle='Detail Division - '.$model->name;
 																	
 																	array(	
 																		'name'=>'status',
-																		'value'=>Post::model()->status($model->status),
+																		'value'=>Users::model()->status($model->status),
 																		),
 																	
 																	),

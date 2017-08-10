@@ -5,28 +5,25 @@
  *
  * The followings are the available columns in table 'setting':
  * @property integer $id_setting
- * @property string $created_date
- * @property string $update_date
  * @property string $name
  * @property string $description
- * @property string $content
- * @property integer $type
- * @property integer $user_id
+ * @property string $keywords
+ * @property string $favicon
+ * @property string $logo
+ * @property string $address
+ * @property string $phone
+ * @property string $email
+ * @property string $facebook
+ * @property string $instagram
+ * @property string $twitter
  * @property integer $status
- * @property integer $active
+ * @property integer $created_by
+ * @property string $created_date
+ * @property integer $update_by
+ * @property string $update_date 
  */
 class Setting extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Setting the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -43,14 +40,22 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, description, type, user_id, status, active', 'required'),
-			array('type, user_id, status', 'numerical', 'integerOnly'=>true),
-			array('content', 'length', 'max'=>100000),
+			array('name, description, keywords, favicon, logo, address, phone, email, facebook, instagram, twitter, status', 'required','on'=>'create'),
+			array('name, address, phone, email', 'required','on'=>'update'),
+			array('logo', 'required','on'=>'logo'),
+			array('favicon', 'required','on'=>'favicon'),
+			array('status, phone, created_by, update_by', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
+			array('description', 'length', 'max'=>255),
+			array('keywords, email, facebook, instagram, twitter', 'length', 'max'=>150),
+			array('favicon, logo, phone', 'length', 'max'=>25),
+			array('email','email'),
+			array('logo', 'file', 'allowEmpty'=>true, 'types'=>'jpg, gif, png', 'on'=>'logo'), 
+			array('favicon', 'file', 'allowEmpty'=>true, 'types'=>'jpg, gif, png', 'on'=>'favicon'), 
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id_setting, created_date, update_date, name, description, content, type, user_id, status', 'safe', 'on'=>'search'),
-		);
+			// @todo Please remove those attributes that should not be searched.
+			array('id_setting, name, description, keywords, favicon, logo, address, phone, email, facebook, instagram, twitter, status', 'safe', 'on'=>'search'),
+			);
 	}
 
 	/**
@@ -61,8 +66,7 @@ class Setting extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'Member'=>array(self::BELONGS_TO,'Users','user_id'),
-		);
+			);
 	}
 
 	/**
@@ -71,81 +75,122 @@ class Setting extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_setting' => 'Id Setting',
-			'created_date' => 'Created Date',
-			'update_date' => 'Update Date',
+			'id_setting' => 'Id Site',
 			'name' => 'Name',
 			'description' => 'Description',
-			'content' => 'Content',
-			'type' => 'Type',
-			'user_id' => 'User',
+			'keywords' => 'Keywords',
+			'favicon' => 'Favicon',
+			'logo' => 'Logo',
+			'address' => 'Address',
+			'phone' => 'Phone',
+			'email' => 'Email',
+			'facebook' => 'Facebook',
+			'instagram' => 'Instagram',
+			'twitter' => 'Twitter',
 			'status' => 'Status',
-			'active' => 'Active',
-		);
+			);
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_setting',$this->id_setting);
-		$criteria->compare('created_date',$this->created_date,true);
-		$criteria->compare('update_date',$this->update_date,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('content',$this->content,true);
-		$criteria->compare('type',$this->type);
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('keywords',$this->keywords,true);
+		$criteria->compare('favicon',$this->favicon,true);
+		$criteria->compare('logo',$this->logo,true);
+		$criteria->compare('address',$this->address,true);
+		$criteria->compare('phone',$this->phone,true);
+		$criteria->compare('email',$this->email,true);
+		$criteria->compare('facebook',$this->facebook,true);
+		$criteria->compare('instagram',$this->instagram,true);
+		$criteria->compare('twitter',$this->twitter,true);
 		$criteria->compare('status',$this->status);
-		$criteria->order = "name ASC";
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+			));
 	}
 
-	protected function beforeSave()
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Setting the static model class
+	 */
+	public static function model($className=__CLASS__)
 	{
-		$this->created_date = date('Y-m-d', strtotime($this->created_date));
-		$this->update_date = date('Y-m-d', strtotime($this->update_date));
-		return TRUE;
+		return parent::model($className);
 	}
-	
-	protected function afterFind()
-	{
-		$this->created_date = date('d-m-Y', strtotime($this->created_date));
-		$this->update_date = date('d-m-Y', strtotime($this->update_date));
-		return TRUE;
+
+	public function name(){
+		$data = self::model()->findBypk(1);
+		return $data->name;
+	}
+
+	public function phone(){
+		$data = self::model()->findBypk(1);
+		return $data->phone;
 	}	
 
-	public function type($a)
-	{
-		if($a==1)
-			return "Template";
-		else 
-			return "Widget";
+	public function email(){
+		$data = self::model()->findBypk(1);
+		return $data->email;
 	}	
 
-	public function status($a)
-	{
-		if($a==1)
-			return "Frontend";
-		else 
-			return "Backend";
+	public function address(){
+		$data = self::model()->findBypk(1);
+		return $data->address;
 	}	
 
-	public function active($a)
-	{
-		if($a==1)
-			return "Enable";
-		else 
-			return "Disable";
-	}				
+	public function logo(){
+		$data = self::model()->findBypk(1);
+		return $data->logo;
+	}		
+
+	public function favicon(){
+		$data = self::model()->findBypk(1);
+		return $data->favicon;
+	}	
+
+	public function facebook(){
+		$data = self::model()->findBypk(1);
+		return $data->facebook;
+	}	
+
+	public function twitter(){
+		$data = self::model()->findBypk(1);
+		return $data->twitter;
+	}	
+
+	public function instagram(){
+		$data = self::model()->findBypk(1);
+		return $data->instagram;
+	}
+
+	public function keywords(){
+		$data = self::model()->findBypk(1);
+		return $data->keywords;
+	}
+
+	public function description(){
+		$data = self::model()->findBypk(1);
+		return $data->description;
+	}							
 }

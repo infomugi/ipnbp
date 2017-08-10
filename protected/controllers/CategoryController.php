@@ -28,12 +28,12 @@ class CategoryController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','publish','default'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index','create','update'),
+				'actions'=>array('view','index'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -78,8 +78,6 @@ class CategoryController extends Controller
 		if(isset($_POST['Category']))
 		{
 			$model->attributes=$_POST['Category'];
-			$model->status = 1;
-			$model->id_user = YII::app()->user->id;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id_category));
 		}
@@ -181,7 +179,7 @@ class CategoryController extends Controller
 		}
 	}
 
-	public function actionPublish($id)
+	public function actionEnable($id)
 	{
 		$model=$this->loadModel($id);
 		$model->status = 1;
@@ -189,11 +187,11 @@ class CategoryController extends Controller
 		$this->redirect(array('index'));
 	}	
 
-	public function actionDefault($id)
+	public function actionDisable($id)
 	{
 		$model=$this->loadModel($id);
 		$model->status = 0;
 		$model->save();
 		$this->redirect(array('index'));
-	}		
+	}			
 }
