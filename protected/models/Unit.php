@@ -1,22 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "ref_testing".
+ * This is the model class for table "ref_unit".
  *
- * The followings are the available columns in table 'ref_testing':
- * @property integer $id_testing
- * @property string $code
+ * The followings are the available columns in table 'ref_unit':
+ * @property integer $id_unit
  * @property string $name
+ * @property string $address
+ * @property integer $type
  * @property integer $status
  */
-class Testing extends CActiveRecord
+class Unit extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'ref_testing';
+		return 'ref_unit';
 	}
 
 	/**
@@ -27,13 +28,12 @@ class Testing extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name, status', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('code', 'length', 'max'=>25),
-			array('name', 'length', 'max'=>100),
+			array('name, address, type, status', 'required'),
+			array('type, status', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_testing, code, name, status', 'safe', 'on'=>'search'),
+			array('id_unit, name, address, type, status', 'safe', 'on'=>'search'),
 			);
 	}
 
@@ -54,9 +54,10 @@ class Testing extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_testing' => 'Id Testing',
-			'code' => 'Code',
+			'id_unit' => 'Id Unit',
 			'name' => 'Name',
+			'address' => 'Address',
+			'type' => 'Type',
 			'status' => 'Status',
 			);
 	}
@@ -79,9 +80,10 @@ class Testing extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_testing',$this->id_testing);
-		$criteria->compare('code',$this->code,true);
+		$criteria->compare('id_unit',$this->id_unit);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('address',$this->address,true);
+		$criteria->compare('type',$this->type);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
@@ -93,12 +95,20 @@ class Testing extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Testing the static model class
+	 * @return Unit the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-
+	public function type($a)
+	{
+		if($a==1)
+			return "Balai";
+		else if($a==2)
+			return "Lab";
+		else 
+			return "-";
+	}
 }

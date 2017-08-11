@@ -1,22 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "ref_testing".
+ * This is the model class for table "request_testing".
  *
- * The followings are the available columns in table 'ref_testing':
+ * The followings are the available columns in table 'request_testing':
  * @property integer $id_testing
- * @property string $code
- * @property string $name
+ * @property string $created_date
+ * @property integer $created_id
+ * @property string $update_date
+ * @property integer $update_id
+ * @property integer $testing_type
+ * @property integer $testing_lab
+ * @property integer $testing_part
+ * @property integer $request_id
  * @property integer $status
  */
-class Testing extends CActiveRecord
+class RequestTesting extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'ref_testing';
+		return 'request_testing';
 	}
 
 	/**
@@ -27,13 +33,13 @@ class Testing extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name, status', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('code', 'length', 'max'=>25),
-			array('name', 'length', 'max'=>100),
+			// array('created_date, created_id, update_date, update_id, testing_type, testing_lab, testing_part, request_id, status', 'required'),
+			array('created_date, created_id, testing_type, testing_lab, testing_part, request_id, status', 'required','on'=>'create'),
+			array('update_date, update_id', 'required','on'=>'update'),
+			array('created_id, update_id, testing_type, testing_lab, testing_part, request_id, status', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_testing, code, name, status', 'safe', 'on'=>'search'),
+			array('id_testing, created_date, created_id, update_date, update_id, testing_type, testing_lab, testing_part, request_id, status', 'safe', 'on'=>'search'),
 			);
 	}
 
@@ -45,6 +51,9 @@ class Testing extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Balai'=>array(self::BELONGS_TO,'Unit','testing_part'),
+			'Lab'=>array(self::BELONGS_TO,'Unit','testing_lab'),
+			'Testing'=>array(self::BELONGS_TO,'Testing','testing_type'),
 			);
 	}
 
@@ -55,8 +64,14 @@ class Testing extends CActiveRecord
 	{
 		return array(
 			'id_testing' => 'Id Testing',
-			'code' => 'Code',
-			'name' => 'Name',
+			'created_date' => 'Tanggal Buat',
+			'created_id' => 'Diinput Oleh',
+			'update_date' => 'Tanggal Update',
+			'update_id' => 'Diperbaharui Oleh',
+			'testing_type' => 'Jenis Pengujian',
+			'testing_lab' => 'Lab',
+			'testing_part' => 'Balai',
+			'request_id' => 'Request',
 			'status' => 'Status',
 			);
 	}
@@ -80,8 +95,14 @@ class Testing extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_testing',$this->id_testing);
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('created_date',$this->created_date,true);
+		$criteria->compare('created_id',$this->created_id);
+		$criteria->compare('update_date',$this->update_date,true);
+		$criteria->compare('update_id',$this->update_id);
+		$criteria->compare('testing_type',$this->testing_type);
+		$criteria->compare('testing_lab',$this->testing_lab);
+		$criteria->compare('testing_part',$this->testing_part);
+		$criteria->compare('request_id',$this->request_id);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
@@ -93,12 +114,10 @@ class Testing extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Testing the static model class
+	 * @return RequestTesting the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-
 }

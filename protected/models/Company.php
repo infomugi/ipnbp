@@ -50,7 +50,7 @@ class Company extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_company, created_date, update_date, company_code, name, owner, address, email, phone, faximile, postal_code, type, place, classification, province_id, district_id, category_id, status', 'safe', 'on'=>'search'),
-		);
+			);
 	}
 
 	/**
@@ -61,7 +61,8 @@ class Company extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		);
+			
+			);
 	}
 
 	/**
@@ -88,7 +89,7 @@ class Company extends CActiveRecord
 			'district_id' => 'Kecamatan',
 			'category_id' => 'Kategori',
 			'status' => 'Status',
-		);
+			);
 	}
 
 	/**
@@ -130,7 +131,7 @@ class Company extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+			));
 	}
 
 	/**
