@@ -117,6 +117,7 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 														<li><a href="<?php echo $url; ?>category/admin">Kategori Pengujian</a></li>
 														<li><a href="<?php echo $url; ?>testing/admin">Jenis Pengujian</a></li>
 														<li><a href="<?php echo $url; ?>company/admin">Perusahaan/ Instansi</a></li>
+														<li><a href="<?php echo $url; ?>industry/admin">Industri</a></li>
 
 													</ul>
 												</li>
@@ -202,12 +203,14 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 
 <script type="text/javascript">
 	$(document).ready(function(){
-						      	//initialize the javascript
-						      	App.init();
-						      	App.formElements();
-						      });
-						  </script>
+											      	//initialize the javascript
+											      	App.init();
+											      	App.formElements();
+											      });
 
 
-						</body>
-						</html>
+											  </script>
+
+
+											</body>
+											</html>

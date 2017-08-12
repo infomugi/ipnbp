@@ -1,6 +1,6 @@
 <?php
 
-class RequestPaymentController extends Controller
+class IndustryController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -15,8 +15,8 @@ class RequestPaymentController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-			);
+			// 'postOnly + delete', // we only allow deletion via POST request
+		);
 	}
 
 	/**
@@ -70,21 +70,21 @@ class RequestPaymentController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new RequestPayment;
+		$model=new Industry;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['RequestPayment']))
+		if(isset($_POST['Industry']))
 		{
-			$model->attributes=$_POST['RequestPayment'];
+			$model->attributes=$_POST['Industry'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_payment));
+				$this->redirect(array('view','id'=>$model->id_industry));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
-			));
+		));
 	}
 
 	/**
@@ -99,16 +99,16 @@ class RequestPaymentController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['RequestPayment']))
+		if(isset($_POST['Industry']))
 		{
-			$model->attributes=$_POST['RequestPayment'];
+			$model->attributes=$_POST['Industry'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_payment));
+				$this->redirect(array('view','id'=>$model->id_industry));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
-			));
+		));
 	}
 
 	/**
@@ -130,10 +130,10 @@ class RequestPaymentController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('RequestPayment');
+		$dataProvider=new CActiveDataProvider('Industry');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-			));
+		));
 	}
 
 	/**
@@ -141,26 +141,26 @@ class RequestPaymentController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new RequestPayment('search');
+		$model=new Industry('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['RequestPayment']))
-			$model->attributes=$_GET['RequestPayment'];
+		if(isset($_GET['Industry']))
+			$model->attributes=$_GET['Industry'];
 
 		$this->render('admin',array(
 			'model'=>$model,
-			));
+		));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return RequestPayment the loaded model
+	 * @return Industry the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=RequestPayment::model()->findByPk($id);
+		$model=Industry::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -168,11 +168,11 @@ class RequestPaymentController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param RequestPayment $model the model to be validated
+	 * @param Industry $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='request-payment-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='industry-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

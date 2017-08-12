@@ -173,7 +173,7 @@
 
 		<h4>Data Invoice</h4>
 		<?php $this->widget('zii.widgets.grid.CGridView', array(
-			'id'=>'testing-grid',
+			'id'=>'invoice-grid',
 			'dataProvider'=>$dataInvoice,
 			// 'filter'=>$model,	
 			'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',

@@ -50,16 +50,23 @@ class CompanyController extends Controller
 	 */
 	public function actionView($id)
 	{
+
+		//Data Kontak Perusahaan
+		$dataContact=new CActiveDataProvider('CompanyContact',array('criteria'=>array('condition'=>'company_id='.$id)));
+
+
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$this->renderPartial('view',array(
 				'model'=>$this->loadModel($id),
+				'dataContact'=>$dataContact,
 				), false, true);
 		}
 		else
 		{
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
+				'dataContact'=>$dataContact,
 				));
 		}
 	}

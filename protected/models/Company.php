@@ -61,7 +61,7 @@ class Company extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			
+			'Industry'=>array(self::BELONGS_TO,'Industry','category_id'),
 			);
 	}
 

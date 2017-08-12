@@ -36,7 +36,7 @@ class Response extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_date, created_id, letter_date, letter_code, letter_attachment, description, request_id, status', 'required','on'=>'create'),
+			array('created_date, created_id, letter_date, letter_code, description, request_id, status', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('letter_code', 'length', 'max'=>25),

@@ -75,7 +75,7 @@ class RequestPayment extends CActiveRecord
 			'term' => 'Termin',
 			'total' => 'Jumlah Bayar',
 			'file' => 'Bukti Bayar',
-			'invoice_id' => 'Invoice ID',
+			'invoice_id' => 'Nomor Invoice',
 			'request_id' => 'Permohonan ID',
 			'status' => 'Status',
 			'terbilang' => 'Terbilang',

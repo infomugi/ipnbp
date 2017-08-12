@@ -15,7 +15,7 @@ class RequestController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			// 'postOnly + delete', // we only allow deletion via POST request
+			'postOnly + delete', // we only allow deletion via POST request
 			);
 	}
 
@@ -51,8 +51,20 @@ class RequestController extends Controller
 	public function actionView($id)
 	{
 		$this->layout="page";
-		//Type = 1 (Approve = Dilihat)
-		// $this->setActivity($id,1);
+
+		//Form Permohonan
+		$model=$this->loadModel($id);
+		$model->setScenario('update');
+		if(isset($_POST['Request']))
+		{
+			$model->attributes=$_POST['Request'];
+			$model->update_id = YII::app()->user->id;
+			$model->update_date = date('Y-m-d h:i:s');			
+			if($model->save()){
+				Yii::app()->user->setFlash('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Disimpan.');
+				$this->redirect(array('view','id'=>$id));
+			}
+		}
 
 		//Form Surat Tanggapan
 		$response=new Response;
@@ -69,7 +81,6 @@ class RequestController extends Controller
 				//Type = 2 (Response = Tanggapan)
 				$this->setActivity($id,2);
 				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian telah Disimpan.');
-
 				$this->redirect(array('request/view','id'=>$id));
 			}
 		}
@@ -88,6 +99,7 @@ class RequestController extends Controller
 			$testing->status = 1;		
 			$testing->request_id = $id;			
 			if($testing->save()){
+				Yii::app()->user->setFlash('Success', 'Permohonan Tahapan Pengujian telah Disimpan.');
 				$this->redirect(array('request/view','id'=>$id));
 			}
 		}
@@ -127,7 +139,7 @@ class RequestController extends Controller
 			$invoice->request_id = $id;
 			if($invoice->save()){
 				//Type = 3 (Payment = Invoice)
-				$this->setActivity($id,3);
+				$this->setActivity($id,6);
 				$this->redirect(array('request/view','id'=>$id));
 			}
 		}
@@ -368,6 +380,10 @@ class RequestController extends Controller
 			$activity->report_accept_id= $userid;
 			$activity->report_accept_date = $date;
 			$activity->save();	
+		}elseif($type==6){
+			$activity->invoice_id = $userid;
+			$activity->invoice_date = $date;
+			$activity->save();				
 		}else{
 			throw new CHttpException(404,'Update ke Activity Gagal');
 		}

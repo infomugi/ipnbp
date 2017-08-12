@@ -1,6 +1,6 @@
 <?php
 
-class RequestPaymentController extends Controller
+class CompanyContactController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -15,7 +15,7 @@ class RequestPaymentController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			// 'postOnly + delete', // we only allow deletion via POST request
 			);
 	}
 
@@ -68,18 +68,21 @@ class RequestPaymentController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionCreate($id)
 	{
-		$model=new RequestPayment;
+		$model=new CompanyContact;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['RequestPayment']))
+		if(isset($_POST['CompanyContact']))
 		{
-			$model->attributes=$_POST['RequestPayment'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_payment));
+			$model->attributes=$_POST['CompanyContact'];
+			$model->company_id = $id;
+			$model->status = 1;
+			if($model->save()){
+				$this->redirect(array('company/view','id'=>$model->company_id));
+			}
 		}
 
 		$this->render('create',array(
@@ -99,11 +102,11 @@ class RequestPaymentController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['RequestPayment']))
+		if(isset($_POST['CompanyContact']))
 		{
-			$model->attributes=$_POST['RequestPayment'];
+			$model->attributes=$_POST['CompanyContact'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_payment));
+				$this->redirect(array('view','id'=>$model->id_company_contact));
 		}
 
 		$this->render('update',array(
@@ -130,7 +133,7 @@ class RequestPaymentController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('RequestPayment');
+		$dataProvider=new CActiveDataProvider('CompanyContact');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 			));
@@ -141,10 +144,10 @@ class RequestPaymentController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new RequestPayment('search');
+		$model=new CompanyContact('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['RequestPayment']))
-			$model->attributes=$_GET['RequestPayment'];
+		if(isset($_GET['CompanyContact']))
+			$model->attributes=$_GET['CompanyContact'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -155,12 +158,12 @@ class RequestPaymentController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return RequestPayment the loaded model
+	 * @return CompanyContact the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=RequestPayment::model()->findByPk($id);
+		$model=CompanyContact::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -168,11 +171,11 @@ class RequestPaymentController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param RequestPayment $model the model to be validated
+	 * @param CompanyContact $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='request-payment-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='company-contact-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

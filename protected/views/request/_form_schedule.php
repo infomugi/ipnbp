@@ -192,7 +192,7 @@
 
 		<h4>Data Penjadwalan Pengujian</h4>
 		<?php $this->widget('zii.widgets.grid.CGridView', array(
-			'id'=>'testing-grid',
+			'id'=>'schedule-grid',
 			'dataProvider'=>$dataSchedule,
 				// 'filter'=>$model,	
 			'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',

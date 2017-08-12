@@ -195,20 +195,33 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 						      	App.init();
 						      	App.formElements();
 						      });
-						  </script>
 
-						  <script type="text/javascript">
-						  	$(document).ready(function(){
-						  		$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-						  			localStorage.setItem('activeTab', $(e.target).attr('href'));
-						  		});
-						  		var activeTab = localStorage.getItem('activeTab');
-						  		if(activeTab){
-						  			$('#myTab a[href="' + activeTab + '"]').tab('show');
-						  		}
-						  	});
-						  </script>
+											//Momen JS
+											if($('.format-date').length > 0){
+												$('.format-date').each(function(){
+													var ini = $(this);
+													var tgl = ini.text();
+													moment.locale('id');
+													if(moment(tgl,'YYYY-MM-DD',true).isValid() || moment(tgl,'YYYY-MM-DD HH:mm:ss',true).isValid()){
+														var formatTgl = moment(tgl, "YYYY-MM-DD HH:mm:ss").fromNow();
+														ini.html(formatTgl);
+													}
+												});
+											} 
+										</script>
+
+										<script type="text/javascript">
+											$(document).ready(function(){
+												$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+													localStorage.setItem('activeTab', $(e.target).attr('href'));
+												});
+												var activeTab = localStorage.getItem('activeTab');
+												if(activeTab){
+													$('#myTab a[href="' + activeTab + '"]').tab('show');
+												}
+											});
+										</script>
 
 
-						</body>
-						</html>
+									</body>
+									</html>

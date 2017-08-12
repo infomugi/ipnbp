@@ -65,7 +65,7 @@
 
 					<div class="col-sm-9">
 						<?php echo $form->error($response,'letter_attachment'); ?>
-						<?php echo $form->textField($response,'letter_attachment',array('class'=>'form-control')); ?>
+						<?php echo $form->fileField($response,'letter_attachment',array('class'=>'btn btn-info')); ?>
 					</div>
 
 				</div>  

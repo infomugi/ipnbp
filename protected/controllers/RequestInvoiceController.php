@@ -15,8 +15,8 @@ class RequestInvoiceController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			// 'postOnly + delete', // we only allow deletion via POST request
-		);
+			'postOnly + delete', // we only allow deletion via POST request
+			);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class RequestInvoiceController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -108,7 +108,7 @@ class RequestInvoiceController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -133,7 +133,7 @@ class RequestInvoiceController extends Controller
 		$dataProvider=new CActiveDataProvider('RequestInvoice');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+			));
 	}
 
 	/**
@@ -148,7 +148,7 @@ class RequestInvoiceController extends Controller
 
 		$this->render('admin',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
