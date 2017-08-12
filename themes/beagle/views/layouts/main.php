@@ -15,10 +15,6 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="<?php echo $baseUrl; ?>/admin/assets/img/logo-fav.png">
 	<title><?php echo $this->pageTitle; ?> - <?php echo YII::app()->name; ?></title>
-
-
-
-
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/admin/assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/admin/assets/lib/material-design-icons/css/material-design-iconic-font.min.css"/><!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -101,66 +97,95 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 											<ul class="sidebar-elements">
 												<li class="divider">Menu</li>
 												<li><a href="<?php echo $url; ?>dashboard"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a>
-													<li><a href="<?php echo $url; ?>request/admin"><i class="icon mdi mdi-inbox"></i><span>Permohonan</span></a>
-													</li>
-													<li class="parent"><a href="#"><i class="icon mdi mdi-chart-donut"></i><span>Master</span></a>
-														<ul class="sub-menu">
-															<li><a href="<?php echo $url; ?>company/admin">Perusahaan</a></li>
-															<li><a href="<?php echo $url; ?>category/admin">Kategori</a></li>
-															<li><a href="<?php echo $url; ?>testing/admin">Pengujian</a></li>
-															<li><a href="<?php echo $url; ?>unit/admin">Unit (Balai / Lab)</a></li>
+												</li>
+												<li class="parent"><a href="#"><i class="icon mdi mdi-inbox"></i><span>Pelayanan</span></a>
+													<ul class="sub-menu">
+														<li><a href="<?php echo $url; ?>request/admin">Permohonan</a></li>
+														<li><a href="<?php echo $url; ?>response/admin">Surat Tanggapan</a></li>
+														<li><a href="<?php echo $url; ?>requestschedule/admin">Jadwal & RAB</a></li>
+														<li><a href="<?php echo $url; ?>requestinvoice/admin">Invoice</a></li>
+														<li><a href="<?php echo $url; ?>requestpayment/admin">Pembayaran</a></li>
+														<li><a href="#">Surat Perjanjian Kerja</a></li>
+														<li><a href="#">Hasil Uji</a></li>
+														<li><a href="#">Kuesioner</a></li>
 
-														</ul>
-													</li>
-													<li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>Accounts</span></a>
-														<ul class="sub-menu">
-															<li><a href="<?php echo $url; ?>users/admin">Pengguna</a><li>
-																<li><a href="<?php echo $url; ?>division/admin">Divisi</a><li>
-																</ul>
-															</li>
+													</ul>
+												</li>
+												<li class="parent"><a href="#"><i class="icon mdi mdi-chart-donut"></i><span>Referensi</span></a>
+													<ul class="sub-menu">
+														<li><a href="<?php echo $url; ?>unit/admin">Unit</a></li>
+														<li><a href="<?php echo $url; ?>category/admin">Kategori Pengujian</a></li>
+														<li><a href="<?php echo $url; ?>testing/admin">Jenis Pengujian</a></li>
+														<li><a href="<?php echo $url; ?>company/admin">Perusahaan/ Instansi</a></li>
 
-														</ul>
+													</ul>
+												</li>
+
+												<li class="parent"><a href="#"><i class="icon mdi mdi-book"></i><span>Laporan</span></a>
+													<ul class="sub-menu">
+														<li><a href="<?php echo $url; ?>">Daftar Antrian</a></li>
+														<li><a href="<?php echo $url; ?>">Laporan Advis Teknis</a></li>
+														<li><a href="<?php echo $url; ?>">Laporan Sertifikasi</a></li>
+														<li><a href="<?php echo $url; ?>">Laporan Pengujian</a></li>
+														<li><a href="<?php echo $url; ?>">Laporan Kuesioner</a></li>
+
+													</ul>
+												</li>
+
+
+												<li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>Manajemen User</span></a>
+													<ul class="sub-menu">
+														<li><a href="<?php echo $url; ?>users/admin">Daftar User</a><li>
+															<li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>">Profil User</a><li>
+																<li><a href="<?php echo $url; ?>division/admin">Group User</a><li>
+																	<li><a href="<?php echo $url; ?>users/index">Otorisasi User</a><li>
+																	</ul>
+																</li>
+
+															</ul>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<div class="be-content">
+
+											<div class="main-content container-fluid">
+												<div class="row">
+													<div class="col-sm-12">
+
+														<div class="panel panel-default panel-contrast">
+															<div class="panel-heading"><?php echo $this->pageTitle; ?>
+
+															</div>
+															<div class="panel-body panel-body-contrast">
+																<div class="table-responsive">
+																	<?php echo $content; ?>
+																</div>
+															</div>
+														</div>
+
+
 													</div>
 												</div>
 											</div>
-
 										</div>
-									</div>
-									<div class="be-content">
 
-										<div class="main-content container-fluid">
-											<div class="row">
-												<div class="col-sm-12">
-
-													<div class="panel panel-default panel-contrast">
-														<div class="panel-heading"><?php echo $this->pageTitle; ?>
-
-														</div>
-														<div class="panel-body panel-body-contrast">
-															<?php echo $content; ?>
-														</div>
-													</div>
-
-
-												</div>
-											</div>
-										</div>
 									</div>
 
-								</div>
-
-								<!-- <script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery/jquery.min.js" type="text/javascript"></script> -->
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/js/main.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery.nestable/jquery.nestable.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/moment.js/min/moment.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/daterangepicker/js/daterangepicker.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/select2/js/select2.full.min.js" type="text/javascript"></script>
-								<script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap-slider/js/bootstrap-slider.js" type="text/javascript"></script>
+									<!-- <script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery/jquery.min.js" type="text/javascript"></script> -->
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/js/main.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery.nestable/jquery.nestable.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/moment.js/min/moment.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/daterangepicker/js/daterangepicker.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/select2/js/select2.full.min.js" type="text/javascript"></script>
+									<script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap-slider/js/bootstrap-slider.js" type="text/javascript"></script>
 
 
 <!-- <script src="<?php echo $baseUrl; ?>/admin/assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>

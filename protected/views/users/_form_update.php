@@ -176,7 +176,7 @@
 					<?php echo $form->labelEx($model,'gender'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-8 be-radio"">
 					<?php echo $form->error($model,'gender'); ?>
 					<?php
 					echo $form->radioButtonList($model,'gender',

@@ -12,9 +12,9 @@ $this->pageTitle='Kelola Pengguna';
 
 <span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
+	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-md','title'=>'Tambah Pengguna'));
+		array('class' => 'btn btn-primary pull-right btn-md','title'=>'Tambah Pengguna'));
 		?>			
 
 	</span> 
@@ -23,7 +23,7 @@ $this->pageTitle='Kelola Pengguna';
 
 		<?php echo CHtml::link('Tambah Pengguna',
 			array('create'),
-			array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Pengguna'));
+			array('class' => 'btn btn-primary pull-right btn-flat','title'=>'Tambah Pengguna'));
 			?>			
 
 		</span>
@@ -49,7 +49,7 @@ $this->pageTitle='Kelola Pengguna';
 
 					array(	
 						'name'=>'level',
-						'filter'=>array('0'=>'Unverified','1'=>'Administrator','2'=>'Member','3'=>'Customer'),
+						'filter'=>array('0'=>'Unverified','1'=>'Administrator','2'=>'Member','3'=>'Perusahaan'),
 						'value'=>'Users::model()->level($data->level)',
 						),
 

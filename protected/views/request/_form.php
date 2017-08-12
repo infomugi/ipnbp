@@ -15,7 +15,7 @@
 			'validateOnSubmit' => true,
 			),
 		'errorMessageCssClass' => 'label label-danger',
-		'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
+		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
 		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
@@ -75,6 +75,42 @@
 
 				</div>  
 
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'company_address'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" class="form-control" disabled="true" id="address">
+					</div>
+
+				</div>  
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'company_email'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" class="form-control" disabled="true" id="email">
+					</div>
+
+				</div>  
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'company_contact'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" class="form-control" disabled="true" id="contact">
+					</div>
+
+				</div>  								
+
 
 				<div class="form-group">
 
@@ -129,7 +165,7 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($model,'letter_attachment'); ?>
-						<?php echo $form->textField($model,'letter_attachment',array('class'=>'form-control')); ?>
+						<?php echo $form->fileField($model,'letter_attachment',array('class'=>'btn btn-info')); ?>
 					</div>
 
 				</div>  
@@ -139,12 +175,12 @@
 				<div class="form-group">
 					<div class="col-md-12">  
 					</br></br>
-					<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+					<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 				</div>
 			</div>
 
 			<?php $this->endWidget(); ?>
 
-</div>
+		</div>
 
-</div><!-- form -->
+	</div><!-- form -->

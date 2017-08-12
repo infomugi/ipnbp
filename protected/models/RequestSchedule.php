@@ -137,4 +137,16 @@ class RequestSchedule extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function testingNumber($data){
+		if($data==1){
+			return "Sample 1";
+		}elseif($data==2){
+			return "Sample 2";
+		}elseif($data==3){
+			return "Sample 3";
+		}else{
+			return "-";
+		}
+	}
 }

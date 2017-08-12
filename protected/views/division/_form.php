@@ -55,7 +55,7 @@
 					<?php echo $form->labelEx($model,'status'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-8 be-radio">
 					<?php echo $form->error($model,'status'); ?>
 					<?php
 					echo $form->radioButtonList($model,'status',
@@ -74,37 +74,37 @@
 				</div>  
 
 
-			<div class="form-group">
-				
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'type'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'type'); ?>
-					<?php
-					echo $form->radioButtonList($model,'type',
-						array('1'=>'Group'/*,'2'=>'Team','3'=>'Experience','4'=>'Education'*/),
-						array(
-							'template'=>'{input}{label}',
-							'separator'=>'',
-							'labelOptions'=>array(
-								'style'=>'padding-right:20px;margin-left:15px'),
-
-							)                              
-						);
-						?>
-					</div>
+				<div class="form-group">
 					
-				</div>  
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'type'); ?>
+					</div>   
+
+					<div class="col-sm-8 be-radio">
+						<?php echo $form->error($model,'type'); ?>
+						<?php
+						echo $form->radioButtonList($model,'type',
+							array('1'=>'Group'/*,'2'=>'Team','3'=>'Experience','4'=>'Education'*/),
+							array(
+								'template'=>'{input}{label}',
+								'separator'=>'',
+								'labelOptions'=>array(
+									'style'=>'padding-right:20px;margin-left:15px'),
+
+								)                              
+							);
+							?>
+						</div>
+						
+					</div>  
 
 
-			</div>
-		</div><!-- form -->
+				</div>
+			</div><!-- form -->
 
-		<div class="panel-footer text-right">
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-			<BR><BR>
-			</div>
+			<div class="panel-footer text-right">
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				<BR><BR>
+				</div>
 
-			<?php $this->endWidget(); ?>
+				<?php $this->endWidget(); ?>

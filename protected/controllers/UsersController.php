@@ -251,6 +251,7 @@ class UsersController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$this->layout = "page";
 		$dataProvider=new CActiveDataProvider('Users');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

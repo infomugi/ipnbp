@@ -51,6 +51,9 @@ class RequestController extends Controller
 	public function actionView($id)
 	{
 		$this->layout="page";
+		//Type = 1 (Approve = Dilihat)
+		// $this->setActivity($id,1);
+
 		//Form Surat Tanggapan
 		$response=new Response;
 		$response->setScenario('create');
@@ -62,6 +65,11 @@ class RequestController extends Controller
 			$response->status = 1;		
 			$response->request_id = $id;	
 			if($response->save()){
+
+				//Type = 2 (Response = Tanggapan)
+				$this->setActivity($id,2);
+				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian telah Disimpan.');
+
 				$this->redirect(array('request/view','id'=>$id));
 			}
 		}
@@ -98,6 +106,7 @@ class RequestController extends Controller
 			$schedule->status = 1;		
 			$schedule->request_id = $id;			
 			if($schedule->save()){
+
 				$this->redirect(array('request/view','id'=>$id));
 			}
 		}
@@ -117,6 +126,8 @@ class RequestController extends Controller
 			$invoice->status = 1;		
 			$invoice->request_id = $id;
 			if($invoice->save()){
+				//Type = 3 (Payment = Invoice)
+				$this->setActivity($id,3);
 				$this->redirect(array('request/view','id'=>$id));
 			}
 		}
@@ -138,6 +149,9 @@ class RequestController extends Controller
 		//Data Invoice
 		$dataPayment=new CActiveDataProvider('RequestPayment',array('criteria'=>array('condition'=>'request_id='.$id)));
 
+		//Data Activity
+		$activity=$this->loadActivity($id);
+
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$this->renderPartial('view',array(
@@ -152,6 +166,7 @@ class RequestController extends Controller
 				'dataInvoice'=>$dataInvoice,
 				'payment'=>$payment,
 				'dataPayment'=>$dataPayment,
+				'activity'=>$activity,
 				), false, true);
 		}
 		else
@@ -168,6 +183,7 @@ class RequestController extends Controller
 				'dataInvoice'=>$dataInvoice,
 				'payment'=>$payment,
 				'dataPayment'=>$dataPayment,
+				'activity'=>$activity,
 				));
 		}
 	}
@@ -179,6 +195,7 @@ class RequestController extends Controller
 	public function actionCreate()
 	{
 		$model=new Request;
+		$activity=new RequestActivity;
 		$model->setScenario('create');
 
 		// Uncomment the following line if AJAX validation is needed
@@ -190,7 +207,27 @@ class RequestController extends Controller
 			$model->created_id = YII::app()->user->id;
 			$model->created_date = date('Y-m-d h:i:s');
 			$model->status = 1;
+
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'letter_attachment'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'letter_attachment'); 
+				$model->letter_attachment=$model->code.'.'.$tmp->extensionName; 
+			}
+
+
 			if($model->save()){
+
+				if(strlen(trim($model->letter_attachment)) > 0) 
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/'.$model->letter_attachment);
+				
+				
+				$activity->request_id = $model->id_request;
+				$activity->request_date = date('Y-m-d h:i:s');
+				$activity->activity_date = date('Y-m-d h:i:s');
+				$activity->save();
+
+				Yii::app()->user->setFlash('Info', 'Permohonan Pengujian telah Disimpan.');
 				$this->redirect(array('view','id'=>$model->id_request));
 			}
 		}
@@ -283,6 +320,14 @@ class RequestController extends Controller
 		return $model;
 	}
 
+	public function loadActivity($id)
+	{
+		$model=RequestActivity::model()->findByAttributes(array('request_id'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}	
+
 	/**
 	 * Performs the AJAX validation.
 	 * @param Request $model the model to be validated
@@ -295,6 +340,40 @@ class RequestController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	public function setActivity($id,$type)
+	{
+		$activity=$this->loadActivity($id);
+		$userid = YII::app()->user->id;
+		$date = date('Y-m-d H:i:s');
+		$activity->activity_date = $date;
+		
+		if($type==1){
+			$activity->approve_id = $userid;
+			$activity->approve_date = $date;
+			$activity->save();
+		}elseif($type==2){
+			$activity->response_id = $userid;
+			$activity->response_date = $date;
+			$activity->save();	
+		}elseif($type==3){
+			$activity->payment_id = $userid;
+			$activity->payment_date = $date;
+			$activity->save();	
+		}elseif($type==4){
+			$activity->report_send_id = $userid;
+			$activity->report_send_date = $date;
+			$activity->save();	
+		}elseif($type==5){
+			$activity->report_accept_id= $userid;
+			$activity->report_accept_date = $date;
+			$activity->save();	
+		}else{
+			throw new CHttpException(404,'Update ke Activity Gagal');
+		}
+
+		$this->redirect(array('request/view','id'=>$id));
+	}	
 
 	public function actionEnable($id)
 	{

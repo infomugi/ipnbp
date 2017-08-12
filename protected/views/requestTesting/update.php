@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 	'Edit',
 	);
 
-	$this->pageTitle='Edit RequestTesting';
+$this->pageTitle='Edit Tahapan Pengujian';
 	?>
 
 	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

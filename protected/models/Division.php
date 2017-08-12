@@ -44,7 +44,7 @@ class Division extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id_division, name, description, status, type', 'safe', 'on'=>'search'),
-		);
+			);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Division extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		);
+			);
 	}
 
 	/**
@@ -64,12 +64,12 @@ class Division extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_division' => 'Id Division',
-			'name' => 'Name',
-			'description' => 'Description',
+			'id_division' => 'Division ID',
+			'name' => 'Nama',
+			'description' => 'Deskripsi',
 			'status' => 'Status',
-			'type' => 'Type',
-		);
+			'type' => 'Tipe',
+			);
 	}
 
 	/**
@@ -91,16 +91,16 @@ class Division extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+			));
 	}
 
 	public static function getName($DivisionID)
-    {
-        $sql = "SELECT name FROM division where id_division='".$DivisionID."'";
-        $command = Yii::app()->db->createCommand($sql);
- 
-        return $command->queryAll();
-    }
+	{
+		$sql = "SELECT name FROM division where id_division='".$DivisionID."'";
+		$command = Yii::app()->db->createCommand($sql);
+		
+		return $command->queryAll();
+	}
 
 	public function type($a)
 	{

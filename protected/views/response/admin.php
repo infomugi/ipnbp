@@ -7,63 +7,37 @@ $this->breadcrumbs=array(
 	'Kelola',
 	);
 
-$this->pageTitle='Kelola Response';
+$this->pageTitle='Kelola Surat Tanggapan';
 ?>
 
-<span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
-		array('create'),
-		array('class' => 'btn btn-primary btn-md'));
-		?>
 
-	</span> 
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'response-grid',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+	'columns'=>array(
 
-	<span class="hidden-xs">
+		array(
+			'header'=>'No',
+			'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+			'htmlOptions'=>array('width'=>'10px', 
+				'style' => 'text-align: center;')),
 
-		<?php echo CHtml::link('Tambah Response',
-			array('create'),
-			array('class' => 'btn btn-primary btn-flat'));
-			?>
-
-		</span>	
-
-		<HR>
-
-			<?php $this->widget('zii.widgets.grid.CGridView', array(
-				'id'=>'response-grid',
-				'dataProvider'=>$model->search(),
-				'filter'=>$model,
-				'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-				'columns'=>array(
-
-					array(
-						'header'=>'No',
-						'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
-						'htmlOptions'=>array('width'=>'10px', 
-							'style' => 'text-align: center;')),
-
-					'id_response',
-					'created_date',
-					'created_id',
-					'update_date',
-					'update_id',
-					'letter_date',
-		/*
+		'letter_date',
 		'letter_code',
 		'letter_attachment',
 		'date_send',
 		'date_feedback',
 		'description',
 		'request_id',
-		'status',
-		*/
 
-	// array(	
-	// 'name'=>'status',
-	// 'filter'=>array('0'=>'Disable','1'=>'Enable'),
-	// 'value'=>'Users::model()->status($data->status)',
-	// ),
+		array(	
+			'name'=>'status',
+			'filter'=>array('0'=>'Disable','1'=>'Enable'),
+			'value'=>'Users::model()->status($data->status)',
+			),
 
 		array(
 			'class'=>'CButtonColumn',
@@ -95,7 +69,7 @@ $this->pageTitle='Kelola Response';
 					<!-- Popup Header -->
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title"><strong>Detail</strong> Response</h4>
+						<h4 class="modal-title"><strong>Detail</strong> Surat Tanggapan</h4>
 					</div>
 					<!-- Popup Content -->
 					<div class="modal-body">

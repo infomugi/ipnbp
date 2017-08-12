@@ -45,7 +45,7 @@ class SiteController extends Controller
 			$this->redirect(array('site/login'));
 		} else {
 			
-			$this->layout="main";
+			$this->layout="page";
 
 			$dataUnread=new CActiveDataProvider('Message',array(
 				'criteria'=>array(

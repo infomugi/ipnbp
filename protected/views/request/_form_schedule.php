@@ -34,7 +34,7 @@
 					<?php echo $form->error($schedule,'testing_id'); ?>
 					<?php 
 					echo $form->dropDownList($schedule, "testing_id",
-						CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1')),
+						CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)),
 							'id_testing', 'testing_type'
 							),
 						array("empty"=>"-- Pilih Tahapan Pengujian --", 'class'=>'select2 form-control')

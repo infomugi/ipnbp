@@ -12,9 +12,9 @@ $this->pageTitle='Kelola Divisi';
 
 <span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
+	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-md'));
+		array('class' => 'btn btn-primary pull-right btn-md'));
 		?>
 
 	</span> 
@@ -23,7 +23,7 @@ $this->pageTitle='Kelola Divisi';
 
 		<?php echo CHtml::link('Tambah Divisi',
 			array('create'),
-			array('class' => 'btn btn-primary btn-flat'));
+			array('class' => 'btn btn-primary pull-right btn-flat'));
 			?>
 
 		</span>	

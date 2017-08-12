@@ -10,60 +10,30 @@ $this->breadcrumbs=array(
 $this->pageTitle='Kelola Pembayaran';
 ?>
 
-<span class="visible-xs">
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'request-payment-grid',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+	'columns'=>array(
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
-		array('create'),
-		array('class' => 'btn btn-primary btn-md'));
-		?>
+		array(
+			'header'=>'No',
+			'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+			'htmlOptions'=>array('width'=>'10px', 
+				'style' => 'text-align: center;')),
 
-	</span> 
-
-	<span class="hidden-xs">
-
-		<?php echo CHtml::link('Tambah Pembayaran',
-			array('create'),
-			array('class' => 'btn btn-primary btn-flat'));
-			?>
-
-		</span>	
-
-		<HR>
-
-			<?php $this->widget('zii.widgets.grid.CGridView', array(
-				'id'=>'request-payment-grid',
-				'dataProvider'=>$model->search(),
-				'filter'=>$model,
-				'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-				'columns'=>array(
-
-					array(
-						'header'=>'No',
-						'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
-						'htmlOptions'=>array('width'=>'10px', 
-							'style' => 'text-align: center;')),
-
-					'id_payment',
-					'created_date',
-					'created_id',
-					'update_date',
-					'update_id',
-		/*
-					'code',
+		'code',
 		'date',
 		'term',
 		'total',
 		'file',
-		'invoice_id',
-		'request_id',
-		'status',
-		*/
 
-	// array(	
-	// 'name'=>'status',
-	// 'filter'=>array('0'=>'Disable','1'=>'Enable'),
-	// 'value'=>'Users::model()->status($data->status)',
-	// ),
+		array(	
+			'name'=>'status',
+			'filter'=>array('0'=>'Disable','1'=>'Enable'),
+			'value'=>'Users::model()->status($data->status)',
+			),
 
 		array(
 			'class'=>'CButtonColumn',

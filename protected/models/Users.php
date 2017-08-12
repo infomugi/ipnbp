@@ -113,7 +113,7 @@ class Users extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('id_user, username, password, email, first_name, last_name, location, website, bio, birth, gender, facebook, twitter, gplus, image, background, cover, verified, status, level, division, create_date, last_visit', 'safe', 'on'=>'search'),
 			);
-}
+	}
 
 	/**
 	 * @return array relational rules.
@@ -279,13 +279,11 @@ class Users extends CActiveRecord
 	public function status($a)
 	{
 		if($a==0)
-			return "Unverified";
+			return "Tidak Aktif";
 		else if($a==1)
-			return "Active";
-		else if($a==2)
-			return "Not Active";					
+			return "Aktif";
 		else 
-			return "Unknow";
+			return "-";
 	}
 
 	public function active($a)

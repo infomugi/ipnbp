@@ -7,26 +7,26 @@ $this->breadcrumbs=array(
 	$model->id_response,
 	);
 
-$this->pageTitle='Detail Response';
+$this->pageTitle='Detail Surat Tanggapan';
 ?>
 
 <span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
+	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Response'));
+		array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Surat Tanggapan'));
 		?>
 		<?php echo CHtml::link('<i class="fa fa-table"></i>',
 			array('admin'),
-			array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Response'));
+			array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Surat Tanggapan'));
 			?>
 			<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
 				array('update', 'id'=>$model->id_response,
-					), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Response'));
+					), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Surat Tanggapan'));
 					?>
 					<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 						array('delete', 'id'=>$model->id_response,
-							),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Response'));
+							),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Surat Tanggapan'));
 							?>
 
 						</span> 
@@ -35,19 +35,19 @@ $this->pageTitle='Detail Response';
 
 							<?php echo CHtml::link('Tambah',
 								array('create'),
-								array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Response'));
+								array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Surat Tanggapan'));
 								?>
 								<?php echo CHtml::link('Kelola',
 									array('admin'),
-									array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Response'));
+									array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Surat Tanggapan'));
 									?>
 									<?php echo CHtml::link('Edit', 
 										array('update', 'id'=>$model->id_response,
-											), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Response'));
+											), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Surat Tanggapan'));
 											?>
 											<?php echo CHtml::link('Hapus', 
 												array('delete', 'id'=>$model->id_response,
-													),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Response'));
+													),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Surat Tanggapan'));
 													?>
 
 												</span>

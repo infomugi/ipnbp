@@ -12,7 +12,7 @@ $this->pageTitle='Detail Permohonan Pengujian';
 
 <span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
+	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
 		array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Permohonan Pengujian'));
 		?>

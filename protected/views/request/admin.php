@@ -12,7 +12,7 @@ $this->pageTitle='Kelola Permohonan Pengujian';
 
 <span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
+	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
 		array('class' => 'btn btn-primary pull-right btn-md'));
 		?>
@@ -61,13 +61,13 @@ $this->pageTitle='Kelola Permohonan Pengujian';
 							'view'=>
 							array(
 								'url'=>'Yii::app()->createUrl("Request/view", array("id"=>$data->id_request))',
-								'options'=>array(
-									'ajax'=>array(
-										'type'=>'POST',
-										'url'=>"js:$(this).attr('href')",
-										'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
-										),
-									),
+								// 'options'=>array(
+								// 	'ajax'=>array(
+								// 		'type'=>'POST',
+								// 		'url'=>"js:$(this).attr('href')",
+								// 		'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
+								// 		),
+								// 	),
 								),
 							),
 						),

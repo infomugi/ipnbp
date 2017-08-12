@@ -82,6 +82,9 @@ class Request extends CActiveRecord
 			'letter_subject' => 'Perihal',
 			'letter_attachment' => 'Lampiran Surat',
 			'status' => 'Status',
+			'company_address' => 'Alamat Perusahaan',
+			'company_email' => 'Email',
+			'company_contact' => 'Kontak',
 			);
 	}
 

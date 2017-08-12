@@ -16,7 +16,7 @@ class RequestScheduleController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			// 'postOnly + delete', // we only allow deletion via POST request
-		);
+			);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class RequestScheduleController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -102,13 +102,14 @@ class RequestScheduleController extends Controller
 		if(isset($_POST['RequestSchedule']))
 		{
 			$model->attributes=$_POST['RequestSchedule'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_schedule));
+			if($model->save()){
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -133,7 +134,7 @@ class RequestScheduleController extends Controller
 		$dataProvider=new CActiveDataProvider('RequestSchedule');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+			));
 	}
 
 	/**
@@ -148,7 +149,7 @@ class RequestScheduleController extends Controller
 
 		$this->render('admin',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
