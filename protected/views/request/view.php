@@ -34,13 +34,13 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" class="collapsed" aria-expanded="false"><i class="icon mdi mdi-chevron-down"></i> Detail Permohonan</a></h4>
+			<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" class="collapsed" aria-expanded="false"><i class="icon mdi mdi-chevron-down"></i> Permohonan <?php echo $model->Company->name; ?></a></h4>
 		</div>
 		<div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 			<div class="panel-body">
 
 
-				<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+				<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>
 
 
 			</div>
@@ -49,7 +49,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion3" href="#collapseThree" class="collapsed" aria-expanded="false"><i class="icon mdi mdi-chevron-down"></i> Detail Penjadwalan</a></h4>
+			<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion3" href="#collapseThree" class="collapsed" aria-expanded="false"><i class="icon mdi mdi-chevron-down"></i> Penjadwalan Pengujian</a></h4>
 		</div>
 		<div id="collapseThree" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 			<div class="panel-body">

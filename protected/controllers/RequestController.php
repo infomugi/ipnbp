@@ -78,10 +78,11 @@ class RequestController extends Controller
 			$response->request_id = $id;	
 			if($response->save()){
 
+				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
+
 				//Type = 2 (Response = Tanggapan)
 				$this->setActivity($id,2);
-				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian telah Disimpan.');
-				$this->redirect(array('request/view','id'=>$id));
+				$this->redirect(array('view','id'=>$id));
 			}
 		}
 
@@ -99,8 +100,8 @@ class RequestController extends Controller
 			$testing->status = 1;		
 			$testing->request_id = $id;			
 			if($testing->save()){
-				Yii::app()->user->setFlash('Success', 'Permohonan Tahapan Pengujian telah Disimpan.');
-				$this->redirect(array('request/view','id'=>$id));
+				Yii::app()->user->setFlash('Success', 'Tahapan '.$testing->Testing->name.' Disimpan.');
+				$this->redirect(array('view','id'=>$id));
 			}
 		}
 
@@ -118,8 +119,8 @@ class RequestController extends Controller
 			$schedule->status = 1;		
 			$schedule->request_id = $id;			
 			if($schedule->save()){
-
-				$this->redirect(array('request/view','id'=>$id));
+				Yii::app()->user->setFlash('Success', 'Penjadwalan '.$schedule->task.' Disimpan.');
+				$this->redirect(array('view','id'=>$id));
 			}
 		}
 
@@ -139,8 +140,9 @@ class RequestController extends Controller
 			$invoice->request_id = $id;
 			if($invoice->save()){
 				//Type = 3 (Payment = Invoice)
+				Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
 				$this->setActivity($id,6);
-				$this->redirect(array('request/view','id'=>$id));
+				$this->redirect(array('view','id'=>$id));
 			}
 		}
 
@@ -153,8 +155,14 @@ class RequestController extends Controller
 		if(isset($_POST['RequestPayment']))
 		{
 			$payment->attributes=$_POST['RequestPayment'];
+			$payment->created_id = YII::app()->user->id;
+			$payment->created_date = date('Y-m-d h:i:s');
+			$payment->status = 1;		
+			$payment->request_id = $id;			
 			if($payment->save()){
-				$this->redirect(array('request/view','id'=>$id));
+				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$payment->Invoice->code.' Disimpan.');
+				$this->setActivity($id,3);
+				$this->redirect(array('view','id'=>$id));
 			}
 		}
 

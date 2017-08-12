@@ -75,14 +75,14 @@
 
 				</div>  
 
-<!-- 				<div class="form-group">
+				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'company_address'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<input type="text" class="form-control" disabled="true" id="address">
+						<input type="text" class="form-control" disabled="true" value="<?php echo $model->Company->address; ?>" id="address">
 					</div>
 
 				</div>  
@@ -94,7 +94,7 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<input type="text" class="form-control" disabled="true" id="email">
+						<input type="text" class="form-control" disabled="true" value="<?php echo $model->Company->email; ?>" id="email">
 					</div>
 
 				</div>  
@@ -106,11 +106,11 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<input type="text" class="form-control" disabled="true" id="contact">
+						<input type="text" class="form-control" value="<?php echo $model->Company->phone; ?>" disabled="true" id="contact">
 					</div>
 
 				</div>  								
-			-->
+
 
 				<div class="form-group">
 

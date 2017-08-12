@@ -37,7 +37,7 @@ class Request extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required'),
-			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required','on'=>'create'),
+			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, status', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, company_id, status', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),
