@@ -45,11 +45,10 @@ $this->pageTitle='Kelola Divisi';
 
 					'name',
 
-
-					array(	
-						'name'=>'type',
-						'value'=>'Division::model()->type($data->type)',
-						),							
+					// array(	
+					// 	'name'=>'type',
+					// 	'value'=>'Division::model()->type($data->type)',
+					// 	),							
 
 					array(	
 						'name'=>'status',

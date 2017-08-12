@@ -16,7 +16,7 @@ class CategoryController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			// 'postOnly + delete', // we only allow deletion via POST request
-		);
+			);
 	}
 
 	/**
@@ -78,13 +78,15 @@ class CategoryController extends Controller
 		if(isset($_POST['Category']))
 		{
 			$model->attributes=$_POST['Category'];
+			$model->type=1;
+			$model->icon="fa fa-home";
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id_category));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -108,7 +110,7 @@ class CategoryController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -133,7 +135,7 @@ class CategoryController extends Controller
 		$dataProvider=new CActiveDataProvider('Category');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+			));
 	}
 
 	/**
@@ -148,7 +150,7 @@ class CategoryController extends Controller
 
 		$this->render('admin',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**

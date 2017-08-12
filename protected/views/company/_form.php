@@ -194,12 +194,12 @@
 				<div class="form-group">
 					
 					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'province_id'); ?>
+						<?php echo $form->labelEx($model,'province'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($model,'province_id'); ?>
-						<?php echo $form->textField($model,'province_id',array('class'=>'form-control')); ?>
+						<?php echo $form->error($model,'province'); ?>
+						<?php echo $form->textField($model,'province',array('class'=>'form-control')); ?>
 					</div>
 					
 				</div>  
@@ -208,12 +208,12 @@
 				<div class="form-group">
 					
 					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'district_id'); ?>
+						<?php echo $form->labelEx($model,'city'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($model,'district_id'); ?>
-						<?php echo $form->textField($model,'district_id',array('class'=>'form-control')); ?>
+						<?php echo $form->error($model,'city'); ?>
+						<?php echo $form->textField($model,'city',array('class'=>'form-control')); ?>
 					</div>
 					
 				</div>  
@@ -227,43 +227,50 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($model,'category_id'); ?>
-						<?php echo $form->textField($model,'category_id',array('class'=>'form-control')); ?>
-					</div>
-					
-				</div>  
-
-				
-				<div class="form-group">
-					
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'status'); ?>
-					</div>   
-
-					<div class="col-sm-8">
-						<?php echo $form->error($model,'status'); ?>
-						<?php
-						echo $form->radioButtonList($model,'status',
-							array('1'=>'Aktif','0'=>'Tidak Aktif'),
-							array(
-								'template'=>'{input}{label}',
-								'separator'=>'',
-								'labelOptions'=>array(
-									'class'=>'minimal', 'style'=>'padding-right:20px;margin-left:5px'),
-
-								)                              
-							);
-							?>
+						<?php 
+						echo $form->dropDownList($model, "category_id",
+							CHtml::listData(Industry::model()->findall(array('condition'=>'status=1')),
+								'id_industry', 'description'
+								),
+							array("empty"=>"-- Industri --", 'class'=>'select2 form-control')
+							); 
+							?> 
 						</div>
-						
+
 					</div>  
 
-					<div class="form-group">
-						<div class="col-md-12">  
-						</br></br>
-						<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-					</div>
-				</div>
 
-				<?php $this->endWidget(); ?>
+					<div class="form-group">
+
+						<div class="col-sm-4 control-label">
+							<?php echo $form->labelEx($model,'status'); ?>
+						</div>   
+
+						<div class="col-sm-8">
+							<?php echo $form->error($model,'status'); ?>
+							<?php
+							echo $form->radioButtonList($model,'status',
+								array('1'=>'Aktif','0'=>'Tidak Aktif'),
+								array(
+									'template'=>'{input}{label}',
+									'separator'=>'',
+									'labelOptions'=>array(
+										'class'=>'minimal', 'style'=>'padding-right:20px;margin-left:5px'),
+
+									)                              
+								);
+								?>
+							</div>
+
+						</div>  
+
+						<div class="form-group">
+							<div class="col-md-12">  
+							</br></br>
+							<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+						</div>
+					</div>
+
+					<?php $this->endWidget(); ?>
 
 </div></div><!-- form -->

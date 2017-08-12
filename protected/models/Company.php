@@ -18,8 +18,8 @@
  * @property integer $type
  * @property integer $place
  * @property string $classification
- * @property integer $province_id
- * @property integer $district_id
+ * @property integer $province
+ * @property integer $city
  * @property integer $category_id
  * @property integer $status
  */
@@ -41,15 +41,15 @@ class Company extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_date, update_date, company_code, name, owner, address, email, phone, faximile, postal_code, type, place, classification, province_id, district_id, category_id, status', 'required'),
-			array('postal_code, type, place, province_id, district_id, category_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_date, update_date, company_code, name, address, email, phone, faximile, postal_code, province, city, category_id, status', 'required'),
+			array('postal_code, type, place, category_id, status', 'numerical', 'integerOnly'=>true),
 			array('company_code, phone, classification', 'length', 'max'=>15),
 			array('name', 'length', 'max'=>100),
-			array('owner, email', 'length', 'max'=>50),
+			array('owner, email, city, province', 'length', 'max'=>50),
 			array('faximile', 'length', 'max'=>25),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_company, created_date, update_date, company_code, name, owner, address, email, phone, faximile, postal_code, type, place, classification, province_id, district_id, category_id, status', 'safe', 'on'=>'search'),
+			array('id_company, created_date, update_date, company_code, name, owner, address, email, phone, faximile, postal_code, type, place, classification, province, city, category_id, status', 'safe', 'on'=>'search'),
 			);
 	}
 
@@ -85,8 +85,8 @@ class Company extends CActiveRecord
 			'type' => 'Type',
 			'place' => 'Kedudukan',
 			'classification' => 'Klasifikasi',
-			'province_id' => 'Provinsi',
-			'district_id' => 'Kecamatan',
+			'province' => 'Provinsi',
+			'city' => 'Kota',
 			'category_id' => 'Kategori',
 			'status' => 'Status',
 			);
@@ -124,8 +124,8 @@ class Company extends CActiveRecord
 		$criteria->compare('type',$this->type);
 		$criteria->compare('place',$this->place);
 		$criteria->compare('classification',$this->classification,true);
-		$criteria->compare('province_id',$this->province_id);
-		$criteria->compare('district_id',$this->district_id);
+		$criteria->compare('province',$this->province);
+		$criteria->compare('city',$this->city);
 		$criteria->compare('category_id',$this->category_id);
 		$criteria->compare('status',$this->status);
 
@@ -144,4 +144,53 @@ class Company extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
+	public function type($data){
+		if($data==1){
+			return "PMDN";
+		}elseif($data==2){
+			return "Swasta Nasional";
+		}elseif($data==3){
+			return "Perseorangan";
+		}elseif($data==4){
+			return "PMA";
+		}elseif($data==5){
+			return "BUMN";
+		}elseif($data==6){
+			return "Kopeasi";
+		}elseif($data==7){
+			return "Join Vuture";
+		}elseif($data==8){
+			return "Join Venture";
+		}else{			
+			return "-";
+		}
+	}
+
+	public function place($data){
+		if($data==1){
+			return "Pusat";
+		}elseif($data==2){
+			return "Cabang";
+		}else{			
+			return "-";
+		}
+	}
+
+	public function classification($data){
+		if($data==1){
+			return "Besar";
+		}elseif($data==2){
+			return "Kecil";
+		}elseif($data==3){
+			return "Sedang";
+		}elseif($data==4){
+			return "Menengah";
+		}elseif($data==5){
+			return "< Kecil";
+		}else{			
+			return "-";
+		}
+	}	
 }

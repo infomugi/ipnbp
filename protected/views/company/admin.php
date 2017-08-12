@@ -52,8 +52,8 @@ $this->pageTitle='Kelola Perusahaan';
 							'type',
 							'place',
 							'classification',
-							'province_id',
-							'district_id',
+							'province',
+							'city',
 							'category_id',
 							'status',
 							*/

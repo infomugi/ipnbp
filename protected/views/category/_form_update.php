@@ -49,25 +49,6 @@
 			</div>  
 
 
-			<div class="form-group">
-				
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'icon'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-						<div class="input-group">
-							<span class="input-group-btn">
-							<a href="<?php echo Yii::app()->baseUrl; ?>/site/icon"  class="btn waves-effect waves-light btn-primary"/><i class="fa fa-search"></i></a>
-							</span>
-							<?php echo $form->error($model,'icon'); ?>
-							<?php echo $form->textField($model,'icon',array('class'=>'form-control','placeholder'=>'Icon ')); ?>
-						</div>
-					</div>	
-				
-			</div>  
-
-
 			
 			<div class="form-group">
 				

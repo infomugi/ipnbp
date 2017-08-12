@@ -58,13 +58,13 @@ $this->pageTitle='Detail Category';
 														'data'=>$model,
 														'htmlOptions'=>array("class"=>"table"),
 														'attributes'=>array(
-															'id_category',
+															// 'id_category',
 															'name',
 															'description',
-															'icon',
-															'status',
-															'id_user',
-															'type',
+															// 'icon',
+															// 'status',
+															// 'id_user',
+															// 'type',
 															),
 															)); ?>
 

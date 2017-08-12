@@ -53,12 +53,39 @@ $this->pageTitle='Detail Division - '.$model->name;
 											),
 											)); ?>
 
-									<?php $this->widget('zii.widgets.CListView', array(
-										'dataProvider'=>$dataProvider,
-										'itemView'=>'_view_user',
-										)); ?>
+											<div class="panel panel-default panel-table">
+												<div class="panel-heading">
+													<div class="title">Divisi <?php echo $model->name; ?></div>
+												</div>
+												<div class="panel-body table-responsive">
+													<table class="table table-striped table-hover">
+														<thead>
+															<tr>
+																<th style="width:37%;">Pengguna</th>
+																<th style="width:36%;">Email</th>
+																<th>Last Login</th>
+																<th class="actions">Otorisasi</th>
+															</tr>
+														</thead>
+														<tbody>
 
-									<STYLE>
-										th{width:150px;}
-									</STYLE>
+
+															<?php $this->widget('zii.widgets.CListView', array(
+																'dataProvider'=>$dataProvider,
+																'summaryText'=>'',
+																'itemView'=>'_view_user',
+																)); ?>
+
+
+
+															</tbody>
+														</table>
+													</div>
+												</div>
+
+
+
+												<STYLE>
+													th{width:150px;}
+												</STYLE>
 

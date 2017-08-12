@@ -35,7 +35,7 @@ $this->breadcrumbs=array(
      <div class="form-group">
        <?php echo $form->passwordField($model,'password', array('class' => 'form-control text-blue','placeholder'=>'Password','id'=>'password')); ?>
      </div>
-     <div class="form-group row login-tools">
+<!--      <div class="form-group row login-tools">
       <div class="col-xs-6 login-remember">
         <div class="be-checkbox">
           <input type="checkbox" id="remember">
@@ -43,7 +43,7 @@ $this->breadcrumbs=array(
         </div>
       </div>
       <div class="col-xs-6 login-forgot-password"><a href="pages-login.html#">Forgot Password?</a></div>
-    </div>
+    </div> -->
     <div class="form-group login-submit">
      <?php echo CHtml::submitButton('Login', array('class' => 'btn btn-primary btn-xl')); ?>   
    </div>
@@ -52,6 +52,6 @@ $this->breadcrumbs=array(
 
  </div>
 </div>
-<div class="splash-footer"><span>Don't have an account? <a href="pages-login.html#">Sign Up</a></span></div>
+<!-- <div class="splash-footer"><span>Don't have an account? <a href="pages-login.html#">Sign Up</a></span></div> -->
 
 

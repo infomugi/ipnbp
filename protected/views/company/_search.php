@@ -82,13 +82,13 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'province_id'); ?>
-		<?php echo $form->textField($model,'province_id'); ?>
+		<?php echo $form->label($model,'province'); ?>
+		<?php echo $form->textField($model,'province'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'district_id'); ?>
-		<?php echo $form->textField($model,'district_id'); ?>
+		<?php echo $form->label($model,'city'); ?>
+		<?php echo $form->textField($model,'city'); ?>
 	</div>
 
 	<div class="row">

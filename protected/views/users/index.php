@@ -38,7 +38,7 @@ $this->pageTitle='Otorisasi User';
 				<tr>
 					<th style="width:37%;">Pengguna</th>
 					<th style="width:36%;">Email</th>
-					<th>Date</th>
+					<th>Last Login</th>
 					<th class="actions">Otorisasi</th>
 				</tr>
 			</thead>

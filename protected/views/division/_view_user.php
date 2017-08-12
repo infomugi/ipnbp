@@ -1,30 +1,31 @@
-<div class="col-sm-6 col-lg-4">
-	<div class="panel">
-		<div class="panel-body">
-			<div class="media-main">
+	<tr>
+		<td class="user-avatar"> 
+			<img class="thumb-lg img-circle" src="<?php echo Yii::app()->baseUrl; ?>/image/avatar/<?PHP echo $data->image; ?>" alt="">
+			<?php echo CHtml::link(CHtml::encode($data->username), array('profile', 'view'=>$data->username)); ?> </td>
+			<td><?php echo CHtml::encode($data->email); ?></td>
+			<td><?php echo CHtml::encode($data->last_visit); ?></td>
+			<td class="actions">
 
-				<a class="pull-left" href="##">
-					<img class="thumb-lg img-circle" src="<?php echo Yii::app()->baseUrl; ?>/image/avatar/<?PHP echo $data->image; ?>" alt="">
-				</a>
+				
+				<?php if($data->level==1){ ?>
 
-				<div class="pull-right btn-group-sm hidden-xs">
-					<?php echo CHtml::link('<i class="fa fa-pencil"></i>', 
-						array('users/update', 'id'=>$data->id_user,
-							), array('class' => 'btn btn-success waves-effect waves-light tooltips', 'title'=>'Edit Profile'));
-							?>
-					<?php echo CHtml::link('<i class="fa fa-eye"></i>', 
-						array('users/view', 'id'=>$data->id_user,
-							), array('class' => 'btn btn-info waves-effect waves-light tooltips', 'title'=>'View Profile'));
-							?>							
-						</div>
+					<?php echo CHtml::link('<i class="icon mdi mdi-shield-security"></i>', 
+						array('setuser', 'id'=>$data->id_user), 
+						array('class' => 'icon', 'title'=>'Jadikan Staff')
+						);
+					?>		
 
-						<div class="info">
-							<h4><?php echo CHtml::link(CHtml::encode($data->username), array('users/view', 'id'=>$data->id_user)); ?> 
-								<?php if($data->verified==1): ?><i class="fa fa-check-circle text-info"></i> <?php endif; ?>
-							</h4>
-							<p class="text-muted"><?php echo CHtml::encode($data->email); ?></p></div>
-						</div>
+					<?php }else{ ?>
 
-					</div>
-				</div>
-			</div>
+						<?php echo CHtml::link('<i class="icon mdi mdi-shield-check"></i>', 
+							array('setadmin', 'id'=>$data->id_user), 
+							array('class' => 'icon', 'title'=>'Jadikan Administrator')
+							);
+						?>	
+
+						<?php } ?>	
+
+					</td>
+				</tr>
+
+

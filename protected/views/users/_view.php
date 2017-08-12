@@ -6,6 +6,7 @@
 			<td><?php echo CHtml::encode($data->last_visit); ?></td>
 			<td class="actions">
 
+				
 				<?php if($data->level==1){ ?>
 
 					<?php echo CHtml::link('<i class="icon mdi mdi-shield-security"></i>', 
