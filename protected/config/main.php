@@ -86,7 +86,7 @@ return array(
 
 			'showScriptName'=>false,
 			'caseSensitive'=>false,
-			'urlSuffix'=>'.aspx'
+			// 'urlSuffix'=>'.aspx'
 			),
 
 		// database settings are configured in database.php

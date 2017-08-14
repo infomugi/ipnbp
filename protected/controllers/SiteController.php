@@ -42,8 +42,10 @@ class SiteController extends Controller
 	public function actionDashboard()
 	{
 		if(Yii::app()->user->isGuest) {
+
 			$this->redirect(array('site/login'));
-		} else {
+
+		}else{
 			
 			$this->layout="page";
 
@@ -65,7 +67,8 @@ class SiteController extends Controller
 
 			$this->render('dashboard',array(
 				'dataUnread'=>$dataUnread,
-				'dataActivity'=>$dataActivity
+				'dataActivity'=>$dataActivity,
+				'filter'=>1
 				));
 
 		}
@@ -176,6 +179,22 @@ class SiteController extends Controller
 			$this->redirect(array('site/login'));
 		}
 	}
+
+	public function actionCalendar($filter)
+	{
+		if(Yii::app()->user->isGuest) {
+
+			$this->redirect(array('site/login'));
+
+		}else{
+			
+			$this->layout="page";			
+			$this->render('dashboard',array(
+				'filter'=>$filter
+				));
+
+		}
+	}	
 
 
 }
