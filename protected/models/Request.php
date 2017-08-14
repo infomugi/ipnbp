@@ -37,7 +37,7 @@ class Request extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required'),
-			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, status', 'required','on'=>'create'),
+			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, company_id, status', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),
@@ -45,6 +45,7 @@ class Request extends CActiveRecord
 			array('letter_subject', 'length', 'max'=>150),
 			array('letter_attachment', 'length', 'max'=>255),
 			array('code','unique'),
+			array('letter_attachment', 'file', 'types'=>'pdf, doc, docx','allowEmpty'=> true,'safe'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_request, code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'safe', 'on'=>'search'),

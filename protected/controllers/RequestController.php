@@ -228,6 +228,7 @@ class RequestController extends Controller
 			$model->created_date = date('Y-m-d h:i:s');
 			$model->status = 1;
 
+			$model->letter_attachment=CUploadedFile::getInstance($model,'letter_attachment');
 			$tmp;
 			if(strlen(trim(CUploadedFile::getInstance($model,'letter_attachment'))) > 0) 
 			{ 
@@ -238,16 +239,17 @@ class RequestController extends Controller
 
 			if($model->save()){
 
-				if(strlen(trim($model->letter_attachment)) > 0) 
-					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/'.$model->letter_attachment);
-				
-				
 				$activity->request_id = $model->id_request;
 				$activity->request_date = date('Y-m-d h:i:s');
 				$activity->activity_date = date('Y-m-d h:i:s');
 				$activity->save();
 
 				Yii::app()->user->setFlash('Info', 'Permohonan Pengujian telah Disimpan.');
+
+
+				if(strlen(trim($model->letter_attachment)) > 0) 
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/'.$model->letter_attachment);	
+				
 				$this->redirect(array('view','id'=>$model->id_request));
 			}
 		}
