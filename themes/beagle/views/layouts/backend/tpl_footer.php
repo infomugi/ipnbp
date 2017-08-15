@@ -65,6 +65,12 @@ $(document).ready(function(){
 });
 </script>
 
+<link href="https://farbelous.github.io/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+<script src="https://farbelous.github.io/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
+
+
+<script> $(function() { $('#cp2').colorpicker(); }); </script>
+
 
 </body>
 </html>

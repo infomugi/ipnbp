@@ -442,26 +442,46 @@ class RequestController extends Controller
 
 	public function actionCalendarRequest()
 	{       
+		// $items = array();
+		// $id = YII::app()->user->id;
+		// $criteria = new CDbCriteria();
+		// $criteria->condition = 'status=:status';
+		// $criteria->params = array(':status'=>1);
+		// $model = Request::model()->findAll($criteria);
+
+		// foreach ($model as $value) {
+		// 	$items[]=array(
+		// 		'id'=>$value->id_request,
+		// 		'title'=>$value->letter_subject,
+		// 		'start'=>$value->date,
+		// 		'end'=>date('Y-m-d', strtotime('+1 day', strtotime($value->date))),
+		// 		'color'=>'#041E99',
+		// 		// 'allDay'=>true,
+		// 		);
+		// }
+
+		// echo CJSON::encode($items);
+		// Yii::app()->end();
 		$items = array();
 		$id = YII::app()->user->id;
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'status=:status';
 		$criteria->params = array(':status'=>1);
-		$model = Request::model()->findAll($criteria);
+		$model = RequestSchedule::model()->findAll($criteria);
 
 		foreach ($model as $value) {
 			$items[]=array(
-				'id'=>$value->id_request,
-				'title'=>$value->letter_subject,
-				'start'=>$value->date,
-				'end'=>date('Y-m-d', strtotime('+1 day', strtotime($value->date))),
-				'color'=>'#2dcb73',
+				'id'=>$value->id_schedule,
+				'title'=>$value->Request->letter_subject. " - ". $value->Request->company_id,
+				'start'=>$value->start_date,
+				'end'=>date('Y-m-d', strtotime('+1 day', strtotime($value->end_date))),
+				'color'=>'#041E99',
 				// 'allDay'=>true,
 				);
 		}
 
 		echo CJSON::encode($items);
-		Yii::app()->end();
+		Yii::app()->end();		
 	}			
 
 	/**
