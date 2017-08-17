@@ -37,7 +37,7 @@ class CompanyContact extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_company_contact, name, address, phone, email, company_id, status', 'safe', 'on'=>'search'),
-		);
+			);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class CompanyContact extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		);
+			);
 	}
 
 	/**
@@ -57,14 +57,14 @@ class CompanyContact extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_company_contact' => 'Id Company Contact',
-			'name' => 'Name',
-			'address' => 'Address',
-			'phone' => 'Phone',
-			'email' => 'Email',
-			'company_id' => 'Company',
+			'id_company_contact' => 'Id Kontak',
+			'name' => 'Nama',
+			'address' => 'Alamat',
+			'phone' => 'HP',
+			'email' => 'Alamat Email',
+			'company_id' => 'Perusahaan',
 			'status' => 'Status',
-		);
+			);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class CompanyContact extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+			));
 	}
 
 	/**

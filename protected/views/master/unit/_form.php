@@ -62,7 +62,7 @@
 					<?php echo $form->error($model,'type'); ?>
 					<?php
 					echo $form->radioButtonList($model,'type',
-						array('1'=>'Balai','2'=>'Lab'),
+						array('1'=>'Balai','2'=>'Lab','3'=>'Petugas'),
 						array(
 							'template'=>'{input}{label}',
 							'separator'=>'',

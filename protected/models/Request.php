@@ -143,5 +143,25 @@ class Request extends CActiveRecord
 		}else{
 			return "Tidak Aktif";
 		}
+	}
+
+	public function history($data){
+		if($data==1){
+			return "Permohonan";
+		}else if($data==2){
+			return "Disposisi";
+		}else if($data==3){
+			return "Surat Tanggapan";
+		}else if($data==4){
+			return "Invoice & SPK";
+		}else if($data==5){
+			return "Kuitansi";
+		}else if($data==6){
+			return "Laporan Dikirim";
+		}else if($data==7){
+			return "Laporan Diterima";
+		}else{
+			return "-";
+		}
 	}	
 }

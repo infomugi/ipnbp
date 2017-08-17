@@ -16,65 +16,57 @@ $this->pageTitle='Detail Surat Tanggapan';
 		array('create'),
 		array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Surat Tanggapan'));
 		?>
-		<?php echo CHtml::link('<i class="fa fa-table"></i>',
-			array('admin'),
-			array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Surat Tanggapan'));
-			?>
-			<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
-				array('update', 'id'=>$model->id_response,
-					), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Surat Tanggapan'));
-					?>
-					<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
-						array('delete', 'id'=>$model->id_response,
-							),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Surat Tanggapan'));
+		<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
+			array('update', 'id'=>$model->id_response,
+				), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Surat Tanggapan'));
+				?>
+				<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+					array('delete', 'id'=>$model->id_response,
+						),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Surat Tanggapan'));
+						?>
+
+					</span> 
+
+					<span class="hidden-xs">
+
+						<?php echo CHtml::link('Tambah',
+							array('create'),
+							array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Surat Tanggapan'));
 							?>
-
-						</span> 
-
-						<span class="hidden-xs">
-
-							<?php echo CHtml::link('Tambah',
-								array('create'),
-								array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Surat Tanggapan'));
-								?>
-								<?php echo CHtml::link('Kelola',
-									array('admin'),
-									array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Surat Tanggapan'));
+							<?php echo CHtml::link('Edit', 
+								array('update', 'id'=>$model->id_response,
+									), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Surat Tanggapan'));
 									?>
-									<?php echo CHtml::link('Edit', 
-										array('update', 'id'=>$model->id_response,
-											), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Surat Tanggapan'));
+									<?php echo CHtml::link('Hapus', 
+										array('delete', 'id'=>$model->id_response,
+											),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Surat Tanggapan'));
 											?>
-											<?php echo CHtml::link('Hapus', 
-												array('delete', 'id'=>$model->id_response,
-													),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Surat Tanggapan'));
-													?>
 
-												</span>
+										</span>
 
-												<HR>
+										<HR>
 
-													<?php $this->widget('zii.widgets.CDetailView', array(
-														'data'=>$model,
-														'htmlOptions'=>array("class"=>"table"),
-														'attributes'=>array(
-															'id_response',
-															'created_date',
-															'created_id',
-															'update_date',
-															'update_id',
-															'letter_date',
-															'letter_code',
-															'letter_attachment',
-															'date_send',
-															'date_feedback',
-															'description',
-															'request_id',
-															'status',
-															),
-															)); ?>
+											<?php $this->widget('zii.widgets.CDetailView', array(
+												'data'=>$model,
+												'htmlOptions'=>array("class"=>"table"),
+												'attributes'=>array(
+													'id_response',
+													'created_date',
+													'created_id',
+													'update_date',
+													'update_id',
+													'letter_date',
+													'letter_code',
+													'letter_attachment',
+													'date_send',
+													'date_feedback',
+													'description',
+													'request_id',
+													'status',
+													),
+													)); ?>
 
-													<STYLE>
-														th{width:150px;}
-													</STYLE>
+											<STYLE>
+												th{width:150px;}
+											</STYLE>
 

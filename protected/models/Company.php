@@ -41,7 +41,8 @@ class Company extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_date, update_date, company_code, name, address, email, phone, faximile, postal_code, province, city, category_id, status', 'required'),
+			// array('created_date, update_date, company_code, name, address, email, phone, faximile, postal_code, province, city, category_id, status', 'required'),
+			array('created_date, update_date, company_code, name, address, email, phone', 'required'),
 			array('postal_code, type, place, category_id, status', 'numerical', 'integerOnly'=>true),
 			array('company_code, phone, classification', 'length', 'max'=>15),
 			array('name', 'length', 'max'=>100),

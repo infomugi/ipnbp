@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	'Manage',
 	);
 
-$this->pageTitle='Manage Industri';
+$this->pageTitle='Manage Kategori Instansi';
 ?>
 
 <span class="visible-xs">
@@ -21,7 +21,7 @@ $this->pageTitle='Manage Industri';
 
 	<span class="hidden-xs">
 
-		<?php echo CHtml::link('Tambah Industri',
+		<?php echo CHtml::link('Tambah Kategori Instansi',
 			array('create'),
 			array('class' => 'btn btn-primary btn-flat'));
 			?>
@@ -57,7 +57,7 @@ $this->pageTitle='Manage Industri';
 						'buttons'=>array(
 							'view'=>
 							array(
-								'url'=>'Yii::app()->createUrl("Industry/view", array("id"=>$data->id_industry))',
+								'url'=>'Yii::app()->createUrl("master/industry/view", array("id"=>$data->id_industry))',
 								'options'=>array(
 									'ajax'=>array(
 										'type'=>'POST',
@@ -80,7 +80,7 @@ $this->pageTitle='Manage Industri';
 								<!-- Popup Header -->
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title"><strong>View</strong> Industri</h4>
+									<h4 class="modal-title"><strong>View</strong> Kategori</h4>
 								</div>
 								<!-- Popup Content -->
 								<div class="modal-body">

@@ -22,134 +22,77 @@
 
 
 		<div class="col-md-10">
-			<div class="col-md-7">
 
+			<div class="form-group">
 
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($response,'letter_date'); ?>
+				</div>   
 
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'letter_date'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'letter_date'); ?>
-						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-							<?php echo $form->textField($response,'letter_date',array('class'=>'form-control')); ?>
-							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-						</div>
-					</div>
-
-				</div>  
-
-
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'letter_code'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'letter_code'); ?>
-						<?php echo $form->textField($response,'letter_code',array('class'=>'form-control')); ?>
-					</div>
-
-				</div>  
-
-
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'letter_attachment'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'letter_attachment'); ?>
-						<?php echo $form->fileField($response,'letter_attachment',array('class'=>'btn btn-info')); ?>
-					</div>
-
-				</div>  
-
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'status'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'status'); ?>
-						<?php echo $form->dropDownList($response,'status',array(''=>'-- Pilih Status --','1'=>'Terima','2'=>'Pending','3'=>'Tolak'),array('class'=>'form-control')); ?>
-					</div>
-
-				</div>  
-
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'description'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'description'); ?>
-						<?php echo $form->textArea($response,'description',array('class'=>'form-control')); ?>
-					</div>
-
-				</div>  
-
-
-				<div class="form-group">
-					<div class="col-md-12">  
-						<?php echo CHtml::submitButton($response->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				<div class="col-sm-8">
+					<?php echo $form->error($response,'letter_date'); ?>
+					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+						<?php echo $form->textField($response,'letter_date',array('class'=>'form-control')); ?>
+						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 					</div>
 				</div>
 
+			</div>  
 
 
-			</div>
+			<div class="form-group">
 
-			<div class="col-sm-5">
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($response,'letter_code'); ?>
+				</div>   
 
-
-
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'date_send'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'date_send'); ?>
-						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-							<?php echo $form->textField($response,'date_send',array('class'=>'form-control')); ?>
-							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-						</div>
-					</div>
-
-				</div>  
-
-
-				<div class="form-group">
-
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($response,'date_feedback'); ?>
-					</div>   
-
-					<div class="col-sm-9">
-						<?php echo $form->error($response,'date_feedback'); ?>
-						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-							<?php echo $form->textField($response,'date_feedback',array('class'=>'form-control')); ?>
-							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-						</div>
-					</div>
-
-				</div>  
+				<div class="col-sm-8">
+					<?php echo $form->error($response,'letter_code'); ?>
+					<?php echo $form->textField($response,'letter_code',array('class'=>'form-control')); ?>
+				</div>
 
 			</div>  
+
+
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($response,'letter_attachment'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($response,'letter_attachment'); ?>
+					<?php echo $form->fileField($response,'letter_attachment',array('class'=>'btn btn-info')); ?>
+				</div>
+
+			</div>  
+
+
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($response,'description'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($response,'description'); ?>
+					<?php echo $form->textArea($response,'description',array('class'=>'form-control')); ?>
+				</div>
+
+			</div>  
+
+
+			<div class="form-group">
+				<div class="col-md-12">  
+					<?php echo CHtml::submitButton($response->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				</div>
+			</div>
 
 			<?php $this->endWidget(); ?>
 
 		</div><!-- form -->
 	</div><!-- form -->
+
 
 	<h4>Data Surat Tanggapan</h4>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(

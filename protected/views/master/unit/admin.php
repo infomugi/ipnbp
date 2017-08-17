@@ -48,13 +48,13 @@ $this->pageTitle='Kelola Unit';
 
 					array(	
 						'name'=>'type',
-						'filter'=>array('1'=>'Balai','2'=>'Lab'),
+						'filter'=>array('1'=>'Balai','2'=>'Lab','3'=>'Petugas'),
 						'value'=>'Unit::model()->type($data->type)',
 						),
 
 					array(	
 						'name'=>'status',
-						'filter'=>array('0'=>'Disable','1'=>'Enable'),
+						'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
 						'value'=>'Users::model()->status($data->status)',
 						),
 
@@ -65,7 +65,7 @@ $this->pageTitle='Kelola Unit';
 						'buttons'=>array(
 							'view'=>
 							array(
-								'url'=>'Yii::app()->createUrl("Unit/view", array("id"=>$data->id_unit))',
+								'url'=>'Yii::app()->createUrl("master/unit/view", array("id"=>$data->id_unit))',
 								'options'=>array(
 									'ajax'=>array(
 										'type'=>'POST',

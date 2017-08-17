@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	'Kelola',
 	);
 
-$this->pageTitle='Kelola Pengujian';
+$this->pageTitle='Kelola Jenis Pengujian';
 ?>
 
 <span class="visible-xs">
@@ -21,7 +21,7 @@ $this->pageTitle='Kelola Pengujian';
 
 	<span class="hidden-xs">
 
-		<?php echo CHtml::link('Tambah Pengujian',
+		<?php echo CHtml::link('Tambah Jenis Pengujian',
 			array('create'),
 			array('class' => 'btn btn-primary btn-flat'));
 			?>
@@ -48,7 +48,7 @@ $this->pageTitle='Kelola Pengujian';
 
 					array(	
 						'name'=>'status',
-						'filter'=>array('0'=>'Disable','1'=>'Enable'),
+						'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
 						'value'=>'Users::model()->status($data->status)',
 						),
 
@@ -59,7 +59,7 @@ $this->pageTitle='Kelola Pengujian';
 						'buttons'=>array(
 							'view'=>
 							array(
-								'url'=>'Yii::app()->createUrl("Testing/view", array("id"=>$data->id_testing))',
+								'url'=>'Yii::app()->createUrl("master/testing/view", array("id"=>$data->id_testing))',
 								'options'=>array(
 									'ajax'=>array(
 										'type'=>'POST',

@@ -1,27 +1,27 @@
 <?php
-/* @var $this CategoryController */
+/* @var $this Kategori PengujianController */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
 	'Categories',
 	);
 
-$this->pageTitle='List Category';
+$this->pageTitle='List Kategori Pengujian';
 ?>
 
 <span class="visible-xs">
 
 	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-flat','title'=>'Add Category'));
+		array('class' => 'btn btn-primary btn-flat','title'=>'Add Kategori Pengujian'));
 		?>
 		<?php echo CHtml::link('<i class="fa fa-tasks"></i>',
 			array('index'),
-			array('class' => 'btn btn-primary btn-flat', 'title'=>'List Category'));
+			array('class' => 'btn btn-primary btn-flat', 'title'=>'List Kategori Pengujian'));
 			?>
 			<?php echo CHtml::link('<i class="fa fa-table"></i>',
 				array('admin'),
-				array('class' => 'btn btn-primary btn-flat','title'=>'Manage Category'));
+				array('class' => 'btn btn-primary btn-flat','title'=>'Manage Kategori Pengujian'));
 				?>
 
 			</span> 
@@ -30,15 +30,15 @@ $this->pageTitle='List Category';
 
 				<?php echo CHtml::link('Add',
 					array('create'),
-					array('class' => 'btn btn-primary btn-flat','title'=>'Add Category'));
+					array('class' => 'btn btn-primary btn-flat','title'=>'Add Kategori Pengujian'));
 					?>
 					<?php echo CHtml::link('List',
 						array('index'),
-						array('class' => 'btn btn-primary btn-flat', 'title'=>'List Category'));
+						array('class' => 'btn btn-primary btn-flat', 'title'=>'List Kategori Pengujian'));
 						?>
 						<?php echo CHtml::link('Manage',
 							array('admin'),
-							array('class' => 'btn btn-primary btn-flat','title'=>'Manage Category'));
+							array('class' => 'btn btn-primary btn-flat','title'=>'Manage Kategori Pengujian'));
 							?>
 
 						</span>

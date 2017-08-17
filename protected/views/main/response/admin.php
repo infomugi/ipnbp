@@ -46,7 +46,7 @@ $this->pageTitle='Kelola Surat Tanggapan';
 			'buttons'=>array(
 				'view'=>
 				array(
-					'url'=>'Yii::app()->createUrl("Response/view", array("id"=>$data->id_response))',
+					'url'=>'Yii::app()->createUrl("main/response/view", array("id"=>$data->id_response))',
 					'options'=>array(
 						'ajax'=>array(
 							'type'=>'POST',

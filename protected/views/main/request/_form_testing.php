@@ -21,43 +21,42 @@
 		<?php echo $form->errorSummary($testing, null, null, array('class' => 'alert alert-warning')); ?>
 
 
-		<div class="col-lg-9 col-md-10"> 
+		<div class="col-md-10"> 
 
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($testing,'testing_part'); ?>
+					<?php echo $form->labelEx($testing,'testing_type'); ?>
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($testing,'testing_part'); ?>
+					<?php echo $form->error($testing,'testing_type'); ?>
 					<?php 
-					echo $form->dropDownList($testing, "testing_part",
-						CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
-							'id_unit', 'name'
+					echo $form->dropDownList($testing, "testing_type",
+						CHtml::listData(Testing::model()->findall(array('condition'=>'status=1')),
+							'id_testing', 'name'
 							),
-						array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
+						array("empty"=>"-- Pilih Jenis Pengujian --", 'class'=>'select2 form-control')
 						); 
 						?> 
 					</div>
 
-				</div>  
-
+				</div>
 
 				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($testing,'testing_type'); ?>
+						<?php echo $form->labelEx($testing,'testing_part'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($testing,'testing_type'); ?>
+						<?php echo $form->error($testing,'testing_part'); ?>
 						<?php 
-						echo $form->dropDownList($testing, "testing_type",
-							CHtml::listData(Testing::model()->findall(array('condition'=>'status=1')),
-								'id_testing', 'name'
+						echo $form->dropDownList($testing, "testing_part",
+							CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
+								'id_unit', 'name'
 								),
-							array("empty"=>"-- Pilih Jenis Pengujian --", 'class'=>'select2 form-control')
+							array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
 							); 
 							?> 
 						</div>

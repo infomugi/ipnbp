@@ -54,9 +54,9 @@ class Testing extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_testing' => 'Id Testing',
-			'code' => 'Code',
-			'name' => 'Name',
+			'id_testing' => 'Id Pengujian',
+			'code' => 'Kode',
+			'name' => 'Nama',
 			'status' => 'Status',
 			);
 	}

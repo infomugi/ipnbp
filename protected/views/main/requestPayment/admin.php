@@ -42,7 +42,7 @@ $this->pageTitle='Kelola Pembayaran';
 			'buttons'=>array(
 				'view'=>
 				array(
-					'url'=>'Yii::app()->createUrl("RequestPayment/view", array("id"=>$data->id_payment))',
+					'url'=>'Yii::app()->createUrl("main/requestpayment/view", array("id"=>$data->id_payment))',
 					'options'=>array(
 						'ajax'=>array(
 							'type'=>'POST',

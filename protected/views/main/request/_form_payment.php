@@ -21,7 +21,7 @@
 		<?php echo $form->errorSummary($payment, null, null, array('class' => 'alert alert-warning')); ?>
 
 
-		<div class="col-lg-9 col-md-10"> 
+		<div class="col-md-10"> 
 
 			<div class="form-group">
 

@@ -49,8 +49,8 @@ $this->pageTitle='Kelola Permohonan Pengujian';
 
 					array(	
 						'name'=>'status',
-						'filter'=>array('0'=>'Proses','1'=>'Selesai'),
-						'value'=>'Users::model()->status($data->status)',
+						'filter'=>array('0'=>'-','1'=>'Permohonan','2'=>'Disposisi','3'=>'Surat Tanggapan','4'=>'Invoice & SPK','5'=>'Kuitansi','6'=>'Laporan Dikirim','7'=>'Laporan Diterima'),
+						'value'=>'Request::model()->history($data->status)',
 						),
 
 					array(

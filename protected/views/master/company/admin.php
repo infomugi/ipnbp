@@ -43,10 +43,16 @@ $this->pageTitle='Kelola Perusahaan';
 
 				'name',
 				'address',
+				'email',
+				'phone',
+
+				array(	
+					'name'=>'status',
+					'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
+					'value'=>'Users::model()->status($data->status)',
+					),
 							/*
 							'owner',
-							'email',
-							'phone',
 							'faximile',
 							'postal_code',
 							'type',
@@ -64,7 +70,7 @@ $this->pageTitle='Kelola Perusahaan';
 								'buttons'=>array(
 									'view'=>
 									array(
-										'url'=>'Yii::app()->createUrl("company/view", array("id"=>$data->id_company))',
+										'url'=>'Yii::app()->createUrl("master/company/view", array("id"=>$data->id_company))',
 										'options'=>array(
 											'ajax'=>array(
 												'type'=>'POST',

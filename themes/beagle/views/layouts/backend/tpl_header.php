@@ -97,62 +97,71 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 										<div class="left-sidebar-content">
 											<ul class="sidebar-elements">
 												<li class="divider">Menu</li>
-												<li><a href="<?php echo $url; ?>dashboard"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a>
-												</li>
-												<li class="parent"><a href="#"><i class="icon mdi mdi-inbox"></i><span>Pelayanan</span></a>
-													<ul class="sub-menu">
-														<li><a href="<?php echo $url; ?>main/request/admin">Permohonan</a></li>
-														<li><a href="<?php echo $url; ?>main/response/admin">Surat Tanggapan</a></li>
-														<li><a href="<?php echo $url; ?>main/requestschedule/admin">Jadwal & RAB</a></li>
-														<li><a href="<?php echo $url; ?>main/requestinvoice/admin">Invoice</a></li>
-														<li><a href="<?php echo $url; ?>main/requestpayment/admin">Pembayaran</a></li>
-														<li><a href="#">Surat Perjanjian Kerja</a></li>
-														<li><a href="#">Hasil Uji</a></li>
-														<li><a href="#">Kuesioner</a></li>
+												<!-- <li><a href="<?php echo $url; ?>dashboard"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a>
+											</li> -->
 
-													</ul>
-												</li>
-												<li class="parent"><a href="#"><i class="icon mdi mdi-chart-donut"></i><span>Referensi</span></a>
-													<ul class="sub-menu">
-														<li><a href="<?php echo $url; ?>master/unit/admin">Unit</a></li>
-														<li><a href="<?php echo $url; ?>master/category/admin">Kategori Pengujian</a></li>
-														<li><a href="<?php echo $url; ?>master/testing/admin">Jenis Pengujian</a></li>
-														<li><a href="<?php echo $url; ?>master/company/admin">Perusahaan/ Instansi</a></li>
-														<li><a href="<?php echo $url; ?>master/industry/admin">Industri</a></li>
+											<li class="parent"><a href="#"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a>
+												<ul class="sub-menu">
+													<li><a href="<?php echo $url; ?>site/calendar/filter/company">Perusahaan</a></li>
+													<li><a href="<?php echo $url; ?>site/calendar/filter/request">Permohonan</a></li>
+													<li><a href="<?php echo $url; ?>site/calendar/filter/request">Biaya</a></li>
 
-													</ul>
-												</li>
+												</ul>
+											</li>
+											<li class="parent"><a href="#"><i class="icon mdi mdi-inbox"></i><span>Pelayanan</span></a>
+												<ul class="sub-menu">
+													<li><a href="<?php echo $url; ?>main/request/admin">Permohonan</a></li>
+													<li><a href="<?php echo $url; ?>main/response/admin">Surat Tanggapan</a></li>
+													<li><a href="<?php echo $url; ?>main/requestschedule/admin">Jadwal & RAB</a></li>
+													<li><a href="<?php echo $url; ?>main/requestinvoice/admin">Invoice</a></li>
+													<li><a href="<?php echo $url; ?>main/requestpayment/admin">Pembayaran</a></li>
+													<li><a href="#">Surat Perjanjian Kerja</a></li>
+													<li><a href="#">Hasil Uji</a></li>
+													<li><a href="#">Kuesioner</a></li>
 
-												<li class="parent"><a href="#"><i class="icon mdi mdi-book"></i><span>Laporan</span></a>
-													<ul class="sub-menu">
-														<li><a href="<?php echo $url; ?>">Daftar Antrian</a></li>
-														<li><a href="<?php echo $url; ?>">Laporan Advis Teknis</a></li>
-														<li><a href="<?php echo $url; ?>">Laporan Sertifikasi</a></li>
-														<li><a href="<?php echo $url; ?>">Laporan Pengujian</a></li>
-														<li><a href="<?php echo $url; ?>">Laporan Kuesioner</a></li>
+												</ul>
+											</li>
+											<li class="parent"><a href="#"><i class="icon mdi mdi-chart-donut"></i><span>Referensi</span></a>
+												<ul class="sub-menu">
+													<li><a href="<?php echo $url; ?>master/unit/admin">Unit</a></li>
+													<li><a href="<?php echo $url; ?>master/category/admin">Kategori Pengujian</a></li>
+													<li><a href="<?php echo $url; ?>master/testing/admin">Jenis Pengujian</a></li>
+													<li><a href="<?php echo $url; ?>master/company/admin">Perusahaan/ Instansi</a></li>
+													<li><a href="<?php echo $url; ?>master/industry/admin">Kategori Pemohon</a></li>
 
-													</ul>
-												</li>
+												</ul>
+											</li>
+
+											<li class="parent"><a href="#"><i class="icon mdi mdi-book"></i><span>Laporan</span></a>
+												<ul class="sub-menu">
+													<li><a href="<?php echo $url; ?>">Daftar Antrian</a></li>
+													<li><a href="<?php echo $url; ?>">Laporan Advis Teknis</a></li>
+													<li><a href="<?php echo $url; ?>">Laporan Sertifikasi</a></li>
+													<li><a href="<?php echo $url; ?>">Laporan Pengujian</a></li>
+													<li><a href="<?php echo $url; ?>">Laporan Kuesioner</a></li>
+
+												</ul>
+											</li>
 
 
-												<li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>Manajemen User</span></a>
-													<ul class="sub-menu">
-														<li><a href="<?php echo $url; ?>master/users/admin">Daftar User</a><li>
-															<li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>">Profil User</a><li>
-																<li><a href="<?php echo $url; ?>master/division/admin">Group User</a><li>
-																	<li><a href="<?php echo $url; ?>master/users/index">Otorisasi User</a><li>
-																	</ul>
-																</li>
+											<li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>Manajemen User</span></a>
+												<ul class="sub-menu">
+													<li><a href="<?php echo $url; ?>master/users/admin">Daftar User</a><li>
+														<li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>">Profil User</a><li>
+															<li><a href="<?php echo $url; ?>master/division/admin">Group User</a><li>
+																<li><a href="<?php echo $url; ?>master/users/index">Otorisasi User</a><li>
+																</ul>
+															</li>
 
-															</ul>
-														</div>
+														</ul>
 													</div>
 												</div>
-
 											</div>
-										</div>
-										<div class="be-content">
 
-											<div class="main-content container-fluid">
-												<div class="row">
-													<div class="col-sm-12">
+										</div>
+									</div>
+									<div class="be-content">
+
+										<div class="main-content container-fluid">
+											<div class="row">
+												<div class="col-sm-12">

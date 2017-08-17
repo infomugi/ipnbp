@@ -39,7 +39,7 @@ class RequestInvoice extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('created_date, created_id, update_date, update_id, code, date, description, total, note, signature_id, file_invoice, file_spk, request_id, status', 'required'),
-			array('created_date, created_id, code, date, description, total, note, signature_id, request_id, status', 'required','on'=>'create'),
+			array('created_date, created_id, code, date, description, total, signature_id, request_id, status', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, signature_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('total', 'numerical'),

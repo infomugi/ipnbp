@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	'Kelola',
 	);
 
-$this->pageTitle='Kelola Category';
+$this->pageTitle='Kelola Kategori Pengujian';
 ?>
 
 <span class="visible-xs">
@@ -21,7 +21,7 @@ $this->pageTitle='Kelola Category';
 
 	<span class="hidden-xs">
 
-		<?php echo CHtml::link('Tambah Category',
+		<?php echo CHtml::link('Tambah Kategori Pengujian',
 			array('create'),
 			array('class' => 'btn btn-primary btn-flat'));
 			?>
@@ -66,7 +66,7 @@ $this->pageTitle='Kelola Category';
 						'buttons'=>array(
 							'view'=>
 							array(
-								'url'=>'Yii::app()->createUrl("Category/view", array("id"=>$data->id_category))',
+								'url'=>'Yii::app()->createUrl("master/category/view", array("id"=>$data->id_category))',
 								'options'=>array(
 									'ajax'=>array(
 										'type'=>'POST',
@@ -89,7 +89,7 @@ $this->pageTitle='Kelola Category';
 								<!-- Popup Header -->
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title"><strong>Detail</strong> Category</h4>
+									<h4 class="modal-title"><strong>Detail</strong> Kategori Pengujian</h4>
 								</div>
 								<!-- Popup Content -->
 								<div class="modal-body">

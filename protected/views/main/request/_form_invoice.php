@@ -21,7 +21,7 @@
 		<?php echo $form->errorSummary($invoice, null, null, array('class' => 'alert alert-warning')); ?>
 
 
-		<div class="col-lg-9 col-md-10"> 
+		<div class="col-md-10"> 
 
 
 			<div class="form-group">
@@ -120,8 +120,8 @@
 					<?php echo $form->error($invoice,'signature_id'); ?>
 					<?php 
 					echo $form->dropDownList($invoice, "signature_id",
-						CHtml::listData(Users::model()->findall(array('condition'=>'status=1')),
-							'id_user', 'first_name'
+						CHtml::listData(Unit::model()->findall(array('condition'=>'id_unit=6 OR id_unit=1')),
+							'id_unit', 'address'
 							),
 						array("empty"=>"-- Pilih Penandatangan --", 'class'=>'select2 form-control')
 						); 
@@ -168,16 +168,17 @@
 
 			<?php $this->endWidget(); ?>
 
-		</div></div><!-- form -->
+		</div>
+	</div><!-- form -->
 
 
-		<h4>Data Invoice</h4>
-		<?php $this->widget('zii.widgets.grid.CGridView', array(
-			'id'=>'invoice-grid',
-			'dataProvider'=>$dataInvoice,
+	<h4>Data Invoice</h4>
+	<?php $this->widget('zii.widgets.grid.CGridView', array(
+		'id'=>'invoice-grid',
+		'dataProvider'=>$dataInvoice,
 			// 'filter'=>$model,	
-			'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-			'columns'=>array(
+		'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+		'columns'=>array(
 
 					// array(
 					// 	'header'=>'No',
@@ -185,32 +186,32 @@
 					// 	'htmlOptions'=>array('width'=>'10px', 
 					// 		'style' => 'text-align: center;')),
 
-				'code',
-				'date',
-				'description',
-				'total',
+			'code',
+			'date',
+			'description',
+			'total',
 				// 'note',
-				
-				array(	
-					'name'=>'status',
-					'filter'=>array('0'=>'Disable','1'=>'Enable'),
-					'value'=>'Users::model()->status($data->status)',
-					),
+			
+			array(	
+				'name'=>'status',
+				'filter'=>array('0'=>'Disable','1'=>'Enable'),
+				'value'=>'Users::model()->status($data->status)',
+				),
 
-				array(
-					'class'=>'CButtonColumn',
-					'template'=>'{update}{delete}',
-					'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
-					'buttons'=>array(
-						'update'=>
-						array(
-							'url'=>'Yii::app()->createUrl("main/requestinvoice/update", array("id"=>$data->id_invoice))',
-							),
-						'delete'=>
-						array(
-							'url'=>'Yii::app()->createUrl("main/requestinvoice/delete", array("id"=>$data->id_invoice))',
-							),
+			array(
+				'class'=>'CButtonColumn',
+				'template'=>'{update}{delete}',
+				'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'update'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestinvoice/update", array("id"=>$data->id_invoice))',
+						),
+					'delete'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestinvoice/delete", array("id"=>$data->id_invoice))',
 						),
 					),
 				),
-				)); ?>
+			),
+			)); ?>

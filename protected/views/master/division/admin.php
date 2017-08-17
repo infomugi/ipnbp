@@ -52,7 +52,7 @@ $this->pageTitle='Kelola Divisi';
 
 					array(	
 						'name'=>'status',
-						'filter'=>array('0'=>'Disable','1'=>'Enable'),
+						'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
 						'value'=>'Users::model()->status($data->status)',
 						),
 

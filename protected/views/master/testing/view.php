@@ -7,64 +7,59 @@ $this->breadcrumbs=array(
 	$model->name,
 	);
 
-$this->pageTitle='Detail Pengujian';
+$this->pageTitle='Detail Jenis Pengujian - '.$model->name;
 ?>
 
 <span class="visible-xs">
 
 	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Pengujian'));
+		array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Jenis Pengujian'));
 		?>
-		<?php echo CHtml::link('<i class="fa fa-table"></i>',
-			array('admin'),
-			array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Pengujian'));
-			?>
-			<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
-				array('update', 'id'=>$model->id_testing,
-					), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Pengujian'));
-					?>
-					<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
-						array('delete', 'id'=>$model->id_testing,
-							),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Pengujian'));
+		<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
+			array('update', 'id'=>$model->id_testing,
+				), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Jenis Pengujian'));
+				?>
+				<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+					array('delete', 'id'=>$model->id_testing,
+						),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Jenis Pengujian'));
+						?>
+
+					</span> 
+
+					<span class="hidden-xs">
+
+						<?php echo CHtml::link('Tambah Jenis Pengujian',
+							array('create'),
+							array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Pengujian'));
 							?>
-
-						</span> 
-
-						<span class="hidden-xs">
-
-							<?php echo CHtml::link('Tambah',
-								array('create'),
-								array('class' => 'btn btn-primary btn-flat','title'=>'Tambah Pengujian'));
-								?>
-								<?php echo CHtml::link('Kelola',
-									array('admin'),
-									array('class' => 'btn btn-primary btn-flat','title'=>'Kelola Pengujian'));
+							<?php echo CHtml::link('Edit', 
+								array('update', 'id'=>$model->id_testing,
+									), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Jenis Pengujian'));
 									?>
-									<?php echo CHtml::link('Edit', 
-										array('update', 'id'=>$model->id_testing,
-											), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Pengujian'));
+									<?php echo CHtml::link('Hapus', 
+										array('delete', 'id'=>$model->id_testing,
+											),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Jenis Pengujian'));
 											?>
-											<?php echo CHtml::link('Hapus', 
-												array('delete', 'id'=>$model->id_testing,
-													),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Pengujian'));
-													?>
 
-												</span>
+										</span>
 
-												<HR>
+										<HR>
 
-													<?php $this->widget('zii.widgets.CDetailView', array(
-														'data'=>$model,
-														'htmlOptions'=>array("class"=>"table"),
-														'attributes'=>array(
-															'code',
-															'name',
-															'status',
-															),
-															)); ?>
+											<?php $this->widget('zii.widgets.CDetailView', array(
+												'data'=>$model,
+												'htmlOptions'=>array("class"=>"table"),
+												'attributes'=>array(
+													'code',
+													'name',
+													array(	
+														'name'=>'status',
+														'value'=>Users::model()->status($model->status),
+														),
+													),
+													)); ?>
 
-													<STYLE>
-														th{width:150px;}
-													</STYLE>
+											<STYLE>
+												th{width:150px;}
+											</STYLE>
 

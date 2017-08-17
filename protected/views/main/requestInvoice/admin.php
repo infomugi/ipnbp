@@ -46,7 +46,7 @@ $this->pageTitle='Kelola Invoice';
 			'buttons'=>array(
 				'view'=>
 				array(
-					'url'=>'Yii::app()->createUrl("RequestInvoice/view", array("id"=>$data->id_invoice))',
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/view", array("id"=>$data->id_invoice))',
 					'options'=>array(
 						'ajax'=>array(
 							'type'=>'POST',

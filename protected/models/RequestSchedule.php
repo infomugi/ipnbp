@@ -40,7 +40,7 @@ class RequestSchedule extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('created_date, created_id, update_date, update_id, task, cost, start_date, end_date, description, note, testing_number, testing_id, file, request_id, status', 'required'),
-			array('created_date, created_id, task, cost, start_date, end_date, description, note, testing_number, testing_id, request_id, status', 'required','on'=>'create'),
+			array('created_date, created_id, task, start_date, end_date, testing_number, testing_id, request_id, status', 'required','on'=>'create'),
 			array('update_date, update_id,', 'required','on'=>'update'),
 			array('created_id, update_id, testing_number, testing_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('cost', 'numerical'),
@@ -60,6 +60,7 @@ class RequestSchedule extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
+			'Testing'=>array(self::BELONGS_TO,'Testing','testing_id'),
 			);
 	}
 
@@ -80,8 +81,8 @@ class RequestSchedule extends CActiveRecord
 			'end_date' => 'Tanggal Berakhir',
 			'description' => 'Keterangan',
 			'note' => 'Catatan',
-			'testing_number' => 'Pengujian Ke-',
-			'testing_id' => 'Tahapan Pengujian',
+			'testing_number' => 'Sample Ke-',
+			'testing_id' => 'Jenis Pengujian',
 			'file' => 'File RAB',
 			'request_id' => 'Request',
 			'status' => 'Status',

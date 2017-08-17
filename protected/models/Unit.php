@@ -55,9 +55,9 @@ class Unit extends CActiveRecord
 	{
 		return array(
 			'id_unit' => 'Id Unit',
-			'name' => 'Name',
-			'address' => 'Address',
-			'type' => 'Type',
+			'name' => 'Nama Unit',
+			'address' => 'Pejabat',
+			'type' => 'Tipe',
 			'status' => 'Status',
 			);
 	}
@@ -104,11 +104,14 @@ class Unit extends CActiveRecord
 
 	public function type($a)
 	{
-		if($a==1)
+		if($a==1){
 			return "Balai";
-		else if($a==2)
+		}else if($a==2){
 			return "Lab";
-		else 
+		}else if($a==3){
+			return "Petugas";
+		}else{
 			return "-";
+		} 
 	}
 }

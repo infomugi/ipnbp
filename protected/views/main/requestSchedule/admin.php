@@ -48,7 +48,7 @@ $this->pageTitle='Kelola Permohonan Penjadwalan';
 			'buttons'=>array(
 				'view'=>
 				array(
-					'url'=>'Yii::app()->createUrl("RequestSchedule/view", array("id"=>$data->id_schedule))',
+					'url'=>'Yii::app()->createUrl("main/requestschedule/view", array("id"=>$data->id_schedule))',
 					'options'=>array(
 						'ajax'=>array(
 							'type'=>'POST',

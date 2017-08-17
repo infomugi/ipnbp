@@ -54,7 +54,7 @@
 			</div>  
 
 			
-			<div class="form-group">
+			<div class="form-group" style="display:none;">
 				
 				<div class="col-sm-4 control-label">
 					<?php echo $form->labelEx($model,'owner'); ?>

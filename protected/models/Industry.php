@@ -33,7 +33,7 @@ class Industry extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_industry, name, description, status', 'safe', 'on'=>'search'),
-		);
+			);
 	}
 
 	/**
@@ -44,7 +44,7 @@ class Industry extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		);
+			);
 	}
 
 	/**
@@ -53,11 +53,11 @@ class Industry extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_industry' => 'Id Industry',
-			'name' => 'Name',
-			'description' => 'Description',
+			'id_industry' => 'Id Kategori Pemohon',
+			'name' => 'Kode',
+			'description' => 'Nama Kategori',
 			'status' => 'Status',
-		);
+			);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Industry extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+			));
 	}
 
 	/**

@@ -69,7 +69,7 @@ $this->pageTitle='Kelola Permohonan Pengujian';
 			'buttons'=>array(
 				'view'=>
 				array(
-					'url'=>'Yii::app()->createUrl("RequestTesting/view", array("id"=>$data->id_testing))',
+					'url'=>'Yii::app()->createUrl("main/requestTesting/view", array("id"=>$data->id_testing))',
 					'options'=>array(
 						'ajax'=>array(
 							'type'=>'POST',
