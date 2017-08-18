@@ -16,6 +16,9 @@
  * @property string $letter_code
  * @property string $letter_subject
  * @property string $letter_attachment
+ * @property string $disposition_letter
+ * @property integer $disposition_to
+ * @property integer $color
  * @property integer $status
  */
 class Request extends CActiveRecord
@@ -37,15 +40,19 @@ class Request extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required'),
-			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required','on'=>'create'),
+			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
-			array('created_id, update_id, company_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, company_id, status, disposition_to', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),
-			array('letter_code', 'length', 'max'=>520),
+			array('letter_code', 'length', 'max'=>255),
 			array('letter_subject', 'length', 'max'=>150),
-			array('letter_attachment', 'length', 'max'=>255),
+			array('color', 'length', 'max'=>8),
+			array('letter_attachment, disposition_letter', 'length', 'max'=>255),
 			array('code','unique'),
-			array('letter_attachment', 'file', 'types'=>'pdf, doc, docx','allowEmpty'=> true,'safe'=>true),
+
+			array('letter_attachment, disposition_letter', 'length', 'max' => 255, 'tooLong' => '{attribute} is too long (max {max} chars).', 'on' => 'create'),
+			array('letter_attachment, disposition_letter', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'create'),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_request, code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'safe', 'on'=>'search'),
@@ -81,7 +88,10 @@ class Request extends CActiveRecord
 			'letter_date' => 'Tanggal Surat',
 			'letter_code' => 'Nomor Surat',
 			'letter_subject' => 'Perihal',
-			'letter_attachment' => 'Lampiran Surat',
+			'letter_attachment' => 'Surat Permohonan',
+			'disposition_letter' => 'Surat Disposisi',
+			'disposition_to' => 'Disposisi Ke',
+			'color' => 'Warna',
 			'status' => 'Status',
 			'company_address' => 'Alamat Perusahaan',
 			'company_email' => 'Email',

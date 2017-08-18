@@ -171,19 +171,68 @@
 			</div>  
 
 
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'disposition_letter'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'disposition_letter'); ?>
+					<?php echo $form->fileField($model,'disposition_letter',array('class'=>'btn btn-info')); ?>
+				</div>
+
+			</div>  
 
 			<div class="form-group">
-				<div class="col-md-12">  
-				</br></br>
-				<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'disposition_to'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'disposition_to'); ?>
+					<?php 
+					echo $form->dropDownList($model, "disposition_to",
+						CHtml::listData(Unit::model()->findall(array('condition'=>'type=1')),
+							'id_unit', 'name'
+							),
+						array("empty"=>"-- Disposisi Ke --", 'class'=>'select2 form-control')
+						); 
+						?> 
+					</div>
+
+				</div> 		
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'color'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php echo $form->error($model,'color'); ?>
+						<div id="cp2" class="input-group colorpicker-component"><?php echo $form->textField($model,'color',array('class'=>'form-control')); ?><span class="input-group-addon"><i class="fa fa-square"></i></span> 
+						</div> 
+
+						
+					</div>
+
+				</div>  				
+
+
+
+				<div class="form-group">
+					<div class="col-md-12">  
+					</br></br>
+					<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				</div>
 			</div>
+
+			<?php $this->endWidget(); ?>
+
 		</div>
 
-		<?php $this->endWidget(); ?>
+	</div><!-- form -->
 
-	</div>
-
-</div><!-- form -->
-
-
-<div id="cp2" class="input-group colorpicker-component"> <input type="text" value="#00AABB" class="form-control" /> <span class="input-group-addon"><i></i></span> </div> 

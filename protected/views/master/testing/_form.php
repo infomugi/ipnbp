@@ -51,38 +51,78 @@
 
 			</div>  
 
-			
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'status'); ?>
+					<?php echo $form->labelEx($model,'part_id'); ?>
 				</div>   
 
-				<div class="col-sm-8 be-radio">
-					<?php echo $form->error($model,'status'); ?>
-					<?php
-					echo $form->radioButtonList($model,'status',
-						array('1'=>'Active','0'=>'Non Active'),
-						array(
-							'template'=>'{input}{label}',
-							'separator'=>'',
-							'labelOptions'=>array(
-								'style'=>'padding-right:20px;margin-left:15px'),
-
-							)                              
-						);
-						?>
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'part_id'); ?>
+					<?php 
+					echo $form->dropDownList($model, "part_id",
+						CHtml::listData(Unit::model()->findall(array('condition'=>'type=1')),
+							'id_unit', 'name'
+							),
+						array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
+						); 
+						?> 
 					</div>
 
 				</div>  
 
 				<div class="form-group">
-					<div class="col-md-12">  
-					</br></br>
-					<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-				</div>
-			</div>
 
-			<?php $this->endWidget(); ?>
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'lab_id'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php echo $form->error($model,'lab_id'); ?>
+						<?php 
+						echo $form->dropDownList($model, "lab_id",
+							CHtml::listData(Unit::model()->findall(array('condition'=>'type=2')),
+								'id_unit', 'name'
+								),
+							array("empty"=>"-- Pilih Lab --", 'class'=>'select2 form-control')
+							); 
+							?> 
+						</div>
+
+					</div>  						
+
+
+					<div class="form-group">
+
+						<div class="col-sm-4 control-label">
+							<?php echo $form->labelEx($model,'status'); ?>
+						</div>   
+
+						<div class="col-sm-8 be-radio">
+							<?php echo $form->error($model,'status'); ?>
+							<?php
+							echo $form->radioButtonList($model,'status',
+								array('1'=>'Active','0'=>'Non Active'),
+								array(
+									'template'=>'{input}{label}',
+									'separator'=>'',
+									'labelOptions'=>array(
+										'style'=>'padding-right:20px;margin-left:15px'),
+
+									)                              
+								);
+								?>
+							</div>
+
+						</div>  
+
+						<div class="form-group">
+							<div class="col-md-12">  
+							</br></br>
+							<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+						</div>
+					</div>
+
+					<?php $this->endWidget(); ?>
 
 </div></div><!-- form -->

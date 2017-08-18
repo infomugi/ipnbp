@@ -27,9 +27,6 @@ $this->breadcrumbs=array(
 $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 ?>
 
-
-
-
 <div id="accordion1" class="panel-group accordion">
 
 	<div class="panel panel-default">

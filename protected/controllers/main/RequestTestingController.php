@@ -28,7 +28,7 @@ class RequestTestingController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -169,6 +169,14 @@ class RequestTestingController extends Controller
 		return $model;
 	}
 
+	public function loadUnit($id)
+	{
+		$model=Unit::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->name;
+	}	
+
 	/**
 	 * Performs the AJAX validation.
 	 * @param RequestTesting $model the model to be validated
@@ -196,5 +204,44 @@ class RequestTestingController extends Controller
 		$model->status = 0;
 		$model->save();
 		$this->redirect(array('index'));
-	}			
+	}	
+
+	public function actionSearch()
+	{
+		$name='';
+		$part='';
+		$lab='';
+		$part_id='';
+		$lab_id='';
+		$id_testing='';
+
+		$id = YII::app()->user->id;
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'status=:status';
+		$criteria->params = array(':status'=>1);
+		$itu = Testing::model()->findAll($criteria);		
+
+		foreach($itu as $i=>$ii)
+		{
+			if($_POST['data']==$ii->id_testing)
+			{
+				$id_testing=$ii->id_testing;
+				$part_id=$ii->part_id;
+				$lab_id=$ii->lab_id;
+				$name=$ii->name;
+				$part=$this->loadUnit($ii->part_id);
+				$lab=$this->loadUnit($ii->lab_id);
+			}		      
+		}        
+
+		echo CJSON::encode(array(
+			'id_testing'=>$id_testing,
+			'lab_id'=>$lab_id,
+			'part_id'=>$part_id,
+			'name'=>$name,
+			'part'=>$part,
+			'lab'=>$lab,
+			));
+		Yii::app()->end();
+	}				
 }

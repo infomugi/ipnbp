@@ -7,6 +7,8 @@
  * @property integer $id_testing
  * @property string $code
  * @property string $name
+ * @property integer $part_id
+ * @property integer $lab_id
  * @property integer $status
  */
 class Testing extends CActiveRecord
@@ -28,7 +30,7 @@ class Testing extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('code, name, status', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
+			array('status, part_id, lab_id', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>25),
 			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
@@ -45,6 +47,8 @@ class Testing extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Balai'=>array(self::BELONGS_TO,'Unit','part_id'),
+			'Lab'=>array(self::BELONGS_TO,'Unit','lab_id'),
 			);
 	}
 
@@ -57,6 +61,8 @@ class Testing extends CActiveRecord
 			'id_testing' => 'Id Pengujian',
 			'code' => 'Kode',
 			'name' => 'Nama',
+			'part_id' => 'Balai',
+			'lab_id' => 'Lab',
 			'status' => 'Status',
 			);
 	}

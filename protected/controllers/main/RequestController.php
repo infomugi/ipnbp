@@ -226,30 +226,56 @@ class RequestController extends Controller
 			$model->attributes=$_POST['Request'];
 			$model->created_id = YII::app()->user->id;
 			$model->created_date = date('Y-m-d h:i:s');
-			$model->status = 1;
 
+			$model->disposition_letter=CUploadedFile::getInstance($model,'disposition_letter');
+			$tmp2;
+			if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
+			{ 
+				$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
+				$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
+			}
+			
 			$model->letter_attachment=CUploadedFile::getInstance($model,'letter_attachment');
-			$tmp;
+			$tmp1;
 			if(strlen(trim(CUploadedFile::getInstance($model,'letter_attachment'))) > 0) 
 			{ 
-				$tmp=CUploadedFile::getInstance($model,'letter_attachment'); 
-				$model->letter_attachment=$model->code.'.'.$tmp->extensionName; 
+				$tmp1=CUploadedFile::getInstance($model,'letter_attachment'); 
+				$model->letter_attachment="surat-permohonan-".$model->code.'.'.$tmp1->extensionName; 
 			}
+
+
 
 
 			if($model->save()){
 
-				$activity->request_id = $model->id_request;
-				$activity->request_date = date('Y-m-d h:i:s');
-				$activity->activity_date = date('Y-m-d h:i:s');
-				$activity->save();
+				if(strlen(trim($model->letter_attachment)) > 0){
+					$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/request/'.$model->letter_attachment);	
+				} 
 
-				Yii::app()->user->setFlash('Info', 'Permohonan Pengujian telah Disimpan.');
+				if(strlen(trim($model->disposition_letter)) > 0){
+					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/disposition/'.$model->disposition_letter);	
+				} 
 
-				if(strlen(trim($model->letter_attachment)) > 0) 
-					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/'.$model->letter_attachment);	
-				
-				$this->redirect(array('view','id'=>$model->id_request));
+				$update=$this->loadModel($model->id_request);
+				if($model->disposition_letter==""){
+					$update->status = 1;
+					$activity->activity_date = date('Y-m-d h:i:s');
+					$activity->request_id = $model->id_request;
+					$activity->request_date = date('Y-m-d h:i:s');
+				}else{
+					$update->status = 2;
+					$activity->activity_date = date('Y-m-d h:i:s');
+					$activity->request_id = $model->id_request;
+					$activity->request_date = date('Y-m-d h:i:s');
+					$activity->approve_id = YII::app()->user->id;
+					$activity->approve_date = date('Y-m-d h:i:s');
+				}
+
+				if($activity->save() && $update->save());{
+					Yii::app()->user->setFlash('Info', 'Permohonan Pengujian telah Disimpan.');
+					$this->redirect(array('view','id'=>$model->id_request));
+				}
+
 			}
 		}
 
@@ -431,8 +457,7 @@ class RequestController extends Controller
 				'title'=>$value->Company->name,
 				'start'=>$value->date,
 				'end'=>date('Y-m-d', strtotime('+1 day', strtotime($value->date))),
-				'color'=>'#2dcb73',
-				// 'allDay'=>true,
+				'color'=>$value->color,
 				);
 		}
 

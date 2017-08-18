@@ -36,7 +36,24 @@
 						CHtml::listData(Testing::model()->findall(array('condition'=>'status=1')),
 							'id_testing', 'name'
 							),
-						array("empty"=>"-- Pilih Jenis Pengujian --", 'class'=>'select2 form-control')
+						array(
+							"empty"=>"- Pilih Jenis Pengujian -", 
+							'class'=>'form-control select2',
+							'ajax' => array(
+								'type'=>'POST',
+								'dataType'=>'json',
+								'url'=>CController::createUrl('main/requesttesting/search'),
+								'data' => "js:{data:$(this).val()}",
+								'success'=>'function(data){
+									$("#name").val(data.name);
+									$("#part").val(data.part);
+									$("#lab").val(data.lab);
+									$("#RequestTesting_testing_type").val(data.id_testing);
+									$("#RequestTesting_testing_part").val(data.part_id);
+									$("#RequestTesting_testing_lab").val(data.lab_id);
+									$("#RequestTesting_testing_total").focus();
+								}',),							
+							)
 						); 
 						?> 
 					</div>
@@ -51,59 +68,65 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($testing,'testing_part'); ?>
-						<?php 
-						echo $form->dropDownList($testing, "testing_part",
-							CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
-								'id_unit', 'name'
-								),
-							array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
-							); 
-							?> 
-						</div>
-
-					</div>  
-
-
-					<div class="form-group">
-
-						<div class="col-sm-4 control-label">
-							<?php echo $form->labelEx($testing,'testing_lab'); ?>
-						</div>   
-
-						<div class="col-sm-8">
-							<?php echo $form->error($testing,'testing_lab'); ?>
-							<?php 
-							echo $form->dropDownList($testing, "testing_lab",
-								CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=2')),
-									'id_unit', 'name'
-									),
-								array("empty"=>"-- Pilih Lab Pengujian --", 'class'=>'select2 form-control')
-								); 
-								?> 
-							</div>
-
-						</div>  
-
-						<div class="form-group">
-							<div class="col-md-12">  
-							</br></br>
-							<?php echo CHtml::submitButton($testing->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+						<input type="text" class="form-control" id="part" disabled="true">
+						<div style="display:none;">
+							<?php echo $form->textField($testing,'testing_part',array('class'=>'form-control','hidden'=>true)); ?>
 						</div>
 					</div>
 
-					<?php $this->endWidget(); ?>
+				</div>  
 
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($testing,'testing_lab'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php echo $form->error($testing,'testing_lab'); ?>
+						<input type="text" class="form-control" id="lab" disabled="true">
+						<div style="display:none;">
+							<?php echo $form->textField($testing,'testing_lab',array('class'=>'form-control','hidden'=>true)); ?>
+						</div>
+					</div>
+
+				</div>  
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($testing,'testing_total'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php echo $form->error($testing,'testing_total'); ?>
+						<?php echo $form->textField($testing,'testing_total',array('class'=>'form-control')); ?>
+					</div>
+
+				</div>  
+
+				<div class="form-group">
+					<div class="col-md-12">  
+					</br></br>
+					<?php echo CHtml::submitButton($testing->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 				</div>
-			</div><!-- form -->
+			</div>
+
+			<?php $this->endWidget(); ?>
+
+		</div>
+	</div><!-- form -->
 
 
-			<h4>Data Permohonan Pengujian</h4>
-			<?php $this->widget('zii.widgets.grid.CGridView', array(
-				'id'=>'testing-grid',
-				'dataProvider'=>$dataTesting,
+	<h4>Data Permohonan Pengujian</h4>
+	<?php $this->widget('zii.widgets.grid.CGridView', array(
+		'id'=>'testing-grid',
+		'dataProvider'=>$dataTesting,
 				// 'filter'=>$model,	
-				'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-				'columns'=>array(
+		'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+		'columns'=>array(
 
 					// array(
 					// 	'header'=>'No',
@@ -111,30 +134,30 @@
 					// 	'htmlOptions'=>array('width'=>'10px', 
 					// 		'style' => 'text-align: center;')),
 
-					array('name'=>'testing_type','value'=>'$data->Testing->name'),
-					array('name'=>'testing_lab','value'=>'$data->Lab->name'),
-					array('name'=>'testing_part','value'=>'$data->Balai->name'),
+			array('name'=>'testing_type','value'=>'$data->Testing->name'),
+			array('name'=>'testing_lab','value'=>'$data->Lab->name'),
+			array('name'=>'testing_part','value'=>'$data->Balai->name'),
 
-					array(	
-						'name'=>'status',
-						'filter'=>array('0'=>'Disable','1'=>'Enable'),
-						'value'=>'Users::model()->status($data->status)',
-						),
+			// array(	
+			// 	'name'=>'status',
+			// 	'filter'=>array('0'=>'Disable','1'=>'Enable'),
+			// 	'value'=>'Users::model()->status($data->status)',
+			// 	),
 
+			array(
+				'class'=>'CButtonColumn',
+				'template'=>'{update}{delete}',
+				'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'update'=>
 					array(
-						'class'=>'CButtonColumn',
-						'template'=>'{update}{delete}',
-						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
-						'buttons'=>array(
-							'update'=>
-							array(
-								'url'=>'Yii::app()->createUrl("main/requesttesting/update", array("id"=>$data->id_testing))',
-								),
-							'delete'=>
-							array(
-								'url'=>'Yii::app()->createUrl("main/requesttesting/delete", array("id"=>$data->id_testing))',
-								),
-							),
+						'url'=>'Yii::app()->createUrl("main/requesttesting/update", array("id"=>$data->id_testing))',
+						),
+					'delete'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requesttesting/delete", array("id"=>$data->id_testing))',
 						),
 					),
-					)); ?>
+				),
+			),
+			)); ?>

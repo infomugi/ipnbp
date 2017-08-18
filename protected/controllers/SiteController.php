@@ -20,8 +20,10 @@ class SiteController extends Controller
 			'page'=>array(
 				'class'=>'CViewAction',
 				),
+
 			);
 	}
+
 
 	public function accessRules() {
 		return array('allow', 'actions' => array('captcha'), 'users' => array('*'));
@@ -68,7 +70,7 @@ class SiteController extends Controller
 			$this->render('dashboard',array(
 				'dataUnread'=>$dataUnread,
 				'dataActivity'=>$dataActivity,
-				'filter'=>1
+				'filter'=>1,
 				));
 
 		}

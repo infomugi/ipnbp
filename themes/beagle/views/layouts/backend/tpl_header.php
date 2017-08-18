@@ -2,7 +2,6 @@
 $baseUrl = Yii::app()->theme->baseUrl; 
 $url = Yii::app()->baseUrl."/"; 
 $cs = Yii::app()->getClientScript();
-Yii::app()->clientScript->registerCoreScript('jquery');
 ?>
 
 <!DOCTYPE html>
@@ -104,7 +103,6 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 												<ul class="sub-menu">
 													<li><a href="<?php echo $url; ?>site/calendar/filter/company">Perusahaan</a></li>
 													<li><a href="<?php echo $url; ?>site/calendar/filter/request">Permohonan</a></li>
-													<li><a href="<?php echo $url; ?>site/calendar/filter/request">Biaya</a></li>
 
 												</ul>
 											</li>

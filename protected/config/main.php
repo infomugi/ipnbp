@@ -21,6 +21,11 @@ return array(
 		'application.components.*',
 		),
 
+	'aliases' => array(
+    //If you manually installed it
+		'xupload' => 'extensions.xupload'
+		),	
+
 	'modules'=>array(
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',

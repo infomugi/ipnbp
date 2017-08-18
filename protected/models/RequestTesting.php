@@ -12,6 +12,7 @@
  * @property integer $testing_type
  * @property integer $testing_lab
  * @property integer $testing_part
+ * @property integer $testing_total
  * @property integer $request_id
  * @property integer $status
  */
@@ -34,9 +35,9 @@ class RequestTesting extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('created_date, created_id, update_date, update_id, testing_type, testing_lab, testing_part, request_id, status', 'required'),
-			array('created_date, created_id, testing_type, testing_lab, testing_part, request_id, status', 'required','on'=>'create'),
+			array('created_date, created_id, testing_type, testing_lab, testing_part, request_id, testing_total, status', 'required','on'=>'create'),
 			array('update_date, update_id', 'required','on'=>'update'),
-			array('created_id, update_id, testing_type, testing_lab, testing_part, request_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, testing_type, testing_lab, testing_part, request_id, status, testing_total', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_testing, created_date, created_id, update_date, update_id, testing_type, testing_lab, testing_part, request_id, status', 'safe', 'on'=>'search'),
@@ -71,6 +72,7 @@ class RequestTesting extends CActiveRecord
 			'testing_type' => 'Jenis Pengujian',
 			'testing_lab' => 'Lab',
 			'testing_part' => 'Balai',
+			'testing_total' => 'Jumlah Sample',
 			'request_id' => 'Request',
 			'status' => 'Status',
 			);

@@ -47,6 +47,16 @@ $this->pageTitle='Kelola Jenis Pengujian';
 					'name',
 
 					array(	
+						'name'=>'part_id',
+						'value'=>'$data->Balai->name',
+						),
+
+					array(	
+						'name'=>'lab_id',
+						'value'=>'$data->Lab->name',
+						),					
+
+					array(	
 						'name'=>'status',
 						'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
 						'value'=>'Users::model()->status($data->status)',
