@@ -49,8 +49,6 @@ class SiteController extends Controller
 
 		}else{
 			
-			$this->layout="page";
-
 			$dataUnread=new CActiveDataProvider('Message',array(
 				'criteria'=>array(
 					'condition'=>'user_id = '.YII::app()->user->id.' AND status=0',
@@ -70,7 +68,6 @@ class SiteController extends Controller
 			$this->render('dashboard',array(
 				'dataUnread'=>$dataUnread,
 				'dataActivity'=>$dataActivity,
-				'filter'=>1,
 				));
 
 		}
@@ -148,10 +145,10 @@ class SiteController extends Controller
 					Activities::model()->my($id,"Login from IP : ".$ip,1,1,2,1);
 
 					if(YII::app()->user->record->level==1){
-					// $this->redirect(Yii::app()->user->returnUrl);
+						// $this->redirect(Yii::app()->user->returnUrl);
 						$this->redirect(array('site/dashboard'));
 					}else{
-						$this->redirect(array('users/profile','view'=>$name));
+						$this->redirect(array('site/dashboard'));
 					}
 				}
 			}
@@ -191,12 +188,12 @@ class SiteController extends Controller
 		}else{
 			
 			$this->layout="page";			
-			$this->render('dashboard',array(
+			$this->render('calendar',array(
 				'filter'=>$filter
 				));
 
 		}
-	}	
+	}		
 
 
 }

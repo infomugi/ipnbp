@@ -33,7 +33,7 @@ class RequestController extends Controller
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index'),
+				'actions'=>array('view','admin'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -76,7 +76,19 @@ class RequestController extends Controller
 			$response->created_date = date('Y-m-d h:i:s');
 			$response->status = 1;		
 			$response->request_id = $id;	
+
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($response,'letter_attachment'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($response,'letter_attachment'); 
+				$response->letter_attachment="surat-tanggapan-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
+			}
+
 			if($response->save()){
+
+				if(strlen(trim($response->letter_attachment)) > 0){
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->letter_attachment);	
+				} 				
 
 				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
 
@@ -138,7 +150,31 @@ class RequestController extends Controller
 			$invoice->created_date = date('Y-m-d h:i:s');
 			$invoice->status = 1;		
 			$invoice->request_id = $id;
+
+			$tmp2;
+			if(strlen(trim(CUploadedFile::getInstance($invoice,'file_spk'))) > 0) 
+			{ 
+				$tmp2=CUploadedFile::getInstance($invoice,'file_spk'); 
+				$invoice->file_spk="spk-".$model->code.'-'.mktime().'.'.$tmp2->extensionName; 
+			}	
+
+			$tmp1;
+			if(strlen(trim(CUploadedFile::getInstance($invoice,'file_invoice'))) > 0) 
+			{ 
+				$tmp1=CUploadedFile::getInstance($invoice,'file_invoice'); 
+				$invoice->file_invoice="invoice-".$model->code.'-'.mktime().'.'.$tmp1->extensionName; 
+			}
+
+
+
+
 			if($invoice->save()){
+
+				if(strlen(trim($invoice->file_invoice)) > 0 || strlen(trim($invoice->file_spk)) > 0){
+					$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/invoice/'.$invoice->file_invoice);	
+					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/spk/'.$invoice->file_spk);	
+				} 
+
 				//Type = 3 (Payment = Invoice)
 				Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
 				$this->setActivity($id,6);

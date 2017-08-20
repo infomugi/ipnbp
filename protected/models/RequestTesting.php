@@ -55,6 +55,7 @@ class RequestTesting extends CActiveRecord
 			'Balai'=>array(self::BELONGS_TO,'Unit','testing_part'),
 			'Lab'=>array(self::BELONGS_TO,'Unit','testing_lab'),
 			'Testing'=>array(self::BELONGS_TO,'Testing','testing_type'),
+			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			);
 	}
 
@@ -64,7 +65,7 @@ class RequestTesting extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_testing' => 'Id Testing',
+			'id_testing' => 'Kode Pengujian',
 			'created_date' => 'Tanggal Buat',
 			'created_id' => 'Diinput Oleh',
 			'update_date' => 'Tanggal Update',

@@ -28,12 +28,12 @@ class RequestScheduleController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index'),
+				'actions'=>array('view','search','update','delete'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -167,6 +167,22 @@ class RequestScheduleController extends Controller
 		return $model;
 	}
 
+	public function loadUnit($id)
+	{
+		$model=Unit::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->name;
+	}	
+
+	public function loadTesting($id)
+	{
+		$model=Testing::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->name;
+	}		
+
 	/**
 	 * Performs the AJAX validation.
 	 * @param RequestSchedule $model the model to be validated
@@ -194,5 +210,43 @@ class RequestScheduleController extends Controller
 		$model->status = 0;
 		$model->save();
 		$this->redirect(array('index'));
+	}		
+
+	public function actionSearch()
+	{
+		$id_testing='';
+		$id_type='';
+		$testing_lab='';
+		$testing_type='';
+		$testing_part='';
+		$testing_total='';
+
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'status=:status';
+		$criteria->params = array(':status'=>1);
+		$itu = RequestTesting::model()->findAll($criteria);		
+
+		foreach($itu as $i=>$ii)
+		{
+			if($_POST['data']==$ii->id_testing)
+			{
+				$id_testing=$ii->id_testing;
+				$id_type=$ii->testing_type;
+				$testing_type=$this->loadTesting($ii->testing_type);
+				$testing_lab=$this->loadUnit($ii->testing_lab);
+				$testing_part=$this->loadUnit($ii->testing_part);
+				$testing_total=$ii->testing_total;
+			}		      
+		}        
+
+		echo CJSON::encode(array(
+			'id_testing'=>$id_testing,
+			'id_type'=>$id_type,
+			'testing_type'=>$testing_type,
+			'testing_lab'=>$testing_lab,
+			'testing_part'=>$testing_part,
+			'testing_total'=>$testing_total,
+			));
+		Yii::app()->end();
 	}			
 }

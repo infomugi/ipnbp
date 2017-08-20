@@ -1,10 +1,5 @@
 
 </div>
-</div>
-</div>
-</div>
-
-</div>
 
 <!-- 
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery/jquery.min.js" type="text/javascript"></script> 
@@ -39,6 +34,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		App.init();
+		App.loaders();
 		App.formElements();
 	});
 

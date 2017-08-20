@@ -15,10 +15,11 @@
 			'validateOnSubmit' => true,
 			),
 		'errorMessageCssClass' => 'label label-danger',
-		'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
+		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
 		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
+
 
 
 		<div class="col-lg-9 col-md-10"> 

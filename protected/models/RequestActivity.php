@@ -56,6 +56,7 @@ class RequestActivity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			);
 	}
 

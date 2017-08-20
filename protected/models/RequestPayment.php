@@ -57,6 +57,7 @@ class RequestPayment extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Invoice'=>array(self::BELONGS_TO,'RequestInvoice','invoice_id'),
+			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			);
 	}
 
@@ -66,7 +67,7 @@ class RequestPayment extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_payment' => 'Id Payment',
+			'id_payment' => 'Kode Payment',
 			'created_date' => 'Tanggal Buat',
 			'created_id' => 'Diinput Oleh',
 			'update_date' => 'Tanggal Update',
@@ -129,5 +130,17 @@ class RequestPayment extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function term($data){
+		if($data==1){
+			return "Termin Ke-1";
+		}elseif($data==2){
+			return "Termin Ke-2";
+		}elseif($data==3){
+			return "Termin Ke-3";
+		}else{
+			return "-";
+		}
 	}
 }

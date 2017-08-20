@@ -63,6 +63,7 @@ class EFullCalendarHeart extends CWidget
         $cs->registerScriptFile($assets.'/lib/moment.'.$ext);
         $cs->registerScriptFile($assets.'/lib/jquery-ui.custom.'.$ext);
         $cs->registerScriptFile($assets.'/fullcalendar/fullcalendar.'.$ext);
+        $cs->registerScriptFile($assets.'/fullcalendar/lang/all.js');
 
 
         $cs->registerCssFile($assets.'/fullcalendar/fullcalendar.css');

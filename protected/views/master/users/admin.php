@@ -49,7 +49,7 @@ $this->pageTitle='Kelola Pengguna';
 
 					array(	
 						'name'=>'level',
-						'filter'=>array('0'=>'Unverified','1'=>'Administrator','2'=>'Member','3'=>'Perusahaan'),
+						'filter'=>array('1'=>'Administrator','2'=>'Staff','3'=>'Balai'),
 						'value'=>'Users::model()->level($data->level)',
 						),
 

@@ -59,6 +59,7 @@ class RequestInvoice extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			);
 	}
 
@@ -68,7 +69,7 @@ class RequestInvoice extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_invoice' => 'Id Invoice',
+			'id_invoice' => 'Kode Invoice',
 			'created_date' => 'Tanggal Buat',
 			'created_id' => 'Diinput Oleh',
 			'update_date' => 'Tanggal Update',

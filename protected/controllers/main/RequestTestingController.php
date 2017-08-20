@@ -33,7 +33,7 @@ class RequestTestingController extends Controller
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index'),
+				'actions'=>array('view','search','update','delete'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -215,7 +215,6 @@ class RequestTestingController extends Controller
 		$lab_id='';
 		$id_testing='';
 
-		$id = YII::app()->user->id;
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'status=:status';
 		$criteria->params = array(':status'=>1);

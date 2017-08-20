@@ -317,6 +317,12 @@ class Users extends CActiveRecord
 		return $command->queryAll();
 	}	
 
+	public static function showFullname($UserID)
+	{
+		$model= Users::model()->findByPk($UserID);
+		return $model->first_name . " " . $model->last_name;
+	}		
+
 	public static function showAvatar($UserID)
 	{
 		$model= Users::model()->findByPk($UserID);

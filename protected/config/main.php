@@ -83,9 +83,12 @@ return array(
 				'reset/<token:[a-zA-Z0-9-]+>/'=>'site/reset',
 				'activation/<token:[a-zA-Z0-9-]+>/'=>'site/activation',
 
+				// Page
+				'view/<id:[a-zA-Z0-9-]+>/'=>'main/request/view',
+				
 				//Profile
-				'/member/<name:[a-zA-Z0-9-]+>/'=>'profile/user',
-				'/profile/<view:[a-zA-Z0-9-]+>/'=>'users/profile',
+				'/member/<name:[a-zA-Z0-9-]+>/'=>'master/profile/user',
+				'/profile/<view:[a-zA-Z0-9-]+>/'=>'master/users/profile',
 
 				),
 

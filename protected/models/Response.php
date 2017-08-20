@@ -36,7 +36,7 @@ class Response extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_date, created_id, letter_date, letter_code, request_id, status', 'required','on'=>'create'),
+			array('created_date, created_id, letter_date, letter_code, request_id, letter_attachment, status', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('letter_code', 'length', 'max'=>25),
@@ -55,6 +55,7 @@ class Response extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			);
 	}
 

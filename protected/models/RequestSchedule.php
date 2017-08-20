@@ -17,6 +17,7 @@
  * @property string $note
  * @property integer $testing_number
  * @property integer $testing_id
+ * @property integer $testing_type
  * @property string $file
  * @property integer $request_id
  * @property integer $status
@@ -40,9 +41,9 @@ class RequestSchedule extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('created_date, created_id, update_date, update_id, task, cost, start_date, end_date, description, note, testing_number, testing_id, file, request_id, status', 'required'),
-			array('created_date, created_id, task, start_date, end_date, testing_number, testing_id, request_id, status', 'required','on'=>'create'),
+			array('created_date, created_id, task, start_date, end_date, testing_number, testing_id, testing_type, request_id, status', 'required','on'=>'create'),
 			array('update_date, update_id,', 'required','on'=>'update'),
-			array('created_id, update_id, testing_number, testing_id, request_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, testing_number, testing_id, testing_type, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('cost', 'numerical'),
 			array('task, file', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -60,7 +61,7 @@ class RequestSchedule extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
-			'Testing'=>array(self::BELONGS_TO,'Testing','testing_id'),
+			'Testing'=>array(self::BELONGS_TO,'Testing','testing_type'),
 			);
 	}
 
@@ -70,7 +71,7 @@ class RequestSchedule extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_schedule' => 'Schedule ID',
+			'id_schedule' => 'Kode Penjadwalan',
 			'created_date' => 'Tanggal Buat',
 			'created_id' => 'Diinput Oleh',
 			'update_date' => 'Tanggal Update',
@@ -82,7 +83,8 @@ class RequestSchedule extends CActiveRecord
 			'description' => 'Keterangan',
 			'note' => 'Catatan',
 			'testing_number' => 'Sample Ke-',
-			'testing_id' => 'Jenis Pengujian',
+			'testing_id' => 'Kode Pengujian',
+			'testing_type' => 'Jenis Pengujian',
 			'file' => 'File RAB',
 			'request_id' => 'Request',
 			'status' => 'Status',
@@ -120,6 +122,7 @@ class RequestSchedule extends CActiveRecord
 		$criteria->compare('note',$this->note,true);
 		$criteria->compare('testing_number',$this->testing_number);
 		$criteria->compare('testing_id',$this->testing_id);
+		$criteria->compare('testing_type',$this->testing_type);
 		$criteria->compare('file',$this->file,true);
 		$criteria->compare('request_id',$this->request_id);
 		$criteria->compare('status',$this->status);

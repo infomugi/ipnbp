@@ -41,7 +41,7 @@ class Request extends CActiveRecord
 		return array(
 			// array('code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required'),
 			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'create'),
-			array('update_id, update_date', 'required','on'=>'update'),
+			array('code, update_id, update_date, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'update'),
 			array('created_id, update_id, company_id, status, disposition_to', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),
 			array('letter_code', 'length', 'max'=>255),
@@ -77,7 +77,7 @@ class Request extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_request' => 'Id Permohonan',
+			'id_request' => 'Kode Permohonan',
 			'code' => 'Nomor Permohonan',
 			'created_date' => 'Tanggal Buat',
 			'created_id' => 'Diinput Oleh',
@@ -174,4 +174,17 @@ class Request extends CActiveRecord
 			return "-";
 		}
 	}	
+
+	public static function getDisposition($data){
+		$sql = "SELECT id_request, letter_date, letter_subject, letter_code, created_date FROM request WHERE status=".$data." ORDER BY id_request DESC LIMIT 6";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}
+
+	public static function countDisposision($data){
+		$sql = "SELECT count(id_request) as total FROM request WHERE status=".$data;
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}
+
 }
