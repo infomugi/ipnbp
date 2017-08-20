@@ -11,9 +11,9 @@ $this->breadcrumbs=array(
 
   <div class="panel panel-default panel-border-color panel-border-color-primary">
     <div class="panel-heading">
-      <img src="assets/img/logo-xx.png" alt="<?php echo YII::app()->name; ?>" width="102" height="27" class="logo-img">
-    </div>
-    <div class="panel-body">
+     <img class="logo-img" src="<?php echo Yii::app()->baseUrl; ?>/image/setting/logo.png" style="padding:0px 5px;"/>
+   </div>
+   <div class="panel-body">
 
      <?php $form=$this->beginWidget('CActiveForm', array(
       'id'=>'login-form',
