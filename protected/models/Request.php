@@ -176,7 +176,12 @@ class Request extends CActiveRecord
 	}	
 
 	public static function getDisposition($data){
-		$sql = "SELECT id_request, letter_date, letter_subject, letter_code, created_date FROM request WHERE status=".$data." ORDER BY id_request DESC LIMIT 6";
+		$sql = "
+		SELECT r.id_request, r.letter_date, r.letter_subject, r.letter_code, r.created_date, c.name, u.image 
+		FROM request as r
+		LEFT JOIN company as c ON r.company_id=c.id_company 
+		LEFT JOIN users as u ON r.created_id=u.id_user
+		WHERE r.status=".$data." ORDER BY r.id_request DESC LIMIT 6";
 		$command = YII::app()->db->createCommand($sql);
 		return $command->queryAll();
 	}

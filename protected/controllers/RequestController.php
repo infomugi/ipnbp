@@ -51,9 +51,16 @@ class RequestController extends Controller
 	public function actionView($id)
 	{
 		$this->layout="page";
-
 		//Form Permohonan
 		$model=$this->loadModel($id);
+
+		if($model->status==1 && YII::app()->user->record->level==2){
+			$model->status = 2;
+			$model->save();
+			//Type = 2 (Response = Tanggapan)
+			$this->setActivity($id,1);
+		}
+
 		$model->setScenario('update');
 		if(isset($_POST['Request']))
 		{

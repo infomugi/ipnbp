@@ -49,43 +49,67 @@ $cs = Yii::app()->getClientScript();
 						</li>
 					</ul>
 					<!-- <div class="page-title"><span><?php echo YII::app()->name; ?></span></div> -->
+
+					<?php 
+					foreach (Request::countDisposision(1) as $data) {
+						$total = $data['total']; 						
+					} 
+					if($total==0){
+						$indicator = "";
+					}else{
+						$indicator = "indicator";
+					}					
+					?>
+
 					<ul class="nav navbar-nav navbar-right be-icons-nav">
-						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
+						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="<?php echo $indicator; ?>"></span></a>
 							<ul class="dropdown-menu be-notifications">
 								<li>
-									<div class="title">Notifikasi<span class="badge"><?php foreach (Request::countDisposision(1) as $data) { ?><?php echo $data['total']; ?><?php } ?></span></div>
+									<div class="title">Notifikasi Permohonan<span class="badge"><?php echo $total; ?></span></div>
 									<div class="list">
 										<div class="be-scroller">
 											<div class="content">
 												<ul>
 
 													<?php foreach (Request::getDisposition(1) as $data) { ?>
-														
+
 														<li class="notification notification-unread">
 															<a href="<?php echo $url;?>request/view/id/<?php echo $data['id_request']; ?>">
-																<div class="image"><img src="<?php echo $baseUrl; ?>/admin/assets/img/avatar2.png" alt="Avatar"></div>
+																<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
 																<div class="notification-info">
-																	<div class="text"><span class="user-name"> <?php echo $data['letter_code']; ?></span> <?php echo $data['letter_subject']; ?></div><span class="date format-date"><?php echo $data['created_date']; ?></span>
+																	<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> Mengajukan <?php echo $data['letter_subject']; ?></div><span class="date format-date"><?php echo $data['created_date']; ?></span>
 																</div>
 															</a>
 														</li>
 
 														<?php } ?>	
 
-													</ul>
+														<?php foreach (Request::getDisposition(2) as $data) { ?>
+
+															<li class="notification">
+																<a href="<?php echo $url;?>request/view/id/<?php echo $data['id_request']; ?>">
+																	<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
+																	<div class="notification-info">
+																		<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> <?php echo $data['letter_subject']; ?> Telah di Disposisi</div><span class="date format-date"><?php echo $data['created_date']; ?></span>
+																	</div>
+																</a>
+															</li>
+
+															<?php } ?>	
+
+														</ul>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="footer"> <a href="#">Lihat Semua Notifikasi</a></div>
-									</li>
-								</ul>
-							</li>
+											<div class="footer"> <a href="<?php echo $url; ?>request/admin">Lihat Semua Permohonan</a></div>
+										</li>
+									</ul>
+								</li>
 
-						</ul>
+							</ul>
+						</div>
 					</div>
-				</div>
-			</nav>
-			
-			
-			
-			
+				</nav>
+
+
+
