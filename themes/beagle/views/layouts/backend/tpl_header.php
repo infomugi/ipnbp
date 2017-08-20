@@ -2,6 +2,16 @@
 $baseUrl = Yii::app()->theme->baseUrl; 
 $url = Yii::app()->baseUrl."/"; 
 $cs = Yii::app()->getClientScript();
+
+// Query Notifikasi
+foreach (Request::countDisposision(1) as $data) {
+	$total = $data['total']; 						
+} 
+if($total==0){
+	$indicator = "";
+}else{
+	$indicator = "indicator";
+}	
 ?>
 
 <!DOCTYPE html>
@@ -50,22 +60,11 @@ $cs = Yii::app()->getClientScript();
 					</ul>
 					<!-- <div class="page-title"><span><?php echo YII::app()->name; ?></span></div> -->
 
-					<?php 
-					foreach (Request::countDisposision(1) as $data) {
-						$total = $data['total']; 						
-					} 
-					if($total==0){
-						$indicator = "";
-					}else{
-						$indicator = "indicator";
-					}					
-					?>
-
 					<ul class="nav navbar-nav navbar-right be-icons-nav">
 						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="<?php echo $indicator; ?>"></span></a>
 							<ul class="dropdown-menu be-notifications">
 								<li>
-									<div class="title">Notifikasi Permohonan<span class="badge"><?php echo $total; ?></span></div>
+									<div class="title">Permohonan Baru<span class="badge"><?php echo $total; ?></span></div>
 									<div class="list">
 										<div class="be-scroller">
 											<div class="content">
