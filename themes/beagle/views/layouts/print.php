@@ -1,58 +1,76 @@
+<?php
+$baseUrl = Yii::app()->theme->baseUrl; 
+$url = Yii::app()->baseUrl."/"; 
+$cs = Yii::app()->getClientScript();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php
-  $cs = Yii::app()->getClientScript();
-  Yii::app()->clientScript->registerCoreScript('jquery');
-  ?>
   <meta charset="utf-8">
-  <meta name="theme-color" content="#00a185" />
-  <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-  <link rel="shortcut icon" href="<?php echo YII::app()->baseUrl."/image/shop/".Shop::model()->favicon(); ?>">
-  <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/dist/css/bootstrap.min.css">
+  <link rel="shortcut icon" href="<?php echo $baseUrl; ?>/admin/assets/img/logo-fav.png">
+  <title><?php echo $this->pageTitle; ?> - <?php echo YII::app()->name; ?></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
 
-  <script>
-    window.print();
-    function cetak(){
-      window.print();
+<style type="text/css">
+  h1,h2{font-family: arial;margin-top: 0px;text-transform: uppercase;}
+  .header{text-align: center;line-height: 10px;}
+  .content{font-size: 16px;}
+  .kotak{width: 100%;}
+  h1,h2{line-height: 5px}
+  h1{margin-bottom: 14px}
+  h2{margin-bottom: 22px}
+  .kiri{width: 55%;float: left;text-align: left;}
+  .kanan{width: 45%;float: right;}
+  .header-kiri{width: 15%;float: left;}
+  .header-kanan{width: 85%;float: right;}  
+  .konten-header-kanan{margin-top: 11px;letter-spacing: 1px}  
+  .isi, .jadwal{width: 95%;float: right;}
+  .judul{font-size: 28px;font-family: tahoma}
+  .info{font-size: 11px;
+    margin-bottom: 5px;
+    letter-spacing: 2px;}
+    .subinfo{font-size: 12px;margin-bottom: 2px;letter-spacing: 0px;}
+    body{font-size: 14px;font-family: arial;color:#000000;}
+    .line{background: #FFF;padding: 0px;margin-top: 2px}
+    .line2{background: #FFF;padding: 1px;margin-top: 2px}
+    .line3{background: #FFF;padding: 2px;margin-top: 2px}
+    .
+  </style>
+  <body>
+    <div id="invoice" style="width: 800px;text-align: center;padding: 10px;height:820px">
+      <div class="header-kiri">
+        <center>
+          <img src="<?php echo Yii::app()->baseUrl; ?>/image/setting/logo.jpg" style="padding:0px 5px;width:110px;"/>
+        </center>
+      </div>
+      <div class="header-kanan">
+        <div class="konten-header-kanan">
+          <H2>Kementerian Pekerjaan Umum dan Perumahan Rakyat</H2>
+          <H1><B>Badan Penelitian dan Pengembangan</B></H1>
+          <div class="info">
+            Satuan Kerja Pusat Penelitian dan Pengembangan Perumahan dan Pemukiman<br>
+            Jl. Panyaungan - Cileunyi Wetan - Kabupaten Bandung 40393<br>
+          </div>
+          <div class="subinfo">
+           Telp. (022) 7798393 (4 Saluran) Fax: (022) 7798392 - Email : pnbp.puskim@puskim.pu.go.id - Website : http://puskim.pu.go.id
+         </div>
+       </div>
 
-    }
-          //Membuat Shortcut
-          $(document).on('keydown', 'body', function(e){
-            var charCode = ( e.which ) ? e.which : event.keyCode;
-              if(charCode == 38) //Up
-              {
-                $('#transaksi').text("- [ L U N A S ] -");
-                return false;
-              }
-               if(charCode == 37) //Left
-               {
-                 window.location.replace("<?php echo YII::app()->baseUrl; ?>/penjualan/create");
-               }
-                   if(charCode == 39) //Right
-                   {
-                    cetak();
-                  }
-                });
-              </script>
+     </div>
+   </center>  
 
-            </head>
+   <img src="<?php echo Yii::app()->baseUrl; ?>/image/setting/line.png" style="margin-top:-15px;"/>
+   <div class="content">
+    <?php echo $content; ?>
+  </div>
+</div>
 
-            <body style="background:#999999">
-              <BR>
-                <div class="container">
-                  <div class="col-xs-12 col-md-1 col-lg-2">
-                  </div>
-                  <div class="col-xs-12 col-md-10 col-lg-8">
-                    <div id="target">
-                      <?php echo $content; ?>
-                    </div>
-                  </div>
-                  <div class="col-xs-12 col-md-1 col-lg-2">
-                  </div>
-                </div>
+<script>
+  window.print();
+</script>
 
-              </body>
-              </html>
+</body>
+</html>
 
 

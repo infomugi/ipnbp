@@ -53,7 +53,8 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($payment,'code'); ?>
-						<?php echo $form->textField($payment,'code',array('class'=>'form-control')); ?>
+						<?php $this->widget('CMaskedTextField',array('model'=>$payment,'attribute'=>'code','mask'=>'KU.99.99/KWT-PNBP/LP/999','htmlOptions'=>array('class'=>'form-control')));
+						?>
 					</div>
 
 				</div>  
@@ -151,7 +152,7 @@
 			'columns'=>array(
 
 				array(
-					'header'=>'No Revisi',
+					'header'=>'No',
 					'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
 					'htmlOptions'=>array('width'=>'10px', 
 						'style' => 'text-align: center;')),
@@ -167,6 +168,20 @@
 					'label'=>'Download',  
 					'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/payment/".$data["file"]',      
 					), 
+
+				array(
+					'header'=>'Print',      
+					'class'=>'CButtonColumn',
+					'template'=>'{print}',
+					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'print'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestpayment/print", array("id"=>$data->id_payment))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+							),
+						),
+					),
 
 				array(
 					'class'=>'CButtonColumn',

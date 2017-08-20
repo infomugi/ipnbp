@@ -32,7 +32,8 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($invoice,'code'); ?>
-					<?php echo $form->textField($invoice,'code',array('class'=>'form-control')); ?>
+					<?php $this->widget('CMaskedTextField',array('model'=>$invoice,'attribute'=>'code','mask'=>'KU.99.99/INV-PNBP/LP/999','htmlOptions'=>array('class'=>'form-control')));
+					?>
 				</div>
 
 			</div>  
@@ -212,6 +213,20 @@
 			// 	'filter'=>array('0'=>'Disable','1'=>'Enable'),
 			// 	'value'=>'Users::model()->status($data->status)',
 			// 	),
+
+			array(
+				'header'=>'Print',      
+				'class'=>'CButtonColumn',
+				'template'=>'{print}',
+				'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'print'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestinvoice/print", array("id"=>$data->id_invoice))',
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+						),
+					),
+				),
 
 			array(
 				'class'=>'CButtonColumn',

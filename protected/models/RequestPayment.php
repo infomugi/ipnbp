@@ -143,4 +143,24 @@ class RequestPayment extends CActiveRecord
 			return "-";
 		}
 	}
+
+	public static function findCompany($id)
+	{
+		$model= Company::model()->findByPk($id);
+		return strtoupper($model->name);
+	}	
+
+
+	public static function findCompanyAddress($id)
+	{
+		$model= Company::model()->findByPk($id);
+		return $model->address;
+	}	
+
+	public static function findSignature($id)
+	{
+		$model= Unit::model()->findByPk($id);
+		return $model->address;
+	}		
+
 }
