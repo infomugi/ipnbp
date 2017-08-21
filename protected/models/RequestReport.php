@@ -119,4 +119,19 @@ class RequestReport extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	
+	protected function beforeSave()
+	{
+		$this->upload_date = date('Y-m-d', strtotime($this->upload_date));
+		$this->accept_date = date('Y-m-d', strtotime($this->accept_date));
+		return TRUE;
+	}
+	
+	protected function afterFind()
+	{
+		$this->upload_date = date('d-m-Y', strtotime($this->upload_date));
+		$this->accept_date = date('d-m-Y', strtotime($this->accept_date));
+		return TRUE;
+	}   
 }

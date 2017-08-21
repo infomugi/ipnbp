@@ -100,7 +100,7 @@
 
 	<h4>Data Permohonan Pengujian</h4>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'testing-grid',
+		'id'=>'report-grid',
 		'dataProvider'=>$dataReport,
 				// 'filter'=>$model,	
 		'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
