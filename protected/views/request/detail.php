@@ -50,7 +50,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 					<td>
 
 						<?php echo CHtml::link('<i class="icon mdi mdi-edit"></i>', 
-							array('requesttesting/update', 'id'=>$valueTesting->id_testing,
+							array('main/requesttesting/update', 'id'=>$valueTesting->id_testing,
 								), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Edit Tahapan Pengujian'));
 						?>
 
@@ -68,11 +68,11 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 						<td>
 
 							<?php echo CHtml::link('<i class="icon mdi mdi-edit"></i>', 
-								array('requestschedule/update', 'id'=>$detailTesting->id_schedule,
+								array('main/requestschedule/update', 'id'=>$detailTesting->id_schedule,
 									), array('class' => 'btn btn-info btn-sm', 'title'=>'Edit Permohonan Penjadwalan'));
 							?>
 							<?php echo CHtml::link('<i class="icon mdi mdi-close-circle"></i>', 
-								array('requestschedule/delete', 'id'=>$detailTesting->id_schedule,
+								array('main/requestschedule/delete', 'id'=>$detailTesting->id_schedule,
 									),  array('class' => 'btn btn-danger btn-sm', 'title'=>'Hapus Permohonan Penjadwalan'));
 							?>
 

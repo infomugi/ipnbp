@@ -200,22 +200,17 @@
 						</div>
 						<div class="col-sm-8">  
 
-							<?php echo CHtml::link('<i class="fa fa-edit"></i> Upload Permohonan', 
-								array('update', 'id'=>$model->id_request,
-									), array('class' => 'btn btn-info btn-flat', 'title'=>'Upload Permohonan'));
+							<?php echo CHtml::link('<i class="fa fa-edit"></i> Upload Disposisi', 
+								array('disposition', 'id'=>$model->id_request,
+									), array('class' => 'btn btn-info btn-flat', 'title'=>'Upload Disposisi'));
 									?>
 
-									<?php echo CHtml::link('<i class="fa fa-edit"></i> Upload Disposisi', 
-										array('disposition', 'id'=>$model->id_request,
-											), array('class' => 'btn btn-info btn-flat', 'title'=>'Upload Disposisi'));
-											?>
-
-											<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-										</div>
-									</div>
-
-									<?php $this->endWidget(); ?>
-
+									<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 								</div>
+							</div>
 
-							</div><!-- form -->
+							<?php $this->endWidget(); ?>
+
+						</div>
+
+					</div><!-- form -->
