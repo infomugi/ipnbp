@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2017 at 08:41 PM
+-- Generation Time: Aug 21, 2017 at 02:05 AM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `user_id` int(11) NOT NULL,
   `point` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activities`
@@ -103,7 +103,41 @@ INSERT INTO `activities` (`id_activities`, `created_date`, `type`, `description`
 (59, '2017-08-14 16:57:35', 1, 'Login from IP : ::1', 1, 1, 2, 1),
 (60, '2017-08-14 17:00:06', 1, 'Login from IP : ::1', 1, 1, 2, 1),
 (61, '2017-08-17 13:52:56', 1, 'Login from IP : ::1', 1, 1, 2, 1),
-(62, '2017-08-17 23:50:46', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1);
+(62, '2017-08-17 23:50:46', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(63, '2017-08-18 22:10:17', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(64, '2017-08-18 22:45:35', 1, 'Login from IP : ::1', 1, 1, 2, 1),
+(65, '2017-08-19 20:04:45', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(66, '2017-08-20 10:03:58', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(67, '2017-08-20 13:50:39', 0, 'Logout from IP : 192.168.43.164', 0, 1, 0, 0),
+(68, '2017-08-20 13:50:44', 1, 'Login from IP : 192.168.43.164', 1, 3, 2, 1),
+(69, '2017-08-20 13:51:46', 0, 'Logout from IP : 192.168.43.164', 0, 3, 0, 0),
+(70, '2017-08-20 13:51:51', 1, 'Login from IP : 192.168.43.164', 1, 3, 2, 1),
+(71, '2017-08-20 14:07:18', 0, 'Logout from IP : 192.168.43.164', 0, 3, 0, 0),
+(72, '2017-08-20 14:07:24', 1, 'Login from IP : 192.168.43.164', 1, 3, 2, 1),
+(73, '2017-08-20 14:19:05', 0, 'Logout from IP : 192.168.43.164', 0, 3, 0, 0),
+(74, '2017-08-20 14:19:11', 1, 'Login from IP : 192.168.43.164', 1, 2, 2, 1),
+(75, '2017-08-20 14:19:16', 0, 'Logout from IP : 192.168.43.164', 0, 2, 0, 0),
+(76, '2017-08-20 14:19:21', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(77, '2017-08-20 14:19:27', 0, 'Logout from IP : 192.168.43.164', 0, 1, 0, 0),
+(78, '2017-08-20 14:19:33', 1, 'Login from IP : 192.168.43.164', 1, 2, 2, 1),
+(79, '2017-08-20 14:20:03', 0, 'Logout from IP : 192.168.43.164', 0, 2, 0, 0),
+(80, '2017-08-20 14:20:08', 1, 'Login from IP : 192.168.43.164', 1, 2, 2, 1),
+(81, '2017-08-20 14:20:30', 0, 'Logout from IP : 192.168.43.164', 0, 2, 0, 0),
+(82, '2017-08-20 14:20:37', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(83, '2017-08-20 14:21:23', 0, 'Logout from IP : 192.168.43.164', 0, 1, 0, 0),
+(84, '2017-08-20 14:21:29', 1, 'Login from IP : 192.168.43.164', 1, 3, 2, 1),
+(85, '2017-08-20 15:51:46', 0, 'Logout from IP : 192.168.43.164', 0, 3, 0, 0),
+(86, '2017-08-20 15:51:53', 1, 'Login from IP : 192.168.43.164', 1, 2, 2, 1),
+(87, '2017-08-20 17:28:04', 0, 'Logout from IP : 192.168.43.164', 0, 2, 0, 0),
+(88, '2017-08-20 17:28:17', 1, 'Login from IP : 192.168.43.164', 1, 3, 2, 1),
+(89, '2017-08-20 17:38:05', 0, 'Logout from IP : 192.168.43.164', 0, 3, 0, 0),
+(90, '2017-08-20 17:38:11', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(91, '2017-08-20 17:48:10', 0, 'Logout from IP : 192.168.43.164', 0, 1, 0, 0),
+(92, '2017-08-20 17:48:20', 1, 'Login from IP : 192.168.43.164', 1, 3, 2, 1),
+(93, '2017-08-20 17:54:16', 0, 'Logout from IP : 192.168.43.164', 0, 3, 0, 0),
+(94, '2017-08-20 17:54:20', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1),
+(95, '2017-08-21 01:10:19', 0, 'Logout from IP : 192.168.43.164', 0, 1, 0, 0),
+(96, '2017-08-21 01:13:38', 1, 'Login from IP : 192.168.43.164', 1, 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -228,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `industry` (
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=466 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `industry`
@@ -301,6 +335,8 @@ CREATE TABLE IF NOT EXISTS `ref_testing` (
   `id_testing` int(11) NOT NULL,
   `code` varchar(25) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `part_id` int(11) NOT NULL,
+  `lab_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
@@ -308,12 +344,12 @@ CREATE TABLE IF NOT EXISTS `ref_testing` (
 -- Dumping data for table `ref_testing`
 --
 
-INSERT INTO `ref_testing` (`id_testing`, `code`, `name`, `status`) VALUES
-(1, 'C0001', 'Pengujian Bahan', 1),
-(2, 'C0002', 'Pengujian Alat', 1),
-(3, 'C0003', 'Pengujian Tingkat Ketahanan Api', 1),
-(4, 'C0004', 'Pengujian Insulasi Bunyi', 1),
-(5, 'C0005', 'Pengujian Thermal Thansmintance', 1);
+INSERT INTO `ref_testing` (`id_testing`, `code`, `name`, `part_id`, `lab_id`, `status`) VALUES
+(1, 'C0001', 'Pengujian Bahan', 8, 12, 1),
+(2, 'C0002', 'Pengujian Alat', 9, 13, 1),
+(3, 'C0003', 'Pengujian Tingkat Ketahanan Api', 10, 14, 1),
+(4, 'C0004', 'Pengujian Insulasi Bunyi', 11, 15, 1),
+(5, 'C0005', 'Pengujian Thermal Thansmintance', 9, 14, 1);
 
 -- --------------------------------------------------------
 
@@ -367,18 +403,22 @@ CREATE TABLE IF NOT EXISTS `request` (
   `date` date NOT NULL,
   `company_id` int(11) NOT NULL,
   `letter_date` date NOT NULL,
-  `letter_code` varchar(520) NOT NULL,
+  `letter_code` varchar(255) NOT NULL,
   `letter_subject` varchar(150) NOT NULL,
   `letter_attachment` varchar(255) NOT NULL,
+  `disposition_letter` varchar(255) NOT NULL,
+  `disposition_to` int(11) NOT NULL,
+  `color` varchar(8) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `request`
 --
 
-INSERT INTO `request` (`id_request`, `code`, `created_date`, `created_id`, `update_date`, `update_id`, `date`, `company_id`, `letter_date`, `letter_code`, `letter_subject`, `letter_attachment`, `status`) VALUES
-(11, '001', '2017-08-17 03:13:58', 1, '0000-00-00 00:00:00', 0, '2017-08-17', 1, '2017-08-17', 'S01', 'Test-01', '001.docx', 1);
+INSERT INTO `request` (`id_request`, `code`, `created_date`, `created_id`, `update_date`, `update_id`, `date`, `company_id`, `letter_date`, `letter_code`, `letter_subject`, `letter_attachment`, `disposition_letter`, `disposition_to`, `color`, `status`) VALUES
+(82, '123', '2017-08-19 01:24:39', 1, '2017-08-20 02:23:31', 3, '2017-08-01', 2, '2017-08-02', 'SR/VIII/X/2017', 'Permohonan Pengujian Air', 'surat-permohonan-123.pdf', 'surat-disposisi-123.pdf', 8, '#3d38bf', 2),
+(85, '124', '2017-08-20 12:41:59', 1, '2017-08-20 03:14:35', 3, '2017-08-20', 3, '2017-08-21', 'SR/FI/VII/2017', 'Permohonan Pengujian Tanah', 'surat-permohonan-124.pdf', '', 0, '#d49016', 1);
 
 -- --------------------------------------------------------
 
@@ -389,6 +429,7 @@ INSERT INTO `request` (`id_request`, `code`, `created_date`, `created_id`, `upda
 CREATE TABLE IF NOT EXISTS `request_activity` (
   `id_activity` int(11) NOT NULL,
   `activity_date` datetime NOT NULL,
+  `request_id` int(11) NOT NULL,
   `request_date` datetime NOT NULL,
   `approve_id` int(11) NOT NULL,
   `approve_date` datetime NOT NULL,
@@ -402,22 +443,16 @@ CREATE TABLE IF NOT EXISTS `request_activity` (
   `report_send_date` datetime NOT NULL,
   `report_accept_id` int(11) NOT NULL,
   `report_accept_date` datetime NOT NULL,
-  `request_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `request_activity`
 --
 
-INSERT INTO `request_activity` (`id_activity`, `activity_date`, `request_date`, `approve_id`, `approve_date`, `response_id`, `response_date`, `invoice_id`, `invoice_date`, `payment_id`, `payment_date`, `report_send_id`, `report_send_date`, `report_accept_id`, `report_accept_date`, `request_id`, `status`) VALUES
-(1, '2017-08-12 10:32:02', '2017-08-10 00:00:00', 1, '2017-08-11 21:52:00', 79, '2017-08-12 10:32:02', 79, '2017-08-12 10:21:52', 79, '2017-08-12 10:16:20', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1, 0),
-(2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 4, 0),
-(3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 5, 0),
-(4, '2017-08-12 00:45:46', '2017-08-12 12:43:23', 0, '0000-00-00 00:00:00', 1, '2017-08-12 00:45:46', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 7, 0),
-(5, '2017-08-12 12:53:54', '2017-08-12 12:53:54', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 9, 0),
-(6, '2017-08-12 11:16:24', '2017-08-12 11:01:13', 0, '0000-00-00 00:00:00', 79, '2017-08-12 11:04:51', 79, '2017-08-12 11:11:38', 79, '2017-08-12 11:16:24', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 10, 0),
-(7, '2017-08-17 16:12:33', '2017-08-17 03:13:58', 0, '0000-00-00 00:00:00', 1, '2017-08-17 16:12:33', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 11, 0);
+INSERT INTO `request_activity` (`id_activity`, `activity_date`, `request_id`, `request_date`, `approve_id`, `approve_date`, `response_id`, `response_date`, `invoice_id`, `invoice_date`, `payment_id`, `payment_date`, `report_send_id`, `report_send_date`, `report_accept_id`, `report_accept_date`, `status`) VALUES
+(64, '2017-08-20 23:19:47', 82, '2017-08-19 01:24:39', 3, '2017-08-20 17:48:26', 1, '2017-08-19 20:38:34', 1, '2017-08-20 11:14:41', 1, '2017-08-20 23:19:47', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+(65, '2017-08-20 17:37:22', 85, '2017-08-20 12:42:00', 3, '2017-08-20 17:37:22', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -441,7 +476,14 @@ CREATE TABLE IF NOT EXISTS `request_invoice` (
   `file_spk` varchar(255) NOT NULL,
   `request_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `request_invoice`
+--
+
+INSERT INTO `request_invoice` (`id_invoice`, `created_date`, `created_id`, `update_date`, `update_id`, `code`, `date`, `description`, `total`, `note`, `signature_id`, `file_invoice`, `file_spk`, `request_id`, `status`) VALUES
+(8, '2017-08-20 11:14:41', 1, '0000-00-00 00:00:00', 0, '123', '2017-08-20', 'Pengujian Tingkat Ketahanan Api Tungku Besar Vertikal Panel Dinding Satu Sampel', 2500000, '', 1, '', '', 82, 1);
 
 -- --------------------------------------------------------
 
@@ -463,7 +505,14 @@ CREATE TABLE IF NOT EXISTS `request_payment` (
   `invoice_id` int(11) NOT NULL,
   `request_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `request_payment`
+--
+
+INSERT INTO `request_payment` (`id_payment`, `created_date`, `created_id`, `update_date`, `update_id`, `code`, `date`, `term`, `total`, `file`, `invoice_id`, `request_id`, `status`) VALUES
+(4, '2017-08-20 11:19:47', 1, '0000-00-00 00:00:00', 0, 'KU.06.11/KWT-PNBP/LP/133', '2017-08-20', 1, 1500000, 'bukti-pembayaran-123-1503245987.pdf', 8, 82, 1);
 
 -- --------------------------------------------------------
 
@@ -485,14 +534,15 @@ CREATE TABLE IF NOT EXISTS `request_response` (
   `description` text NOT NULL,
   `request_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `request_response`
 --
 
 INSERT INTO `request_response` (`id_response`, `created_date`, `created_id`, `update_date`, `update_id`, `letter_date`, `letter_code`, `letter_attachment`, `date_send`, `date_feedback`, `description`, `request_id`, `status`) VALUES
-(11, '2017-08-17 04:12:33', 1, '0000-00-00 00:00:00', 0, '2017-08-17', 'T-001', 'Lampiran1.docx', '0000-00-00', '0000-00-00', 'Test', 11, 1);
+(11, '2017-08-17 04:12:33', 1, '0000-00-00 00:00:00', 0, '2017-08-17', 'T-001', 'Lampiran1.docx', '0000-00-00', '0000-00-00', 'Test', 11, 1),
+(25, '2017-08-19 08:38:33', 1, '0000-00-00 00:00:00', 0, '2017-08-07', '123', 'surat-tanggapan-123-1503149913.pdf', '0000-00-00', '0000-00-00', '', 82, 1);
 
 -- --------------------------------------------------------
 
@@ -514,17 +564,23 @@ CREATE TABLE IF NOT EXISTS `request_schedule` (
   `note` text NOT NULL,
   `testing_number` int(11) NOT NULL,
   `testing_id` int(11) NOT NULL,
+  `testing_type` int(11) NOT NULL,
   `file` varchar(255) NOT NULL,
   `request_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `request_schedule`
 --
 
-INSERT INTO `request_schedule` (`id_schedule`, `created_date`, `created_id`, `update_date`, `update_id`, `task`, `cost`, `start_date`, `end_date`, `description`, `note`, `testing_number`, `testing_id`, `file`, `request_id`, `status`) VALUES
-(11, '2017-08-18 01:04:12', 1, '0000-00-00 00:00:00', 0, 'Kegiatan A', 0, '2017-08-18', '2017-08-31', '', '', 1, 1, '', 11, 1);
+INSERT INTO `request_schedule` (`id_schedule`, `created_date`, `created_id`, `update_date`, `update_id`, `task`, `cost`, `start_date`, `end_date`, `description`, `note`, `testing_number`, `testing_id`, `testing_type`, `file`, `request_id`, `status`) VALUES
+(15, '2017-08-20 12:16:30', 1, '0000-00-00 00:00:00', 0, 'Kegiatan A', 100000, '2017-08-20', '2017-08-31', '', '', 1, 13, 4, 'file-rab-123-1503206190.pdf', 82, 1),
+(16, '2017-08-20 12:18:20', 1, '0000-00-00 00:00:00', 0, 'Kegiatan B', 500000, '2017-08-20', '2017-08-25', '', '', 2, 13, 4, '', 82, 1),
+(17, '2017-08-20 12:43:02', 1, '0000-00-00 00:00:00', 0, 'Kegiatan X', 1000, '2017-08-07', '2017-08-11', '', '', 1, 15, 2, 'file-rab-124-1503207782.pdf', 85, 1),
+(18, '2017-08-20 12:43:34', 1, '0000-00-00 00:00:00', 0, 'Kegiatan Y', 2500, '2017-08-10', '2017-08-14', '', '', 2, 15, 2, 'file-rab-124-1503207814.pdf', 85, 1),
+(19, '2017-08-20 02:31:11', 3, '0000-00-00 00:00:00', 0, 'Kegiatan C', 245000, '2017-08-20', '2017-08-31', '', '', 1, 16, 3, '', 85, 1),
+(20, '2017-08-20 02:31:53', 3, '0000-00-00 00:00:00', 0, 'Kegiatan D', 15000, '2017-08-20', '2017-08-30', '', '', 2, 16, 3, 'file-rab-124-1503214313.pdf', 85, 1);
 
 -- --------------------------------------------------------
 
@@ -541,21 +597,26 @@ CREATE TABLE IF NOT EXISTS `request_testing` (
   `testing_type` int(11) NOT NULL,
   `testing_lab` int(11) NOT NULL,
   `testing_part` int(11) NOT NULL,
+  `testing_total` int(11) NOT NULL,
   `request_id` int(11) NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `request_testing`
 --
 
-INSERT INTO `request_testing` (`id_testing`, `created_date`, `created_id`, `update_date`, `update_id`, `testing_type`, `testing_lab`, `testing_part`, `request_id`, `status`) VALUES
-(5, '2017-08-11 10:31:35', 1, '2017-08-11 11:43:37', 1, 1, 5, 1, 1, 1),
-(6, '2017-08-11 10:52:44', 1, '0000-00-00 00:00:00', 0, 4, 7, 2, 1, 1),
-(9, '2017-08-12 11:05:08', 79, '0000-00-00 00:00:00', 0, 1, 5, 1, 10, 1),
-(10, '2017-08-12 11:08:08', 79, '0000-00-00 00:00:00', 0, 1, 6, 2, 10, 1),
-(11, '2017-08-17 05:35:40', 1, '2017-08-17 07:54:06', 1, 1, 13, 11, 11, 1),
-(12, '2017-08-17 05:36:02', 1, '2017-08-17 07:55:48', 1, 4, 14, 10, 11, 1);
+INSERT INTO `request_testing` (`id_testing`, `created_date`, `created_id`, `update_date`, `update_id`, `testing_type`, `testing_lab`, `testing_part`, `testing_total`, `request_id`, `status`) VALUES
+(5, '2017-08-11 10:31:35', 1, '2017-08-11 11:43:37', 1, 1, 5, 1, 0, 1, 1),
+(6, '2017-08-11 10:52:44', 1, '0000-00-00 00:00:00', 0, 4, 7, 2, 0, 1, 1),
+(9, '2017-08-12 11:05:08', 79, '0000-00-00 00:00:00', 0, 1, 5, 1, 0, 10, 1),
+(10, '2017-08-12 11:08:08', 79, '0000-00-00 00:00:00', 0, 1, 6, 2, 0, 10, 1),
+(11, '2017-08-17 05:35:40', 1, '2017-08-17 07:54:06', 1, 1, 13, 11, 0, 11, 1),
+(12, '2017-08-17 05:36:02', 1, '2017-08-17 07:55:48', 1, 4, 14, 10, 0, 11, 1),
+(13, '2017-08-19 01:55:37', 1, '0000-00-00 00:00:00', 0, 4, 15, 11, 2, 82, 1),
+(14, '2017-08-19 01:58:47', 1, '0000-00-00 00:00:00', 0, 1, 12, 8, 1, 82, 1),
+(15, '2017-08-20 12:42:18', 1, '0000-00-00 00:00:00', 0, 2, 13, 9, 2, 85, 1),
+(16, '2017-08-20 12:42:28', 1, '0000-00-00 00:00:00', 0, 3, 14, 10, 2, 85, 1);
 
 -- --------------------------------------------------------
 
@@ -635,8 +696,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `first_name`, `last_name`, `location`, `website`, `bio`, `job`, `maps`, `phone`, `pin`, `birth`, `gender`, `facebook`, `twitter`, `gplus`, `image`, `background`, `cover`, `verified`, `status`, `level`, `active`, `division`, `create_date`, `last_visit`, `ipaddress`, `views`, `token`) VALUES
-(1, 'infomugi', '21232f297a57a5a743894a0e4a801fc3', 'infomugi@gmail.com', 'Infomugi', 'Media', 'Bandung', 'www.infomugi.com', '-', 'Designer & Web Developer', '0', '087824931504', '27F8F758', '1994-03-26', 1, 'mugirachmat', 'mugirachmat', 'mugirachmat', 'infomugi.png', '#000', 'admin.jpg', 1, 1, 1, 1, 2, '2015-08-25 00:00:00', '2017-08-17 23:50:46', '192.168.43.164', 658, '7b3efaf779b20a45e8348b6e27726c28'),
-(79, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin@pu.go.id', 'Admin', 'PNBP', 'Jakarta', 'pu.go.id', 'Admin Aplikasi PNBP', 'Staff', '', '087954684578', '25F7F845', '1994-03-26', 1, 'http://twitter.com/admin', 'http://twitter.com/admin', 'http://twitter.com/admin', 'default.png', '#FFF', 'default.jpg', 0, 0, 1, 1, 1, '1970-01-01 00:00:00', '2017-08-12 09:06:49', '192.168.43.164', 2, '');
+(1, 'infomugi', '21232f297a57a5a743894a0e4a801fc3', 'admin@pu.go.id', 'Infomugi', 'Media', 'Jakarta', 'pu.go.id', 'Admin Aplikasi PNBP', 'Staff', '0', '087824931504', '27F8F758', '1994-03-26', 1, 'mugirachmat', 'mugirachmat', 'mugirachmat', 'infomugi.png', '#000', 'infomugi.png', 1, 1, 1, 1, 2, '2015-08-25 00:00:00', '2017-08-21 01:13:38', '192.168.43.164', 658, '7b3efaf779b20a45e8348b6e27726c28'),
+(2, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@pu.go.id', 'Admin', 'PNBP', 'Jakarta', 'pu.go.id', 'Admin Aplikasi PNBP', 'Staff', '', '087954684578', '25F7F845', '1994-03-26', 1, 'http://twitter.com/admin', 'http://twitter.com/admin', 'http://twitter.com/admin', 'male.png', '#FFF', 'male.png', 0, 0, 1, 0, 1, '1970-01-01 00:00:00', '2017-08-20 15:51:53', '192.168.43.164', 2, ''),
+(3, 'balai', '21232f297a57a5a743894a0e4a801fc3', 'admin@pu.go.id', 'Balai', 'PNBP', 'Jakarta', 'pu.go.id', 'Admin Aplikasi PNBP', 'Staff', '', '087954684578', '25F7F845', '1994-03-26', 1, 'http://twitter.com/admin', 'http://twitter.com/admin', 'http://twitter.com/admin', 'avatar.png', '#FFF', 'avatar.png', 0, 0, 2, 0, 1, '1970-01-01 00:00:00', '2017-08-20 17:48:20', '192.168.43.164', 2, ''),
+(4, 'petugas', '21232f297a57a5a743894a0e4a801fc3', 'admin@pu.go.id', 'Petugas', 'PNBP', 'Jakarta', 'pu.go.id', 'Admin Aplikasi PNBP', 'Staff', '', '087954684578', '25F7F845', '1994-03-26', 1, 'http://twitter.com/admin', 'http://twitter.com/admin', 'http://twitter.com/admin', 'image.png', '#FFF', 'image.png', 0, 0, 3, 1, 1, '1970-01-01 00:00:00', '2017-08-12 09:06:49', '192.168.43.164', 2, '');
 
 --
 -- Indexes for dumped tables
@@ -764,7 +827,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id_activities` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
+  MODIFY `id_activities` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=97;
 --
 -- AUTO_INCREMENT for table `category`
 --
@@ -789,7 +852,7 @@ ALTER TABLE `faq`
 -- AUTO_INCREMENT for table `industry`
 --
 ALTER TABLE `industry`
-  MODIFY `id_industry` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=466;
+  MODIFY `id_industry` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `message`
 --
@@ -814,37 +877,37 @@ ALTER TABLE `ref_unit`
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=86;
 --
 -- AUTO_INCREMENT for table `request_activity`
 --
 ALTER TABLE `request_activity`
-  MODIFY `id_activity` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id_activity` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `request_invoice`
 --
 ALTER TABLE `request_invoice`
-  MODIFY `id_invoice` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id_invoice` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `request_payment`
 --
 ALTER TABLE `request_payment`
-  MODIFY `id_payment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id_payment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `request_response`
 --
 ALTER TABLE `request_response`
-  MODIFY `id_response` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id_response` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `request_schedule`
 --
 ALTER TABLE `request_schedule`
-  MODIFY `id_schedule` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id_schedule` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `request_testing`
 --
 ALTER TABLE `request_testing`
-  MODIFY `id_testing` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `id_testing` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `setting`
 --
