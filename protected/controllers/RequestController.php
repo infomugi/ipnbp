@@ -28,7 +28,7 @@ class RequestController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -57,7 +57,7 @@ class RequestController extends Controller
 		if($model->status==1 && YII::app()->user->record->level==2){
 			$model->status = 2;
 			$model->save();
-			//Type = 2 (Response = Tanggapan)
+			//Type = 1 (Response = Disposisi)
 			$this->setActivity($id,1);
 		}
 
@@ -598,6 +598,46 @@ class RequestController extends Controller
 				'dataSchedule'=>$dataSchedule,	
 				));
 		}
+	}	
+
+	public function actionDisposition($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('update');
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Request']))
+		{
+			$model->attributes=$_POST['Request'];
+			$model->update_id = YII::app()->user->id;
+			$model->update_date = date('Y-m-d h:i:s');	
+			$model->status = 2;
+			$model->disposition_letter=CUploadedFile::getInstance($model,'disposition_letter');
+			$tmp2;
+			if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
+			{ 
+				$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
+				$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
+			}
+
+			if($model->save()){
+
+				//Type = 1 (Response = Disposisi)
+				$this->setActivity($id,1);
+
+				if(strlen(trim($model->disposition_letter)) > 0){
+					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/disposition/'.$model->disposition_letter);	
+				} 
+
+				$this->redirect(array('view','id'=>$model->id_request));
+			}
+		}
+
+		$this->render('disposition',array(
+			'model'=>$model,
+			));
 	}	
 
 }

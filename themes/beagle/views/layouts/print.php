@@ -31,7 +31,7 @@ $cs = Yii::app()->getClientScript();
     margin-bottom: 5px;
     letter-spacing: 2px;}
     .subinfo{font-size: 12px;margin-bottom: 2px;letter-spacing: 0px;}
-    body{font-size: 14px;font-family: arial;color:#000000;}
+    body{font-size: 13px;font-family: arial;color:#000000;}
     .line{background: #FFF;padding: 0px;margin-top: 2px}
     .line2{background: #FFF;padding: 1px;margin-top: 2px}
     .line3{background: #FFF;padding: 2px;margin-top: 2px}

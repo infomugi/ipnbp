@@ -206,7 +206,7 @@
 									?>
 
 									<?php echo CHtml::link('<i class="fa fa-edit"></i> Upload Disposisi', 
-										array('update', 'id'=>$model->id_request,
+										array('disposition', 'id'=>$model->id_request,
 											), array('class' => 'btn btn-info btn-flat', 'title'=>'Upload Disposisi'));
 											?>
 
