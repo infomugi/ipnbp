@@ -114,7 +114,7 @@ $this->pageTitle='Detail Company';
 																			'buttons'=>array(
 																				'view'=>
 																				array(
-																					'url'=>'Yii::app()->createUrl("CompanyContact/view", array("id"=>$data->id_company_contact))',
+																					'url'=>'Yii::app()->createUrl("master/companyContact/view", array("id"=>$data->id_company_contact))',
 																					'options'=>array(
 																						'ajax'=>array(
 																							'type'=>'POST',

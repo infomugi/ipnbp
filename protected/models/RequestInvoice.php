@@ -44,7 +44,7 @@ class RequestInvoice extends CActiveRecord
 			array('created_id, update_id, signature_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('total', 'numerical'),
 			array('code', 'length', 'max'=>50),
-			array('file_invoice, file_spk, note, description', 'length', 'max'=>255),
+			array('file_invoice, file_spk, note, description, note', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_invoice, created_date, created_id, update_date, update_id, code, date, description, total, note, signature_id, file_invoice, file_spk, request_id, status', 'safe', 'on'=>'search'),

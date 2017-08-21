@@ -55,6 +55,7 @@ class RequestController extends Controller
 		$model=$this->loadModel($id);
 
 		if($model->status==1 && YII::app()->user->record->level==2){
+			// Kode 2 = Disposisi
 			$model->status = 2;
 			$model->save();
 			//Type = 1 (Response = Disposisi)
@@ -99,8 +100,13 @@ class RequestController extends Controller
 
 				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
 
-				//Type = 2 (Response = Tanggapan)
+				// Kode 3 = Surat Tanggapan
+				$model->status = 3;
+				$model->save();
+				//Type 2 = Tanggapan 
 				$this->setActivity($id,2);
+
+
 				$this->redirect(array('view','id'=>$id));
 			}
 		}
@@ -200,7 +206,13 @@ class RequestController extends Controller
 
 				//Type = 3 (Payment = Invoice)
 				Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
+
+				// Kode 4 = Invoice
+				$model->status = 4;
+				$model->save();
+				//Type 6 = Invoice 
 				$this->setActivity($id,6);
+
 				$this->redirect(array('view','id'=>$id));
 			}
 		}
@@ -233,8 +245,13 @@ class RequestController extends Controller
 				} 		
 
 				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$payment->Invoice->code.' Disimpan.');
-
+				
+				// Kode 5 = Bukti Pembayaran
+				$model->status = 5;
+				$model->save();
+				//Type 3 = Invoice 
 				$this->setActivity($id,3);
+
 				$this->redirect(array('view','id'=>$id));
 			}
 		}

@@ -71,13 +71,13 @@ $this->pageTitle='Kelola Perusahaan';
 									'view'=>
 									array(
 										'url'=>'Yii::app()->createUrl("master/company/view", array("id"=>$data->id_company))',
-										'options'=>array(
-											'ajax'=>array(
-												'type'=>'POST',
-												'url'=>"js:$(this).attr('href')",
-												'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
-												),
-											),
+										// 'options'=>array(
+										// 	'ajax'=>array(
+										// 		'type'=>'POST',
+										// 		'url'=>"js:$(this).attr('href')",
+										// 		'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
+										// 		),
+										// 	),
 										),
 									),
 								),

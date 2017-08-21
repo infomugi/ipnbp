@@ -40,7 +40,7 @@ class Response extends CActiveRecord
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('letter_code', 'length', 'max'=>25),
-			array('letter_attachment', 'length', 'max'=>255),
+			array('letter_attachment, description', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_response, created_date, created_id, update_date, update_id, letter_date, letter_code, letter_attachment, date_send, date_feedback, description, request_id, status', 'safe', 'on'=>'search'),
