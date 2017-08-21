@@ -133,35 +133,40 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 																	<div id="laporan" class="tab-pane">
 																		<h4>Tambah Laporan</h4>
-
-																	</div>
-
-																	<div id="riwayat" class="tab-pane">
-																		<h4>Riwayat</h4>
-																		<?php echo $this->renderPartial('_form_activity', 
+																		<?php echo $this->renderPartial('_form_report', 
 																			array(
-																				'activity'=>$activity,
+																				'report'=>$report,
+																				'dataReport'=>$dataReport,
 																				)); ?>
+
 																			</div>
 
+																			<div id="riwayat" class="tab-pane">
+																				<h4>Riwayat</h4>
+																				<?php echo $this->renderPartial('_form_activity', 
+																					array(
+																						'activity'=>$activity,
+																						)); ?>
+																					</div>
 
+
+																				</div>
+																			</div>
 																		</div>
+																		<!-- START TAB: 2 -->
+
+
 																	</div>
 																</div>
-																<!-- START TAB: 2 -->
-
-
 															</div>
+
+
 														</div>
-													</div>
-
-
-												</div>
 
 
 
-												<STYLE>
-													th{width:150px;}
-												</STYLE>
+														<STYLE>
+															th{width:150px;}
+														</STYLE>
 
 

@@ -259,43 +259,55 @@ class RequestController extends Controller
 		//Data Invoice
 		$dataPayment=new CActiveDataProvider('RequestPayment',array('criteria'=>array('condition'=>'request_id='.$id)));
 
+		// Form Report
+		$report=new RequestReport;
+		if(isset($_POST['RequestReport']))
+		{
+			$report->attributes=$_POST['RequestReport'];
+			$report->created_id = YII::app()->user->id;
+			$report->created_date = date('Y-m-d h:i:s');
+			$report->status = 1;		
+			$report->request_id = $id;	
+
+			$report->file=CUploadedFile::getInstance($report,'file');
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($report,'file'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($report,'file'); 
+				$report->file="laporan-".$model->code.'.'.$tmp->extensionName; 
+			}
+
+			if($report->save()){
+
+				if(strlen(trim($report->file)) > 0){
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/report/'.$report->file);	
+				} 
+
+				$this->redirect(array('view','id'=>$id));
+			}
+		}
+		$dataReport=new CActiveDataProvider('RequestReport',array('criteria'=>array('condition'=>'request_id='.$id)));
+
 		//Data Activity
 		$activity=$this->loadActivity($id);
 
-		if(Yii::app()->request->isAjaxRequest)
-		{
-			$this->renderPartial('view',array(
-				'model'=>$this->loadModel($id),
-				'response'=>$response,
-				'dataResponse'=>$dataResponse,
-				'testing'=>$testing,
-				'dataTesting'=>$dataTesting,
-				'schedule'=>$schedule,
-				'dataSchedule'=>$dataSchedule,
-				'invoice'=>$invoice,
-				'dataInvoice'=>$dataInvoice,
-				'payment'=>$payment,
-				'dataPayment'=>$dataPayment,
-				'activity'=>$activity,
-				), false, true);
-		}
-		else
-		{
-			$this->render('view',array(
-				'model'=>$this->loadModel($id),
-				'response'=>$response,
-				'dataResponse'=>$dataResponse,
-				'testing'=>$testing,
-				'dataTesting'=>$dataTesting,
-				'schedule'=>$schedule,
-				'dataSchedule'=>$dataSchedule,
-				'invoice'=>$invoice,
-				'dataInvoice'=>$dataInvoice,
-				'payment'=>$payment,
-				'dataPayment'=>$dataPayment,
-				'activity'=>$activity,
-				));
-		}
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+			'response'=>$response,
+			'dataResponse'=>$dataResponse,
+			'testing'=>$testing,
+			'dataTesting'=>$dataTesting,
+			'schedule'=>$schedule,
+			'dataSchedule'=>$dataSchedule,
+			'invoice'=>$invoice,
+			'dataInvoice'=>$dataInvoice,
+			'payment'=>$payment,
+			'dataPayment'=>$dataPayment,
+			'report'=>$report,
+			'dataReport'=>$dataReport,
+			'activity'=>$activity,
+			));
+
 	}
 
 	/**
