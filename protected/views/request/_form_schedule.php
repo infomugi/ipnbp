@@ -33,6 +33,7 @@
 				<div class="col-sm-8">
 					<?php echo $form->error($schedule,'testing_id'); ?>
 					
+					<?php echo CHtml::activeDropDownList($schedule, 'testing_id', CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)), 'id_testing', 'fullName'))); ?>
 
 					<?php 
 					echo $form->dropDownList($schedule, "testing_id",

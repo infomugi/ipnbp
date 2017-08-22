@@ -18,6 +18,7 @@
  */
 class RequestTesting extends CActiveRecord
 {
+	private $fullName;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -122,5 +123,11 @@ class RequestTesting extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+
+	public function getFullName()
+	{
+		return $this->testing_type.' - '.$this->testing_lab;
 	}
 }
