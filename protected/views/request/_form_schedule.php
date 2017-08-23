@@ -32,16 +32,11 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($schedule,'testing_id'); ?>
-					
-					<?php echo CHtml::activeDropDownList($schedule, 'testing_id', CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)), 'id_testing', 'fullName'))); ?>
-
 					<?php 
 					echo $form->dropDownList($schedule, "testing_id",
-						CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)),
-							'id_testing', 'id_testing'
-							),
+						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)), 'id_testing', 'request')),
 						array(
-							"empty"=>"- Pilih Jenis Pengujian -", 
+							"empty"=>"- Pilih Kode Pengujian -", 
 							'class'=>'form-control select2',
 							'ajax' => array(
 								'type'=>'POST',
@@ -75,12 +70,49 @@
 					<div class="col-sm-8">
 						<?php echo $form->error($schedule,'testing_type'); ?>
 						<input type="text" name="" id="testing_type" class="form-control" readonly="true">
-						<input type="text" name="" id="testing_part" class="form-control" readonly="true">
-						<input type="text" name="" id="testing_lab" class="form-control" readonly="true">
-						<input type="text" name="" id="testing_total" class="form-control" readonly="true">
 						<div style="display:none">
 							<?php echo $form->textField($schedule,'testing_type',array('class'=>'form-control')); ?>
 						</div>
+					</div>
+
+				</div>  
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Balai
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="testing_part" class="form-control" readonly="true">
+					</div>
+
+				</div>  
+
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Lab
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="testing_lab" class="form-control" readonly="true">
+
+					</div>  
+				</div>  
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Total Sample
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="testing_total" class="form-control" readonly="true">
 					</div>
 
 				</div>  
