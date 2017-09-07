@@ -78,7 +78,7 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($invoice,'total'); ?>
-					<?php echo $form->textField($invoice,'total',array('class'=>'form-control')); ?>
+					<?php echo $form->textField($invoice,'total',array('id'=>'nominal1','class'=>'form-control','onkeyup'=>'terbilang1();')); ?>
 				</div>
 
 			</div>  
@@ -91,7 +91,7 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<input type="text" class="form-control" disabled="true">
+					<div id="terbilang1" class="alert alert-success"></div>
 				</div>
 
 			</div>  
@@ -190,7 +190,18 @@
 			'code',
 			'date',
 			'description',
-			'total',
+
+			array(	
+				'name'=>'total',
+				'value'=>'Request::model()->rupiah($data->total)',
+				),
+
+			
+			array(	
+				'name'=>'balance',
+				'value'=>'Request::model()->rupiah($data->balance)',
+				),	
+
 
 			array(      
 				'class'=>'CLinkColumn',      

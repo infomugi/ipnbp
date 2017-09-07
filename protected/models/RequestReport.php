@@ -36,7 +36,7 @@ class RequestReport extends CActiveRecord
 		return array(
 			array('created_date, created_id, request_id, status', 'required','on'=>'create'),
 			array('created_id, update_id, request_id, status', 'numerical', 'integerOnly'=>true),
-			array('file, description', 'length', 'max'=>255),
+			array('file, description, update_date, upload_date, accept_date', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_report, created_date, created_id, update_date, update_id, upload_date, accept_date, description, file, request_id, status', 'safe', 'on'=>'search'),

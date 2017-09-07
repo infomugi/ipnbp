@@ -112,8 +112,17 @@
 				'htmlOptions'=>array('width'=>'10px', 
 					'style' => 'text-align: center;')),
 
-			'upload_date',
-			'accept_date',
+			array(	
+				'name'=>'upload_date',
+				'value'=>'Request::model()->timeNull($data->upload_date)',
+				),
+
+			array(	
+				'name'=>'accept_date',
+				'value'=>'Request::model()->timeNull($data->accept_date)',
+				),
+
+
 			'description',
 			'file',
 
@@ -138,3 +147,8 @@
 				),
 			),
 			)); ?>
+
+
+
+			
+			

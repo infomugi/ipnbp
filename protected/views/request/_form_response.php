@@ -82,6 +82,61 @@
 
 			</div>  
 
+				<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+				</div>   
+
+				<div class="col-sm-8">
+				
+
+			<?php
+
+	// see http://www.yiiframework.com/doc/guide/1.1/en/form.table
+	// Note: Can be a route to a config file too,
+	//       or create a method 'getMultiModelForm()' in the member model
+	
+	$memberFormConfig = array(
+		  'elements'=>array(
+			'letter_attachment'=>array(
+				'type'=>'text',
+				'class'=>'form-control',
+				'maxlength'=>40,
+			),
+		));
+	
+	$this->widget('ext.multimodelform.MultiModelForm',array(
+			'id' => 'id_response_detail', //the unique widget id
+			'formConfig' => $memberFormConfig, //the form configuration array
+			'model' => $member, //instance of the form model
+	
+			//if submitted not empty from the controller,
+			//the form will be rendered with validation errors
+			'validatedItems' => $validatedMembers,
+	
+	        //array of member instances loaded from db
+			// 'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
+	'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
+			'sortAttribute' => 'id_response_detail',
+	        'hideCopyTemplate'=>true,
+	        'clearInputs'=>false,
+	        'tableView' => true, 
+	        'addItemAsButton' => false,
+	        'showAddItemOnError' => false, 
+	        'fieldsetWrapper' => array('tag' => 'div',
+	            'htmlOptions' => array('class' => 'view','style'=>'position:relative;background:#EFEFEF;')
+	        ),
+	        'addItemText' => '<div class="btn btn-info btn-flat btn-small btn-sm"><i class="icon-plus"></i> Add Payment Terms</div>',
+			'removeHtmlOptions' => array('class' => 'btn btn-danger btn-flat btn-small', 'style' => 'margin-top: -13px;margin-bottom: -1px;'),
+));
+?> 
+
+
+
+		</div>
+
+			</div>
+
 
 			<div class="form-group">
 				<div class="col-md-12">  

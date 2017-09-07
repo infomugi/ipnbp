@@ -181,7 +181,56 @@ class RequestScheduleController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model->name;
+	}	
+
+	public function loadRequestTesting($id)
+	{
+		$model=RequestTesting::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->testing_total;
 	}		
+
+	public function countStepTesting($data,$request,$id)
+	{
+		// $count = RequestSchedule::model()->countByAttributes(array('testing_type'=>$data));
+		$count = RequestSchedule::model()->countDataTesting($data,$request);
+		$max = $this->loadRequestTesting($id);
+
+		if($count==0){
+			$step = 1;
+		}elseif($count==1){
+			$step = 2;
+		}elseif($count==2){
+			$step = 3;
+		}elseif($count==3){
+			$step = 4;
+		}elseif($count==4){
+			$step = 5;
+		}elseif($count==5){
+			$step = 6;
+		}elseif($count==6){
+			$step = 7;
+		}elseif($count==7){
+			$step = 8;
+		}elseif($count==8){
+			$step = 9;
+		}elseif($count==9){
+			$step = 10;
+		}elseif($count==10){
+			$step = 11;
+		}else{
+			$step = 0;
+		}
+
+		if($step > $max){
+			$number = "Jumlah Sample Maksimal Pada Pengujian Ini telah Melebihi Kapasitas yang Ditentukan: ".$max;
+		}else{
+			$number = $step;
+		}
+
+		return $number;
+	}			
 
 	/**
 	 * Performs the AJAX validation.
@@ -220,6 +269,7 @@ class RequestScheduleController extends Controller
 		$testing_type='';
 		$testing_part='';
 		$testing_total='';
+		$testing_number='';
 
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'status=:status';
@@ -236,6 +286,8 @@ class RequestScheduleController extends Controller
 				$testing_lab=$this->loadUnit($ii->testing_lab);
 				$testing_part=$this->loadUnit($ii->testing_part);
 				$testing_total=$ii->testing_total;
+				// Show Step Number
+				$testing_number=$this->countStepTesting($ii->testing_type,$ii->request_id,$ii->id_testing);
 			}		      
 		}        
 
@@ -246,6 +298,7 @@ class RequestScheduleController extends Controller
 			'testing_lab'=>$testing_lab,
 			'testing_part'=>$testing_part,
 			'testing_total'=>$testing_total,
+			'testing_number'=>$testing_number,
 			));
 		Yii::app()->end();
 	}			

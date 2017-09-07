@@ -192,4 +192,29 @@ class Request extends CActiveRecord
 		return $command->queryAll();
 	}
 
+	public function rupiah($data){
+		return "Rp. " . Yii::app()->numberFormatter->format("###,###,###",$data);
+	}
+
+
+	public function timeNull($data){
+		if($data=="01-01-1970"){
+			return "-";
+		}else{
+			return $data;
+		}
+	}
+
+	public function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+
+	
+
 }

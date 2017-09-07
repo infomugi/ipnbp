@@ -81,7 +81,7 @@ class CompanyContactController extends Controller
 			$model->company_id = $id;
 			$model->status = 1;
 			if($model->save()){
-				$this->redirect(array('company/view','id'=>$model->company_id));
+				$this->redirect(array('master/company/view','id'=>$model->company_id));
 			}
 		}
 

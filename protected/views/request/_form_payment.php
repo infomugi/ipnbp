@@ -33,7 +33,7 @@
 					<?php echo $form->error($payment,'invoice_id'); ?>
 					<?php 
 					echo $form->dropDownList($payment, "invoice_id",
-						CHtml::listData(RequestInvoice::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)),
+						CHtml::listData(RequestInvoice::model()->findall(array('condition'=>'balance!=0 AND status=1 AND request_id='.$request_id)),
 							'id_invoice', 'code'
 							),
 						array("empty"=>"-- Pilih Nomor Invoice --", 'class'=>'select2 form-control')
@@ -86,7 +86,7 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($payment,'term'); ?>
-						<?php echo $form->dropDownList($payment,'term',array(''=>'-- Pilih Termin --','1'=>'Termin Ke-1','2'=>'Termin Ke-2','3'=>'Termin Ke-3'),array('class'=>'select2 form-control')); ?>
+						<?php echo $form->dropDownList($payment,'term',array(''=>'-- Pilih Termin --','1'=>'Termin Ke-1','2'=>'Termin Ke-2','3'=>'Termin Ke-3','4'=>'Termin Ke-4','5'=>'Termin Ke-5'),array('class'=>'select2 form-control')); ?>
 					</div>
 
 				</div>  
@@ -100,10 +100,11 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($payment,'total'); ?>
-						<?php echo $form->textField($payment,'total',array('class'=>'form-control')); ?>
+						<?php echo $form->textField($payment,'total',array('id'=>'nominal2','class'=>'form-control','onkeyup'=>'terbilang2();')); ?>
 					</div>
 
 				</div>  
+
 
 				<div class="form-group">
 
@@ -112,10 +113,11 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<input type="text" class="form-control" disabled="true">
+						<div id="terbilang2" class="alert alert-success"></div>
 					</div>
 
 				</div>  
+
 
 
 				<div class="form-group">
@@ -160,7 +162,20 @@
 				'code',
 				'date',
 				array('name'=>'term','value'=>'RequestPayment::model()->term($data->term)'),
-				'total',
+
+
+
+				array(	
+					'name'=>'total',
+					'value'=>'Request::model()->rupiah($data->total)',
+					),
+
+				// 'balance',
+
+				array(	
+					'name'=>'balance',
+					'value'=>'Request::model()->rupiah($data->balance)',
+					),	
 
 				array(      
 					'class'=>'CLinkColumn',      

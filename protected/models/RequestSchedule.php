@@ -83,8 +83,8 @@ class RequestSchedule extends CActiveRecord
 			'description' => 'Keterangan',
 			'note' => 'Catatan',
 			'testing_number' => 'Sample Ke-',
-			'testing_id' => 'Kode Pengujian',
-			'testing_type' => 'Jenis Pengujian',
+			'testing_id' => 'Jenis Pengujian',
+			'testing_type' => 'Tipe Pengujian',
 			'file' => 'File RAB',
 			'request_id' => 'Request',
 			'status' => 'Status',
@@ -154,4 +154,11 @@ class RequestSchedule extends CActiveRecord
 			return "-";
 		}
 	}
+
+	public static function countDataTesting($type,$requestID)
+	{
+		$sql = "SELECT count(id_schedule) FROM request_schedule WHERE testing_type=".$type." AND request_id=".$requestID;
+		$command = Yii::app()->db->createCommand($sql);
+		return $command->queryScalar();
+	}	
 }

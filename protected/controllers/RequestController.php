@@ -55,11 +55,13 @@ class RequestController extends Controller
 		$model=$this->loadModel($id);
 
 		if($model->status==1 && YII::app()->user->record->level==2){
+			//Type = 1 (Response = Disposisi)
+			if($model->status==1):
+				$this->setActivity($id,1);
 			// Kode 2 = Disposisi
 			$model->status = 2;
 			$model->save();
-			//Type = 1 (Response = Disposisi)
-			$this->setActivity($id,1);
+			endif;
 		}
 
 		$model->setScenario('update');
@@ -74,8 +76,15 @@ class RequestController extends Controller
 			}
 		}
 
+
 		//Form Surat Tanggapan
+		// MultimodelForm
+		Yii::import('ext.multimodelform.MultiModelForm');
+
 		$response=new Response;
+		$member=new ResponseDetail;
+		$validatedMembers = array(); 
+
 		$response->setScenario('create');
 		if(isset($_POST['Response']))
 		{
@@ -92,7 +101,9 @@ class RequestController extends Controller
 				$response->letter_attachment="surat-tanggapan-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
 			}
 
-			if($response->save()){
+			if(MultiModelForm::validate($member,$validatedMembers,$deleteItems) && $response->save()){
+
+				$masterValues = array ('response_id'=>$response->id_response);
 
 				if(strlen(trim($response->letter_attachment)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->letter_attachment);	
@@ -100,14 +111,19 @@ class RequestController extends Controller
 
 				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
 
-				// Kode 3 = Surat Tanggapan
-				$model->status = 3;
+				if($model->status==2):
+					// Kode 3 = Surat Tanggapan
+					$model->status = 3;
 				$model->save();
-				//Type 2 = Tanggapan 
+					//Type 2 = Tanggapan 
 				$this->setActivity($id,2);
+				endif;				
 
+				if(MultiModelForm::save($member,$validatedMembers,$deleteMembers,$masterValues)){
+					$this->redirect(array('view','id'=>$id));
+				}
 
-				$this->redirect(array('view','id'=>$id));
+				
 			}
 		}
 
@@ -126,6 +142,7 @@ class RequestController extends Controller
 			$testing->request_id = $id;			
 			if($testing->save()){
 				Yii::app()->user->setFlash('Success', 'Tahapan '.$testing->Testing->name.' Disimpan.');
+
 				$this->redirect(array('view','id'=>$id));
 			}
 		}
@@ -178,6 +195,7 @@ class RequestController extends Controller
 			$invoice->created_date = date('Y-m-d h:i:s');
 			$invoice->status = 1;		
 			$invoice->request_id = $id;
+			$invoice->balance = $invoice->total;
 
 			$tmp1;
 			if(strlen(trim(CUploadedFile::getInstance($invoice,'file_invoice'))) > 0) 
@@ -206,12 +224,13 @@ class RequestController extends Controller
 
 				//Type = 3 (Payment = Invoice)
 				Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
-
+				if($model->status==3):
 				// Kode 4 = Invoice
-				$model->status = 4;
+					$model->status = 4;
 				$model->save();
 				//Type 6 = Invoice 
 				$this->setActivity($id,6);
+				endif;
 
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -230,6 +249,8 @@ class RequestController extends Controller
 			$payment->created_date = date('Y-m-d h:i:s');
 			$payment->status = 1;		
 			$payment->request_id = $id;	
+			$balance = RequestPayment::model()->findGrandTotalInvoice($payment->invoice_id,$payment->total);
+			$payment->balance = $balance;
 
 			$tmp;
 			if(strlen(trim(CUploadedFile::getInstance($payment,'file'))) > 0) 
@@ -240,17 +261,24 @@ class RequestController extends Controller
 
 			if($payment->save()){
 
+				$invoice=$this->loadInvoice($payment->invoice_id);
+				$invoice->balance = $payment->balance;
+				$invoice->save();
+
 				if(strlen(trim($payment->file)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/payment/'.$payment->file);	
 				} 		
 
 				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$payment->Invoice->code.' Disimpan.');
-				
-				// Kode 5 = Bukti Pembayaran
-				$model->status = 5;
+
+				if($model->status==4):
+				// Kode 6 = Laporan Dikirim
+					$model->status = 5;
 				$model->save();
-				//Type 3 = Invoice 
-				$this->setActivity($id,3);
+				//Type 5 = Report 
+				$this->setActivity($id,3);	
+				endif;					
+
 
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -282,6 +310,13 @@ class RequestController extends Controller
 				if(strlen(trim($report->file)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/report/'.$report->file);	
 				} 
+				if($model->status==5):
+				// Kode 6 = Laporan Dikirim
+					$model->status = 6;
+				$model->save();
+				//Type 5 = Report 
+				$this->setActivity($id,5);	
+				endif;			
 
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -306,6 +341,9 @@ class RequestController extends Controller
 			'report'=>$report,
 			'dataReport'=>$dataReport,
 			'activity'=>$activity,
+
+			'member'=>$member,
+			'validatedMembers' => $validatedMembers,			
 			));
 
 	}
@@ -334,7 +372,7 @@ class RequestController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
 			{ 
 				$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
-				$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
+				$model->disposition_letter="surat-disposisi-".Request::model()->generateRandomString().'.'.$tmp2->extensionName; 
 			}
 			
 			$model->letter_attachment=CUploadedFile::getInstance($model,'letter_attachment');
@@ -342,7 +380,7 @@ class RequestController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'letter_attachment'))) > 0) 
 			{ 
 				$tmp1=CUploadedFile::getInstance($model,'letter_attachment'); 
-				$model->letter_attachment="surat-permohonan-".$model->code.'.'.$tmp1->extensionName; 
+				$model->letter_attachment="surat-permohonan-".Request::model()->generateRandomString().'.'.$tmp1->extensionName; 
 			}
 
 
@@ -474,7 +512,7 @@ class RequestController extends Controller
 		$model=Company::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
+		return $model->name;
 	}	
 
 	public function loadActivity($id)
@@ -484,6 +522,15 @@ class RequestController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}	
+
+	public function loadInvoice($id)
+	{
+		$model=RequestInvoice::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
 
 	/**
 	 * Performs the AJAX validation.
@@ -587,7 +634,7 @@ class RequestController extends Controller
 		foreach ($model as $value) {
 			$items[]=array(
 				'id'=>$value->request_id,
-				'title'=>$value->Request->letter_subject. " - ". $value->task,
+				'title'=>$this->loadCompany($value->Request->company_id) . " - " . $value->Request->letter_subject. " - ". $value->task . " Sample Ke-".$value->testing_number,
 				'start'=>$value->start_date,
 				'end'=>date('Y-m-d', strtotime('+1 day', strtotime($value->end_date))),
 				'color'=>$value->Request->color,

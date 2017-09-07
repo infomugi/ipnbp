@@ -87,6 +87,8 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 								<?php echo $this->renderPartial('_form_response', 
 									array(
 										'response'=>$response,
+										'member'=>$member,
+										'validatedMembers'=>$validatedMembers,
 										'dataResponse'=>$dataResponse,
 										)); ?>
 

@@ -42,6 +42,7 @@ class RequestPayment extends CActiveRecord
 			array('created_id, update_id, term, total, invoice_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),
 			array('file', 'length', 'max'=>255),
+			array('code','unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_payment, created_date, created_id, update_date, update_id, code, date, term, total, file, invoice_id, request_id, status', 'safe', 'on'=>'search'),
@@ -72,10 +73,11 @@ class RequestPayment extends CActiveRecord
 			'created_id' => 'Diinput Oleh',
 			'update_date' => 'Tanggal Update',
 			'update_id' => 'Diperbaharui Oleh',
-			'code' => 'Nomow Kuitansi',
+			'code' => 'Nomor Kuitansi',
 			'date' => 'Tanggal Kuitansi',
 			'term' => 'Termin',
 			'total' => 'Jumlah Bayar',
+			'balance' => 'Sisa Bayar',
 			'file' => 'Bukti Bayar',
 			'invoice_id' => 'Nomor Invoice',
 			'request_id' => 'Permohonan ID',
@@ -162,5 +164,13 @@ class RequestPayment extends CActiveRecord
 		$model= Unit::model()->findByPk($id);
 		return $model->address;
 	}		
+
+	public static function findGrandTotalInvoice($id,$payment)
+	{
+		$model= RequestInvoice::model()->findByPk($id);
+		$sum = $model->balance - $payment;
+		return $sum;
+	}	
+
 
 }

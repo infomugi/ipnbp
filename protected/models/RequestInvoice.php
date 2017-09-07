@@ -78,6 +78,7 @@ class RequestInvoice extends CActiveRecord
 			'date' => 'Tanggal Invoice',
 			'description' => 'Uraian',
 			'total' => 'Jumlah',
+			'balance' => 'Sisa Bayar',
 			'note' => 'Catatan',
 			'signature_id' => 'Penandatangan',
 			'file_invoice' => 'File Invoice',

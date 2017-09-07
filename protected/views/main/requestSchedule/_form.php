@@ -15,44 +15,65 @@
 			'validateOnSubmit' => true,
 			),
 		'errorMessageCssClass' => 'label label-danger',
-		'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
+		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
 		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
 
 
-		<div class="col-lg-7"> 
+		<div class="col-md-10"> 
 
 
 			<div class="form-group">
 
-				<div class="col-sm-3 control-label">
+				<div class="col-sm-4 control-label">
 					<?php echo $form->labelEx($model,'testing_id'); ?>
 				</div>   
 
-				<div class="col-sm-9">
+				<div class="col-sm-8">
 					<?php echo $form->error($model,'testing_id'); ?>
 					<?php 
 					echo $form->dropDownList($model, "testing_id",
-						CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$model->request_id)),
-							'id_testing', 'testing_type'
-							),
-						array("empty"=>"-- Pilih Tahapan Pengujian --", 'class'=>'select2 form-control')
+						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$model->request_id)), 'id_testing', 'request')),
+						array(
+							"empty"=>"- Pilih Jenis Pengujian -", 
+							'class'=>'form-control select2',
+							'ajax' => array(
+								'type'=>'POST',
+								'dataType'=>'json',
+								'url'=>CController::createUrl('main/requestschedule/search'),
+								'data' => "js:{data:$(this).val()}",
+								'success'=>'function(data){
+									$("#RequestSchedule_testing_id").val(data.id_testing);
+									$("#RequestSchedule_testing_type").val(data.id_type);
+									$("#testing_lab").val(data.testing_lab);
+									$("#testing_type").val(data.testing_type);
+									$("#testing_part").val(data.testing_part);
+									$("#RequestSchedule_testing_number").val(data.testing_number);
+									$("#testing_total").val("Total Sample " + data.testing_total);
+									$("#RequestSchedule_task").focus();
+								}',),							
+							)
 						); 
 						?> 
 					</div>
 
+
 				</div> 
 
-				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($model,'testing_number'); ?>
+				<div class="form-group" style="display:none;">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'testing_type'); ?>
 					</div>   
 
-					<div class="col-sm-9">
-						<?php echo $form->error($model,'testing_number'); ?>
-						<?php echo $form->dropDownList($model,'testing_number',array(''=>'-- Pilih Sample Pengujian --','1'=>'Sample 1','2'=>'Sample 2','3'=>'Sample 3'),array('class'=>'select2 form-control')); ?>
+					<div class="col-sm-8">
+						<?php echo $form->error($model,'testing_type'); ?>
+						<input type="text" name="" id="testing_type" class="form-control" readonly="true">
+						<div>
+							<?php echo $form->textField($model,'testing_type',array('class'=>'form-control')); ?>
+						</div>
 					</div>
 
 				</div>  
@@ -60,25 +81,82 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
+						Balai
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="testing_part" class="form-control" readonly="true">
+					</div>
+
+				</div>  
+
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Lab
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="testing_lab" class="form-control" readonly="true">
+
+					</div>  
+				</div>  
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Total Sample
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="testing_total" class="form-control" readonly="true">
+					</div>
+
+				</div>  
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'testing_number'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php echo $form->error($model,'testing_number'); ?>
+						<?php echo $form->textField($model,'testing_number',array('class'=>'form-control','readonly'=>true)); ?>
+						<?php 
+						// echo $form->dropDownList($model,'testing_number',array(''=>'-- Pilih Sample Pengujian --','1'=>'Sample 1','2'=>'Sample 2','3'=>'Sample 3'),array('class'=>'select2 form-control')); 
+						?>
+					</div>
+
+				</div>  				
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'task'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'task'); ?>
 						<?php echo $form->textField($model,'task',array('class'=>'form-control')); ?>
 					</div>
 
-				</div>  
+				</div> 
 
 
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'cost'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'cost'); ?>
 						<?php echo $form->textField($model,'cost',array('class'=>'form-control')); ?>
 					</div>
@@ -88,11 +166,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'start_date'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'start_date'); ?>
 						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
 							<?php echo $form->textField($model,'start_date',array('class'=>'form-control')); ?>
@@ -107,11 +185,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'end_date'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'end_date'); ?>
 						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
 							<?php echo $form->textField($model,'end_date',array('class'=>'form-control')); ?>
@@ -124,11 +202,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'description'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'description'); ?>
 						<?php echo $form->textArea($model,'description',array('class'=>'form-control')); ?>
 					</div>
@@ -138,11 +216,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'note'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'note'); ?>
 						<?php echo $form->textArea($model,'note',array('class'=>'form-control')); ?>
 					</div>
@@ -150,35 +228,30 @@
 				</div>  
 
 
-
-
-
-
-
-				<div class="form-group">
-					<div class="col-md-12">  
-						<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-					</div>
-				</div>
-
-
-
-			</div>
-
-			<div class="col-lg-5"> 
-
 				<div class="form-group">
 
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'file'); ?>
 					</div>   
 
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<?php echo $form->error($model,'file'); ?>
 						<?php echo $form->fileField($model,'file',array('class'=>'btn btn-info')); ?>
 					</div>
 
-				</div>  
+
+
+
+					<div class="form-group">
+						<div class="col-md-12">  
+							<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+						</div>
+					</div>
+
+
+
+				</div>
+
 
 
 

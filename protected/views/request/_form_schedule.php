@@ -36,7 +36,7 @@
 					echo $form->dropDownList($schedule, "testing_id",
 						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)), 'id_testing', 'request')),
 						array(
-							"empty"=>"- Pilih Kode Pengujian -", 
+							"empty"=>"- Pilih Jenis Pengujian -", 
 							'class'=>'form-control select2',
 							'ajax' => array(
 								'type'=>'POST',
@@ -49,6 +49,7 @@
 									$("#testing_lab").val(data.testing_lab);
 									$("#testing_type").val(data.testing_type);
 									$("#testing_part").val(data.testing_part);
+									$("#RequestSchedule_testing_number").val(data.testing_number);
 									$("#testing_total").val("Total Sample " + data.testing_total);
 									$("#RequestSchedule_task").focus();
 								}',),							
@@ -61,7 +62,7 @@
 				</div> 
 
 
-				<div class="form-group">
+				<div class="form-group" style="display:none;">
 
 					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($schedule,'testing_type'); ?>
@@ -70,7 +71,7 @@
 					<div class="col-sm-8">
 						<?php echo $form->error($schedule,'testing_type'); ?>
 						<input type="text" name="" id="testing_type" class="form-control" readonly="true">
-						<div style="display:none">
+						<div>
 							<?php echo $form->textField($schedule,'testing_type',array('class'=>'form-control')); ?>
 						</div>
 					</div>
@@ -121,6 +122,23 @@
 				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($schedule,'testing_number'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php echo $form->error($schedule,'testing_number'); ?>
+						<?php echo $form->textField($schedule,'testing_number',array('class'=>'form-control','readonly'=>true)); ?>
+						<?php 
+						// echo $form->dropDownList($schedule,'testing_number',array(''=>'-- Pilih Sample Pengujian --','1'=>'Sample 1','2'=>'Sample 2','3'=>'Sample 3'),array('class'=>'select2 form-control')); 
+						?>
+					</div>
+
+				</div>  				
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($schedule,'task'); ?>
 					</div>   
 
@@ -130,20 +148,6 @@
 					</div>
 
 				</div> 
-
-
-				<div class="form-group">
-
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($schedule,'testing_number'); ?>
-					</div>   
-
-					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'testing_number'); ?>
-						<?php echo $form->dropDownList($schedule,'testing_number',array(''=>'-- Pilih Sample Pengujian --','1'=>'Sample 1','2'=>'Sample 2','3'=>'Sample 3'),array('class'=>'select2 form-control')); ?>
-					</div>
-
-				</div>  
 
 
 				<div class="form-group">
@@ -286,7 +290,11 @@
 				'start_date',
 				'end_date',
 				'task',
-				'cost',
+
+				array(	
+					'name'=>'cost',
+					'value'=>'Request::model()->rupiah($data->cost)',
+					),
 
 				array(      
 					'class'=>'CLinkColumn',      
