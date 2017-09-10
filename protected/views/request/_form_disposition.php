@@ -22,6 +22,23 @@
 			<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
 
 
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'disposition_date'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+						<?php echo $form->textField($model,'disposition_date',array('class'=>'form-control')); ?>
+						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+					</div>
+					<?php echo $form->error($model,'disposition_date'); ?>
+				</div>
+
+			</div>  
+
+
 
 			<div class="form-group">
 

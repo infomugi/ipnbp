@@ -44,7 +44,9 @@ $this->pageTitle='Kelola Perusahaan';
 				'name',
 				'address',
 				'email',
+				'email_second',
 				'phone',
+				'phone_second',
 
 				array(	
 					'name'=>'status',

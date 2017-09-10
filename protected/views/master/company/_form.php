@@ -95,6 +95,20 @@
 				
 			</div>  
 
+
+			<div class="form-group">
+				
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'email_second'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'email_second'); ?>
+					<?php echo $form->textField($model,'email_second',array('class'=>'form-control')); ?>
+				</div>
+				
+			</div>  
+
 			
 			<div class="form-group">
 				
@@ -105,6 +119,20 @@
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'phone'); ?>
 					<?php echo $form->textField($model,'phone',array('class'=>'form-control')); ?>
+				</div>
+				
+			</div> 
+
+
+			<div class="form-group">
+				
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'phone_second'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'phone_second'); ?>
+					<?php echo $form->textField($model,'phone_second',array('class'=>'form-control')); ?>
 				</div>
 				
 			</div>  

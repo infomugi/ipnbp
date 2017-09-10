@@ -82,98 +82,98 @@
 
 			</div>  
 
-				<div class="form-group">
+			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
 				</div>   
 
 				<div class="col-sm-8">
-				
 
-			<?php
+
+					<?php
 
 	// see http://www.yiiframework.com/doc/guide/1.1/en/form.table
 	// Note: Can be a route to a config file too,
 	//       or create a method 'getMultiModelForm()' in the member model
-	
-	$memberFormConfig = array(
-		  'elements'=>array(
-			'letter_attachment'=>array(
-				'type'=>'text',
-				'class'=>'form-control',
-				'maxlength'=>40,
-			),
-		));
-	
-	$this->widget('ext.multimodelform.MultiModelForm',array(
+
+					$memberFormConfig = array(
+						'elements'=>array(
+							'letter_attachment'=>array(
+								'type'=>'file',
+								'class'=>'btn btn-info',
+								'maxlength'=>40,
+								),
+							));
+
+					$this->widget('ext.multimodelform.MultiModelForm',array(
 			'id' => 'id_response_detail', //the unique widget id
 			'formConfig' => $memberFormConfig, //the form configuration array
 			'model' => $member, //instance of the form model
-	
+
 			//if submitted not empty from the controller,
 			//the form will be rendered with validation errors
 			'validatedItems' => $validatedMembers,
-	
+
 	        //array of member instances loaded from db
 			// 'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
-	'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
+			'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
 			'sortAttribute' => 'id_response_detail',
-	        'hideCopyTemplate'=>true,
-	        'clearInputs'=>false,
-	        'tableView' => true, 
-	        'addItemAsButton' => false,
-	        'showAddItemOnError' => false, 
-	        'fieldsetWrapper' => array('tag' => 'div',
-	            'htmlOptions' => array('class' => 'view','style'=>'position:relative;background:#EFEFEF;')
-	        ),
-	        'addItemText' => '<div class="btn btn-info btn-flat btn-small btn-sm"><i class="icon-plus"></i> Add Payment Terms</div>',
+			'hideCopyTemplate'=>true,
+			'clearInputs'=>false,
+			'tableView' => true, 
+			'addItemAsButton' => false,
+			'showAddItemOnError' => false, 
+			'fieldsetWrapper' => array('tag' => 'div',
+				'htmlOptions' => array('class' => 'view','style'=>'position:relative;background:#EFEFEF;')
+				),
+			'addItemText' => '<div class="btn btn-info btn-flat btn-small btn-sm"><i class="icon-plus"></i> Tambah Lampiran</div>',
 			'removeHtmlOptions' => array('class' => 'btn btn-danger btn-flat btn-small', 'style' => 'margin-top: -13px;margin-bottom: -1px;'),
-));
-?> 
+			));
+			?> 
 
 
 
 		</div>
 
-			</div>
+	</div>
 
 
-			<div class="form-group">
-				<div class="col-md-12">  
-					<?php echo CHtml::submitButton($response->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-				</div>
-			</div>
+	<div class="form-group">
+		<div class="col-md-12">  
+			<?php echo CHtml::submitButton($response->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+		</div>
+	</div>
 
-			<?php $this->endWidget(); ?>
+	<?php $this->endWidget(); ?>
 
-		</div><!-- form -->
-	</div><!-- form -->
+</div><!-- form -->
+</div><!-- form -->
 
 
-	<h4>Data Surat Tanggapan</h4>
-	<?php $this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'response-grid',
-		'dataProvider'=>$dataResponse,
+<h4>Data Surat Tanggapan</h4>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'response-grid',
+	'dataProvider'=>$dataResponse,
 		// 'filter'=>$model,
-		'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-		'columns'=>array(
+	'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+	'columns'=>array(
 
-			array(
-				'header'=>'No Revisi',
-				'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
-				'htmlOptions'=>array('width'=>'10px', 
-					'style' => 'text-align: center;')),
+		array(
+			'header'=>'No Revisi',
+			'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+			'htmlOptions'=>array('width'=>'10px', 
+				'style' => 'text-align: center;')),
 
-			'letter_date',
-			'letter_code',
-			'description',
+		'letter_date',
+		'letter_code',
+		'description',
 
-			array(      
-				'class'=>'CLinkColumn',      
-				'header'=>'Surat Tanggapan',      
-				'label'=>'Download',  
-				'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/response/".$data["letter_attachment"]',      
-				), 
+		array(      
+			'class'=>'CLinkColumn',      
+			'header'=>'Surat Tanggapan',      
+			'label'=>'Download',  
+			'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/response/".$data["letter_attachment"]',      
+			), 
 
 			// 'date_send',
 			// 'date_feedback',
@@ -184,26 +184,26 @@
 			// 	'value'=>'Users::model()->status($data->status)',
 			// 	),
 
-			array(
-				'class'=>'CButtonColumn',
-				'template'=>'{view}{update}{delete}',
-				'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
-				'buttons'=>array(
-					'view'=>
-					array(
-						'url'=>'Yii::app()->createUrl("main/response/view", array("id"=>$data->id_response))',
-						),
-					'update'=>
-					array(
-						'url'=>'Yii::app()->createUrl("main/response/update", array("id"=>$data->id_response))',
-						),
-					'delete'=>
-					array(
-						'url'=>'Yii::app()->createUrl("main/response/delete", array("id"=>$data->id_response))',
-						),
+		array(
+			'class'=>'CButtonColumn',
+			'template'=>'{view}{update}{delete}',
+			'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
+			'buttons'=>array(
+				'view'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/response/view", array("id"=>$data->id_response))',
+					),
+				'update'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/response/update", array("id"=>$data->id_response))',
+					),
+				'delete'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/response/delete", array("id"=>$data->id_response))',
 					),
 				),
 			),
-			)); ?>
+		),
+		)); ?>
 
 

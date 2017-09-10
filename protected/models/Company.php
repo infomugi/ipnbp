@@ -12,7 +12,9 @@
  * @property string $owner
  * @property string $address
  * @property string $email
+ * @property string $email_second
  * @property string $phone
+ * @property string $phone_second
  * @property string $faximile
  * @property integer $postal_code
  * @property integer $type
@@ -44,9 +46,9 @@ class Company extends CActiveRecord
 			// array('created_date, update_date, company_code, name, address, email, phone, faximile, postal_code, province, city, category_id, status', 'required'),
 			array('created_date, update_date, company_code, name, address, email, phone', 'required'),
 			array('postal_code, type, place, category_id, status', 'numerical', 'integerOnly'=>true),
-			array('company_code, phone, classification', 'length', 'max'=>15),
+			array('company_code, phone, phone_second classification', 'length', 'max'=>15),
 			array('name', 'length', 'max'=>100),
-			array('owner, email, city, province', 'length', 'max'=>50),
+			array('owner, email, email_second, city, province', 'length', 'max'=>50),
 			array('faximile', 'length', 'max'=>25),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -80,7 +82,9 @@ class Company extends CActiveRecord
 			'owner' => 'Pemilik',
 			'address' => 'Alamat',
 			'email' => 'Email',
-			'phone' => 'Phone',
+			'email_second' => 'Email Alternatif',
+			'phone' => 'Telepon',
+			'phone_second' => 'Telepon Alternatif',
 			'faximile' => 'Fax',
 			'postal_code' => 'Kode Pos',
 			'type' => 'Type',

@@ -18,6 +18,7 @@
  * @property string $letter_attachment
  * @property string $disposition_letter
  * @property integer $disposition_to
+ * @property string $disposition_date
  * @property integer $color
  * @property integer $status
  */
@@ -43,7 +44,7 @@ class Request extends CActiveRecord
 			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'create'),
 			array('code, update_id, update_date, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'update'),
 			array('created_id, update_id, company_id, status, disposition_to', 'numerical', 'integerOnly'=>true),
-			array('code', 'length', 'max'=>50),
+			array('code, disposition_date', 'length', 'max'=>50),
 			array('letter_code', 'length', 'max'=>255),
 			array('letter_subject', 'length', 'max'=>150),
 			array('color', 'length', 'max'=>8),
@@ -78,7 +79,7 @@ class Request extends CActiveRecord
 	{
 		return array(
 			'id_request' => 'Kode Permohonan',
-			'code' => 'Nomor Permohonan',
+			'code' => 'Nomor Disposisi',
 			'created_date' => 'Tanggal Buat',
 			'created_id' => 'Diinput Oleh',
 			'update_date' => 'Tanggal Update',
@@ -91,6 +92,7 @@ class Request extends CActiveRecord
 			'letter_attachment' => 'Surat Permohonan',
 			'disposition_letter' => 'Surat Disposisi',
 			'disposition_to' => 'Disposisi Ke',
+			'disposition_date' => 'Tanggal Disposisi',
 			'color' => 'Warna',
 			'status' => 'Status',
 			'company_address' => 'Alamat Perusahaan',
