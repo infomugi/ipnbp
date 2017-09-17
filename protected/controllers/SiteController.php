@@ -49,6 +49,11 @@ class SiteController extends Controller
 
 		}else{
 			
+
+			$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'testing_part='.YII::app()->user->record->division)));
+
+			$dataDisposition=new CActiveDataProvider('RequestDisposition',array('criteria'=>array('condition'=>'disposition_to='.YII::app()->user->record->division)));
+
 			$dataUnread=new CActiveDataProvider('Message',array(
 				'criteria'=>array(
 					'condition'=>'user_id = '.YII::app()->user->id.' AND status=0',
@@ -68,6 +73,8 @@ class SiteController extends Controller
 			$this->render('dashboard',array(
 				'dataUnread'=>$dataUnread,
 				'dataActivity'=>$dataActivity,
+				'dataTesting'=>$dataTesting,
+				'dataDisposition'=>$dataDisposition,
 				));
 
 		}
@@ -186,14 +193,41 @@ class SiteController extends Controller
 			$this->redirect(array('site/login'));
 
 		}else{
-			
+
 			$this->layout="page";			
+			$balai = "";
+			$status = 1;
+
 			$this->render('calendar',array(
-				'filter'=>$filter
+				'filter'=>$filter,
+				'status'=>$status,
+				'balai'=>$balai,
 				));
 
 		}
-	}		
+	}
+
+	public function actionCalendarBalai()
+	{
+		if(Yii::app()->user->isGuest) {
+
+			$this->redirect(array('site/login'));
+
+		}else{
+			$this->layout="page";			
+
+			$balai = $_POST["balai"];
+			$status = $_POST["status"];
+			$filter = $_POST["filter"];
+
+			$this->render('calendar',array(
+				'filter'=>$filter,
+				'status'=>$status,
+				'balai'=>$balai,
+				));
+
+		}
+	}			
 
 
 }

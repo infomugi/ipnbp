@@ -19,6 +19,7 @@
 										<ul class="sub-menu">
 											<li><a href="<?php echo $url; ?>site/calendar/filter/company">Perusahaan</a></li>
 											<li><a href="<?php echo $url; ?>site/calendar/filter/request">Permohonan</a></li>
+											<li><a href="<?php echo $url; ?>site/calendar/filter/balai">Balai</a></li>
 
 										</ul>
 

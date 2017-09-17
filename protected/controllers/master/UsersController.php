@@ -54,6 +54,7 @@ class UsersController extends Controller
 
 	public function actionView($id)
 	{
+		$this->layout="page";
 		$model=$this->loadModel($id);
 		$views=Users::model()->findByPk($id);
 		$views->setScenario('look');
@@ -76,8 +77,7 @@ class UsersController extends Controller
 					Yii::app()->user->setFlash('Success', 'Profile '.$model->first_name.' has been update.');
 				$this->redirect(array('profile','view'=>$model->username));
 			}			
-			$this->layout="profile";
-			$this->render('view',array(
+			$this->render('view_ajax',array(
 				'model'=>$this->loadModel($id),
 				));
 
@@ -106,7 +106,7 @@ class UsersController extends Controller
 			$this->redirect(array('profile','view'=>$model->username));
 		}			
 		$this->layout="page";
-		$this->render('profile',array(
+		$this->render('view_ajax',array(
 			'model'=>$this->loadProfile($view),
 
 			));

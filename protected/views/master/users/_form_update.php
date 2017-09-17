@@ -253,10 +253,10 @@
 						<?php echo $form->error($model,'division'); ?>
 						<?php 
 						echo $form->dropDownList($model, "division",
-							CHtml::listData(Division::model()->findall(array('condition'=>'status=1 AND type=1')),
-								'id_division', 'name'
+							CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
+								'id_unit', 'name'
 								),
-							array("empty"=>"-- Division --", 'class'=>'select2 form-control')
+							array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
 							); 
 							?> 
 

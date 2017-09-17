@@ -28,7 +28,7 @@ class RequestInvoiceController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -201,5 +201,41 @@ class RequestInvoiceController extends Controller
 		$this->render('print',array(
 			'model'=>$this->loadModel($id),
 			));
-	}			
+	}	
+
+	public function actionUpload($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('upload');
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['RequestInvoice']))
+		{
+			$model->attributes=$_POST['RequestInvoice'];
+
+			$tmp1;
+			if(strlen(trim(CUploadedFile::getInstance($model,'file_invoice'))) > 0) 
+			{ 
+				$tmp1=CUploadedFile::getInstance($model,'file_invoice'); 
+				$model->file_invoice="invoice-".$model->code.'-'.mktime().'.'.$tmp1->extensionName; 
+			}
+
+			if($model->save()){
+
+				if(strlen(trim($model->file_invoice)) > 0){
+					$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/invoice/'.$model->file_invoice);	
+				} 
+
+				Yii::app()->user->setFlash('Success', 'File Invoice No. '.$model->code.' Diupload.');
+
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
+		}
+
+		$this->render('upload',array(
+			'model'=>$model,
+			));
+	}		
 }

@@ -177,12 +177,20 @@
 					'value'=>'Request::model()->rupiah($data->balance)',
 					),	
 
-				array(      
-					'class'=>'CLinkColumn',      
+				array(
 					'header'=>'Bukti Pembayaran',      
-					'label'=>'Download',  
-					'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/payment/".$data["file"]',      
-					), 
+					'class'=>'CButtonColumn',
+					'template'=>'{Pembayaran}',
+					'htmlOptions'=>array('width'=>'15px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'Pembayaran'=>
+						array(
+							'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file"]', 
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+							),
+
+						),
+					),
 
 				array(
 					'header'=>'Print',      
@@ -194,6 +202,21 @@
 						array(
 							'url'=>'Yii::app()->createUrl("main/requestpayment/print", array("id"=>$data->id_payment))',
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+							),
+						),
+					),
+
+
+				array(
+					'header'=>'Upload',      
+					'class'=>'CButtonColumn',
+					'template'=>'{Upload}',
+					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'Upload'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestpayment/upload", array("id"=>$data->id_payment))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
 							),
 						),
 					),

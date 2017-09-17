@@ -28,7 +28,7 @@ class RequestPaymentController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -202,4 +202,39 @@ class RequestPaymentController extends Controller
 			'model'=>$this->loadModel($id),
 			));
 	}		
+
+	public function actionUpload($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('upload');
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['RequestPayment']))
+		{
+			$model->attributes=$_POST['RequestPayment'];
+
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'file'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'file'); 
+				$model->file="bukti-pembayaran-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
+			}
+
+			if($model->save()){
+
+				if(strlen(trim($model->file)) > 0){
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/payment/'.$model->file);	
+				} 		
+
+				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$model->Invoice->code.' Disimpan.');
+
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
+		}
+
+		$this->render('upload',array(
+			'model'=>$model,
+			));
+	}
 }

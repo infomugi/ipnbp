@@ -4,7 +4,7 @@ $url = Yii::app()->baseUrl."/";
 $cs = Yii::app()->getClientScript();
 
 // Query Notifikasi
-foreach (Request::countDisposision(1) as $data) {
+foreach (RequestDisposition::countDisposision(0,YII::app()->user->record->level) as $data) {
 	$total = $data['total']; 						
 } 
 if($total==0){
@@ -70,7 +70,7 @@ if($total==0){
 											<div class="content">
 												<ul>
 
-													<?php foreach (Request::getDisposition(1) as $data) { ?>
+													<?php foreach (RequestDisposition::getDisposition(0,YII::app()->user->record->division) as $data) { ?>
 
 														<li class="notification notification-unread">
 															<a href="<?php echo $url;?>request/view/id/<?php echo $data['id_request']; ?>">
@@ -83,7 +83,7 @@ if($total==0){
 
 														<?php } ?>	
 
-														<?php foreach (Request::getDisposition(2) as $data) { ?>
+														<?php foreach (RequestDisposition::getDisposition(1,YII::app()->user->record->division) as $data) { ?>
 
 															<li class="notification">
 																<a href="<?php echo $url;?>request/view/id/<?php echo $data['id_request']; ?>">

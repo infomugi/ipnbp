@@ -105,7 +105,7 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($invoice,'note'); ?>
-					<?php echo $form->textArea($invoice,'note',array('class'=>'form-control')); ?>
+					<?php echo $form->textArea($invoice,'note',array('class'=>'form-control','value'=>'Pembayaran tersebut agar di transfer ke Bank BNI Cabang Bandung dengan No. Rekening 00563 19680 an. BPN 095 Puslitbang Perumahan dan Pemukiman.')); ?>
 				</div>
 
 			</div>  
@@ -203,38 +203,51 @@
 				),	
 
 
-			array(      
-				'class'=>'CLinkColumn',      
-				'header'=>'File Invoice',      
-				'label'=>'Download',  
-				'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file_invoice"]',      
-				), 
 
-			array(      
-				'class'=>'CLinkColumn',      
-				'header'=>'File SPK',      
-				'label'=>'Download',  
-				'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/spk/".$data["file_spk"]',      
-				), 
 
-				// 'note',
-			
-			// array(	
-			// 	'name'=>'status',
-			// 	'filter'=>array('0'=>'Disable','1'=>'Enable'),
-			// 	'value'=>'Users::model()->status($data->status)',
-			// 	),
+			array(
+				'header'=>'Download',      
+				'class'=>'CButtonColumn',
+				'template'=>'{Invoice}{SPK}',
+				'htmlOptions'=>array('width'=>'15px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'Invoice'=>
+					array(
+						'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file_invoice"]', 
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+						),
+					'SPK'=>
+					array(
+						'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/spk/".$data["file_spk"]', 
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/spk.png',
+						),
+					),
+				),
 
 			array(
 				'header'=>'Print',      
 				'class'=>'CButtonColumn',
-				'template'=>'{print}',
+				'template'=>'{Print}',
 				'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
 				'buttons'=>array(
-					'print'=>
+					'Print'=>
 					array(
 						'url'=>'Yii::app()->createUrl("main/requestinvoice/print", array("id"=>$data->id_invoice))',
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+						),
+					),
+				),
+
+			array(
+				'header'=>'Upload',      
+				'class'=>'CButtonColumn',
+				'template'=>'{upload}',
+				'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'upload'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestinvoice/upload", array("id"=>$data->id_invoice))',
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
 						),
 					),
 				),
@@ -260,3 +273,4 @@
 				),
 			),
 			)); ?>
+

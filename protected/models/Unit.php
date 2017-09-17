@@ -114,4 +114,15 @@ class Unit extends CActiveRecord
 			return "-";
 		} 
 	}
+
+	public function getBalai(){
+		$sql = "SELECT * FROM ref_unit WHERE type=1 AND status=1";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}
+
+	public function name($id){
+		$model = $this->model()->findByPk($id);
+		return $model->name;
+	}
 }

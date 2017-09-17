@@ -38,6 +38,7 @@ class RequestPayment extends CActiveRecord
 		return array(
 			// array('created_date, created_id, update_date, update_id, code, date, term, total, file, invoice_id, request_id, status', 'required'),
 			array('created_date, created_id, code, date, term, total, invoice_id, request_id, status', 'required','on'=>'create'),
+			array('file', 'required','on'=>'upload'),
 			array('update_date, update_id', 'required','on'=>'update'),
 			array('created_id, update_id, term, total, invoice_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),

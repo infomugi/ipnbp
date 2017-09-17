@@ -37,7 +37,43 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 			<div class="panel-body">
 
 
-				<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>
+				<?php 
+
+				if(YII::app()->user->record->level==1){
+
+					echo $this->renderPartial('_form_update', array('model'=>$model,'dataDisposition'=>$dataDisposition));
+					
+				}else{
+					
+					$this->widget('zii.widgets.CDetailView', array(
+						'data'=>$model,
+						'htmlOptions'=>array("class"=>"table"),
+						'attributes'=>array(
+							// 'id_request',
+							'code',
+							// 'created_date',
+							// 'created_id',
+							// 'update_date',
+							// 'update_id',
+							'date',
+							array('name'=>'company_id','value'=>$model->Company->name),
+							array('name'=>'company_id','value'=>$model->Company->address),
+							array('name'=>'company_id','value'=>$model->Company->email),
+							'letter_date',
+							'letter_code',
+							'letter_subject',
+							'letter_attachment',
+							'disposition_letter',
+							// 'disposition_to',
+							// 'disposition_date',
+							// 'color',
+							// 'status',
+							),
+						)); 
+
+				}
+
+				?>
 
 
 			</div>
@@ -118,6 +154,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 														<h4>Tambah Invoice & SPK</h4>
 														<?php echo $this->renderPartial('_form_invoice', 
 															array(
+																'model'=>$model,
 																'invoice'=>$invoice,
 																'dataInvoice'=>$dataInvoice,
 																)); ?>

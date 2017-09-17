@@ -123,7 +123,7 @@ class Users extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'Division'=>array(self::BELONGS_TO,'Division','division'),
+			'Division'=>array(self::BELONGS_TO,'Unit','division'),
 			);
 	}
 

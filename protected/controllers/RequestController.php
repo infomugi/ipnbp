@@ -28,12 +28,12 @@ class RequestController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition','calendarrequestdivision'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','admin','calendarrequest','calendarcompany','detail'),
+				'actions'=>array('view','admin','calendarrequest','calendarcompany','detail','calendarrequestdivision'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -54,299 +54,314 @@ class RequestController extends Controller
 		//Form Permohonan
 		$model=$this->loadModel($id);
 
-		if($model->status==1 && YII::app()->user->record->level==2){
-			//Type = 1 (Response = Disposisi)
-			if($model->status==1):
-				$this->setActivity($id,1);
-			// Kode 2 = Disposisi
-			$model->status = 2;
-			$model->save();
-			endif;
-		}
+		if(YII::app()->user->record->level==2):
 
-		$model->setScenario('update');
-		if(isset($_POST['Request']))
-		{
-			$model->attributes=$_POST['Request'];
-			$model->update_id = YII::app()->user->id;
-			$model->update_date = date('Y-m-d h:i:s');			
-			if($model->save()){
-				Yii::app()->user->setFlash('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Diperbaharui.');
-				$this->redirect(array('view','id'=>$id));
+			if($model->status==1){
+				$disposition=$this->loadDisposition($id);
+				$disposition->last_view = date('Y-m-d h:i:s');
+				$disposition->status = 1;
+				$disposition->save();
+
+			//Type = 1 (Response = Disposisi)
+				if($model->status==1):
+					$this->setActivity($id,1);
+			// Kode 2 = Disposisi
+				$model->status = 2;
+				$model->save();
+				endif;
 			}
-		}
+
+			endif;
+
+			$model->setScenario('update');
+			if(isset($_POST['Request']))
+			{
+				$model->attributes=$_POST['Request'];
+				$model->update_id = YII::app()->user->id;
+				$model->update_date = date('Y-m-d h:i:s');			
+				if($model->save()){
+					Yii::app()->user->setFlash('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Diperbaharui.');
+					$this->redirect(array('view','id'=>$id));
+				}
+			}
 
 
 		//Form Surat Tanggapan
 		// MultimodelForm
-		Yii::import('ext.multimodelform.MultiModelForm');
+			Yii::import('ext.multimodelform.MultiModelForm');
 
-		$response=new Response;
-		$member=new ResponseDetail;
-		$validatedMembers = array(); 
+			$response=new Response;
+			$member=new ResponseDetail;
+			$validatedMembers = array(); 
 
-		$response->setScenario('create');
-		if(isset($_POST['Response']))
-		{
-			$response->attributes=$_POST['Response'];
-			$response->created_id = YII::app()->user->id;
-			$response->created_date = date('Y-m-d h:i:s');
-			$response->status = 1;		
-			$response->request_id = $id;	
+			$response->setScenario('create');
+			if(isset($_POST['Response']))
+			{
+				$response->attributes=$_POST['Response'];
+				$response->created_id = YII::app()->user->id;
+				$response->created_date = date('Y-m-d h:i:s');
+				$response->status = 1;		
+				$response->request_id = $id;	
 
-			$tmp;
-			if(strlen(trim(CUploadedFile::getInstance($response,'letter_attachment'))) > 0) 
-			{ 
-				$tmp=CUploadedFile::getInstance($response,'letter_attachment'); 
-				$response->letter_attachment="surat-tanggapan-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
-			}
-
-			if(MultiModelForm::validate($member,$validatedMembers,$deleteItems) && $response->save()){
-
-				$masterValues = array ('response_id'=>$response->id_response);
-
-				if(strlen(trim($response->letter_attachment)) > 0){
-					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->letter_attachment);	
-				} 				
-
-				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
-
-				if($model->status==2):
-					// Kode 3 = Surat Tanggapan
-					$model->status = 3;
-				$model->save();
-					//Type 2 = Tanggapan 
-				$this->setActivity($id,2);
-				endif;				
-
-				if(MultiModelForm::save($member,$validatedMembers,$deleteMembers,$masterValues)){
-					$this->redirect(array('view','id'=>$id));
+				$tmp;
+				if(strlen(trim(CUploadedFile::getInstance($response,'letter_attachment'))) > 0) 
+				{ 
+					$tmp=CUploadedFile::getInstance($response,'letter_attachment'); 
+					$response->letter_attachment="surat-tanggapan-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
 				}
 
-				
+				if(MultiModelForm::validate($member,$validatedMembers,$deleteItems) && $response->save()){
+
+					$masterValues = array ('response_id'=>$response->id_response);
+
+					if(strlen(trim($response->letter_attachment)) > 0){
+						$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->letter_attachment);	
+					} 				
+
+					Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
+
+					if($model->status==2):
+					// Kode 3 = Surat Tanggapan
+						$model->status = 3;
+					$model->save();
+					//Type 2 = Tanggapan 
+					$this->setActivity($id,2);
+					endif;				
+
+					if(MultiModelForm::save($member,$validatedMembers,$deleteMembers,$masterValues)){
+						$this->redirect(array('view','id'=>$id));
+					}
+
+
+				}
 			}
-		}
 
 		//Data Surat Tanggapan
-		$dataResponse=new CActiveDataProvider('Response',array('criteria'=>array('condition'=>'request_id='.$id)));
+			$dataResponse=new CActiveDataProvider('Response',array('criteria'=>array('condition'=>'request_id='.$id)));
 
 		//Form Jenis Pengujian
-		$testing=new RequestTesting;
-		$testing->setScenario('create');
-		if(isset($_POST['RequestTesting']))
-		{
-			$testing->attributes=$_POST['RequestTesting'];
-			$testing->created_id = YII::app()->user->id;
-			$testing->created_date = date('Y-m-d h:i:s');
-			$testing->status = 1;		
-			$testing->request_id = $id;			
-			if($testing->save()){
-				Yii::app()->user->setFlash('Success', 'Tahapan '.$testing->Testing->name.' Disimpan.');
+			$testing=new RequestTesting;
+			$testing->setScenario('create');
+			if(isset($_POST['RequestTesting']))
+			{
+				$testing->attributes=$_POST['RequestTesting'];
+				$testing->created_id = YII::app()->user->id;
+				$testing->created_date = date('Y-m-d h:i:s');
+				$testing->status = 1;		
+				$testing->request_id = $id;			
+				if($testing->save()){
+					Yii::app()->user->setFlash('Success', 'Tahapan '.$testing->Testing->name.' Disimpan.');
 
-				$this->redirect(array('view','id'=>$id));
+					$this->redirect(array('view','id'=>$id));
+				}
 			}
-		}
 
 		//Data Pengujian
-		$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'request_id='.$id)));
+			$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'request_id='.$id)));
 
 		//Form Jenis Penjadwalan
-		$schedule=new RequestSchedule;
-		$schedule->setScenario('create');
-		if(isset($_POST['RequestSchedule']))
-		{
-			$schedule->attributes=$_POST['RequestSchedule'];
-			$schedule->created_id = YII::app()->user->id;
-			$schedule->created_date = date('Y-m-d h:i:s');
-			$schedule->status = 1;		
-			$schedule->request_id = $id;
+			$schedule=new RequestSchedule;
+			$schedule->setScenario('create');
+			if(isset($_POST['RequestSchedule']))
+			{
+				$schedule->attributes=$_POST['RequestSchedule'];
+				$schedule->created_id = YII::app()->user->id;
+				$schedule->created_date = date('Y-m-d h:i:s');
+				$schedule->status = 1;		
+				$schedule->request_id = $id;
 
-			$tmp;
-			if(strlen(trim(CUploadedFile::getInstance($schedule,'file'))) > 0) 
-			{ 
-				$tmp=CUploadedFile::getInstance($schedule,'file'); 
-				$schedule->file="file-rab-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
+				$tmp;
+				if(strlen(trim(CUploadedFile::getInstance($schedule,'file'))) > 0) 
+				{ 
+					$tmp=CUploadedFile::getInstance($schedule,'file'); 
+					$schedule->file="file-rab-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
+				}
+
+
+				if($schedule->save()){
+
+					if(strlen(trim($schedule->file)) > 0){
+						$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/schedule/'.$schedule->file);	
+					} 	
+
+					Yii::app()->user->setFlash('Success', 'Penjadwalan '.$schedule->task.' Disimpan.');
+
+					$this->redirect(array('view','id'=>$id));
+				}
 			}
-
-
-			if($schedule->save()){
-
-				if(strlen(trim($schedule->file)) > 0){
-					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/schedule/'.$schedule->file);	
-				} 	
-
-				Yii::app()->user->setFlash('Success', 'Penjadwalan '.$schedule->task.' Disimpan.');
-				
-				$this->redirect(array('view','id'=>$id));
-			}
-		}
 
 		//Data Penjadwalan
-		$dataSchedule=new CActiveDataProvider('RequestSchedule',array('criteria'=>array('condition'=>'request_id='.$id)));
+			$dataSchedule=new CActiveDataProvider('RequestSchedule',array('criteria'=>array('condition'=>'request_id='.$id)));
 
 
 		//Form Invoice
-		$invoice=new RequestInvoice;
-		$invoice->setScenario('create');
-		if(isset($_POST['RequestInvoice']))
-		{
-			$invoice->attributes=$_POST['RequestInvoice'];
-			$invoice->created_id = YII::app()->user->id;
-			$invoice->created_date = date('Y-m-d h:i:s');
-			$invoice->status = 1;		
-			$invoice->request_id = $id;
-			$invoice->balance = $invoice->total;
+			$invoice=new RequestInvoice;
+			$invoice->setScenario('create');
+			if(isset($_POST['RequestInvoice']))
+			{
+				$invoice->attributes=$_POST['RequestInvoice'];
+				$invoice->created_id = YII::app()->user->id;
+				$invoice->created_date = date('Y-m-d h:i:s');
+				$invoice->status = 1;		
+				$invoice->request_id = $id;
+				$invoice->balance = $invoice->total;
 
-			$tmp1;
-			if(strlen(trim(CUploadedFile::getInstance($invoice,'file_invoice'))) > 0) 
-			{ 
-				$tmp1=CUploadedFile::getInstance($invoice,'file_invoice'); 
-				$invoice->file_invoice="invoice-".$model->code.'-'.mktime().'.'.$tmp1->extensionName; 
-			}
+				$tmp1;
+				if(strlen(trim(CUploadedFile::getInstance($invoice,'file_invoice'))) > 0) 
+				{ 
+					$tmp1=CUploadedFile::getInstance($invoice,'file_invoice'); 
+					$invoice->file_invoice="invoice-".$model->code.'-'.mktime().'.'.$tmp1->extensionName; 
+				}
 
-			$tmp2;
-			if(strlen(trim(CUploadedFile::getInstance($invoice,'file_spk'))) > 0) 
-			{ 
-				$tmp2=CUploadedFile::getInstance($invoice,'file_spk'); 
-				$invoice->file_spk="spk-".$model->code.'-'.mktime().'.'.$tmp2->extensionName; 
-			}			
+				$tmp2;
+				if(strlen(trim(CUploadedFile::getInstance($invoice,'file_spk'))) > 0) 
+				{ 
+					$tmp2=CUploadedFile::getInstance($invoice,'file_spk'); 
+					$invoice->file_spk="spk-".$model->code.'-'.mktime().'.'.$tmp2->extensionName; 
+				}			
 
 
-			if($invoice->save()){
+				if($invoice->save()){
 
-				if(strlen(trim($invoice->file_invoice)) > 0){
-					$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/invoice/'.$invoice->file_invoice);	
-				} 
+					if(strlen(trim($invoice->file_invoice)) > 0){
+						$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/invoice/'.$invoice->file_invoice);	
+					} 
 
-				if(strlen(trim($invoice->file_spk)) > 0){
-					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/spk/'.$invoice->file_spk);	
-				} 					
+					if(strlen(trim($invoice->file_spk)) > 0){
+						$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/spk/'.$invoice->file_spk);	
+					} 					
 
 				//Type = 3 (Payment = Invoice)
-				Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
-				if($model->status==3):
+					Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
+					if($model->status==3):
 				// Kode 4 = Invoice
-					$model->status = 4;
-				$model->save();
+						$model->status = 4;
+					$model->save();
 				//Type 6 = Invoice 
-				$this->setActivity($id,6);
-				endif;
+					$this->setActivity($id,6);
+					endif;
 
-				$this->redirect(array('view','id'=>$id));
+					$this->redirect(array('view','id'=>$id));
+				}
 			}
-		}
 
 
 		//Data Pembayaran
-		$dataInvoice=new CActiveDataProvider('RequestInvoice',array('criteria'=>array('condition'=>'request_id='.$id)));
+			$dataInvoice=new CActiveDataProvider('RequestInvoice',array('criteria'=>array('condition'=>'request_id='.$id)));
 
-		$payment=new RequestPayment;
-		$payment->setScenario('create');
-		if(isset($_POST['RequestPayment']))
-		{
-			$payment->attributes=$_POST['RequestPayment'];
-			$payment->created_id = YII::app()->user->id;
-			$payment->created_date = date('Y-m-d h:i:s');
-			$payment->status = 1;		
-			$payment->request_id = $id;	
-			$balance = RequestPayment::model()->findGrandTotalInvoice($payment->invoice_id,$payment->total);
-			$payment->balance = $balance;
+			$payment=new RequestPayment;
+			$payment->setScenario('create');
+			if(isset($_POST['RequestPayment']))
+			{
+				$payment->attributes=$_POST['RequestPayment'];
+				$payment->created_id = YII::app()->user->id;
+				$payment->created_date = date('Y-m-d h:i:s');
+				$payment->status = 1;		
+				$payment->request_id = $id;	
+				$balance = RequestPayment::model()->findGrandTotalInvoice($payment->invoice_id,$payment->total);
+				$payment->balance = $balance;
 
-			$tmp;
-			if(strlen(trim(CUploadedFile::getInstance($payment,'file'))) > 0) 
-			{ 
-				$tmp=CUploadedFile::getInstance($payment,'file'); 
-				$payment->file="bukti-pembayaran-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
-			}
+				$tmp;
+				if(strlen(trim(CUploadedFile::getInstance($payment,'file'))) > 0) 
+				{ 
+					$tmp=CUploadedFile::getInstance($payment,'file'); 
+					$payment->file="bukti-pembayaran-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
+				}
 
-			if($payment->save()){
+				if($payment->save()){
 
-				$invoice=$this->loadInvoice($payment->invoice_id);
-				$invoice->balance = $payment->balance;
-				$invoice->save();
+					$invoice=$this->loadInvoice($payment->invoice_id);
+					$invoice->balance = $payment->balance;
+					$invoice->save();
 
-				if(strlen(trim($payment->file)) > 0){
-					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/payment/'.$payment->file);	
-				} 		
+					if(strlen(trim($payment->file)) > 0){
+						$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/payment/'.$payment->file);	
+					} 		
 
-				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$payment->Invoice->code.' Disimpan.');
+					Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$payment->Invoice->code.' Disimpan.');
 
-				if($model->status==4):
+					if($model->status==4):
 				// Kode 6 = Laporan Dikirim
-					$model->status = 5;
-				$model->save();
+						$model->status = 5;
+					$model->save();
 				//Type 5 = Report 
-				$this->setActivity($id,3);	
-				endif;					
+					$this->setActivity($id,3);	
+					endif;					
 
 
-				$this->redirect(array('view','id'=>$id));
+					$this->redirect(array('view','id'=>$id));
+				}
 			}
-		}
 
 		//Data Invoice
-		$dataPayment=new CActiveDataProvider('RequestPayment',array('criteria'=>array('condition'=>'request_id='.$id)));
+			$dataPayment=new CActiveDataProvider('RequestPayment',array('criteria'=>array('condition'=>'request_id='.$id)));
 
 		// Form Report
-		$report=new RequestReport;
-		if(isset($_POST['RequestReport']))
-		{
-			$report->attributes=$_POST['RequestReport'];
-			$report->created_id = YII::app()->user->id;
-			$report->created_date = date('Y-m-d h:i:s');
-			$report->status = 1;		
-			$report->request_id = $id;	
+			$report=new RequestReport;
+			if(isset($_POST['RequestReport']))
+			{
+				$report->attributes=$_POST['RequestReport'];
+				$report->created_id = YII::app()->user->id;
+				$report->created_date = date('Y-m-d h:i:s');
+				$report->status = 1;		
+				$report->request_id = $id;	
 
-			$report->file=CUploadedFile::getInstance($report,'file');
-			$tmp;
-			if(strlen(trim(CUploadedFile::getInstance($report,'file'))) > 0) 
-			{ 
-				$tmp=CUploadedFile::getInstance($report,'file'); 
-				$report->file="laporan-".$model->code.'.'.$tmp->extensionName; 
-			}
+				$report->file=CUploadedFile::getInstance($report,'file');
+				$tmp;
+				if(strlen(trim(CUploadedFile::getInstance($report,'file'))) > 0) 
+				{ 
+					$tmp=CUploadedFile::getInstance($report,'file'); 
+					$report->file="laporan-".$model->code.'.'.$tmp->extensionName; 
+				}
 
-			if($report->save()){
+				if($report->save()){
 
-				if(strlen(trim($report->file)) > 0){
-					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/report/'.$report->file);	
-				} 
-				if($model->status==5):
+					if(strlen(trim($report->file)) > 0){
+						$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/report/'.$report->file);	
+					} 
+					if($model->status==5):
 				// Kode 6 = Laporan Dikirim
-					$model->status = 6;
-				$model->save();
+						$model->status = 6;
+					$model->save();
 				//Type 5 = Report 
-				$this->setActivity($id,5);	
-				endif;			
+					$this->setActivity($id,5);	
+					endif;			
 
-				$this->redirect(array('view','id'=>$id));
+					$this->redirect(array('view','id'=>$id));
+				}
 			}
-		}
-		$dataReport=new CActiveDataProvider('RequestReport',array('criteria'=>array('condition'=>'request_id='.$id)));
+			$dataReport=new CActiveDataProvider('RequestReport',array('criteria'=>array('condition'=>'request_id='.$id)));
 
 		//Data Activity
-		$activity=$this->loadActivity($id);
+			$activity=$this->loadActivity($id);
 
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-			'response'=>$response,
-			'dataResponse'=>$dataResponse,
-			'testing'=>$testing,
-			'dataTesting'=>$dataTesting,
-			'schedule'=>$schedule,
-			'dataSchedule'=>$dataSchedule,
-			'invoice'=>$invoice,
-			'dataInvoice'=>$dataInvoice,
-			'payment'=>$payment,
-			'dataPayment'=>$dataPayment,
-			'report'=>$report,
-			'dataReport'=>$dataReport,
-			'activity'=>$activity,
 
-			'member'=>$member,
-			'validatedMembers' => $validatedMembers,			
-			));
+			//Data Disposisi
+			$dataDisposition=new CActiveDataProvider('RequestDisposition',array('criteria'=>array('condition'=>'request_id='.$id)));
 
-	}
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+				'response'=>$response,
+				'dataResponse'=>$dataResponse,
+				'testing'=>$testing,
+				'dataTesting'=>$dataTesting,
+				'schedule'=>$schedule,
+				'dataSchedule'=>$dataSchedule,
+				'invoice'=>$invoice,
+				'dataInvoice'=>$dataInvoice,
+				'payment'=>$payment,
+				'dataPayment'=>$dataPayment,
+				'report'=>$report,
+				'dataReport'=>$dataReport,
+				'activity'=>$activity,
+
+				'member'=>$member,
+				'validatedMembers' => $validatedMembers,		
+
+				'dataDisposition'=>$dataDisposition,
+				));
+
+		}
 
 	/**
 	 * Creates a new model.
@@ -531,6 +546,16 @@ class RequestController extends Controller
 		return $model;
 	}
 
+	public function loadDisposition($id)
+	{
+		$model=RequestDisposition::model()->findByAttributes(
+			array('request_id'=>$id,'disposition_to'=>YII::app()->user->record->division)
+			);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
 
 	/**
 	 * Performs the AJAX validation.
@@ -580,7 +605,7 @@ class RequestController extends Controller
 			throw new CHttpException(404,'Update ke Activity Gagal');
 		}
 
-		$this->redirect(array('request/view','id'=>$id));
+		// $this->redirect(array('request/view','id'=>$id));
 	}	
 
 	public function actionEnable($id)
@@ -644,7 +669,34 @@ class RequestController extends Controller
 
 		echo CJSON::encode($items);
 		Yii::app()->end();		
-	}			
+	}	
+
+
+	public function actionCalendarRequestDivision($status,$balai)
+	{       
+		$items = array();
+		$id = YII::app()->user->id;
+		$criteria = new CDbCriteria();
+
+		$criteria->join='LEFT JOIN request_testing AS a ON a.id_testing=t.testing_id LEFT JOIN ref_unit AS u ON u.id_unit=a.testing_part';
+		$criteria->condition = 't.status=:status AND u.id_unit=:unit';
+		$criteria->params = array(':status'=>$status,':unit'=>$balai);
+		$model = RequestSchedule::model()->findAll($criteria);
+
+		foreach ($model as $value) {
+			$items[]=array(
+				'id'=>$value->request_id,
+				'title'=>$this->loadCompany($value->Request->company_id) . " - " . $value->Request->letter_subject. " - ". $value->task . " Sample Ke-".$value->testing_number,
+				'start'=>$value->start_date,
+				'end'=>date('Y-m-d', strtotime('+1 day', strtotime($value->end_date))),
+				'color'=>$value->Request->color,
+				// 'allDay'=>true,
+				);
+		}
+
+		echo CJSON::encode($items);
+		Yii::app()->end();		
+	}				
 
 	/**
 	 * Displays a particular model.
@@ -679,7 +731,7 @@ class RequestController extends Controller
 	public function actionDisposition($id)
 	{
 		$model=$this->loadModel($id);
-		$model->setScenario('update');
+		$model->setScenario('disposition');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);

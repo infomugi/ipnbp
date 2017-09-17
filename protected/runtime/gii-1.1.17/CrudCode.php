@@ -1,5 +1,5 @@
 <?php
 return array (
-  'template' => 'beagle',
+  'template' => 'adminmaterial',
   'baseControllerClass' => 'Controller',
 );

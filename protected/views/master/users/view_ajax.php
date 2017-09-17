@@ -58,23 +58,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 		<div class="panel-heading panel-heading-divider">Riwayat Aktivitas
 		</div>
 		<div class="panel-body">
-			<ul class="user-timeline">
-				<li class="latest">
-					<div class="user-timeline-date">Just Now</div>
-					<div class="user-timeline-title">Create New Page</div>
-					<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-				</li>
-				<li>
-					<div class="user-timeline-date">Today - 15:35</div>
-					<div class="user-timeline-title">Back Up Theme</div>
-					<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-				</li>
-				<li>
-					<div class="user-timeline-date">Yesterday - 10:41</div>
-					<div class="user-timeline-title">Changes In The Structure</div>
-					<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-				</li>
-			</ul>
+			<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>
 		</div>
 	</div>
 </div>

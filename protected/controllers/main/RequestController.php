@@ -208,6 +208,9 @@ class RequestController extends Controller
 		//Data Activity
 		$activity=$this->loadActivity($id);
 
+		//Data Disposisi
+		$dataDisposition=new CActiveDataProvider('RequestDisposition',array('criteria'=>array('condition'=>'request_id='.$id)));
+
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$this->renderPartial('view',array(
@@ -223,6 +226,7 @@ class RequestController extends Controller
 				'payment'=>$payment,
 				'dataPayment'=>$dataPayment,
 				'activity'=>$activity,
+				'dataDisposition'=>$dataDisposition,
 				), false, true);
 		}
 		else
@@ -240,6 +244,7 @@ class RequestController extends Controller
 				'payment'=>$payment,
 				'dataPayment'=>$dataPayment,
 				'activity'=>$activity,
+				'dataDisposition'=>$dataDisposition,
 				));
 		}
 	}

@@ -60,7 +60,7 @@ $this->pageTitle='Kelola Pengguna';
 						'buttons'=>array(
 							'view'=>
 							array(
-								'url'=>'Yii::app()->createUrl("users/view", array("id"=>$data->id_user))',
+								'url'=>'Yii::app()->createUrl("master/users/view", array("id"=>$data->id_user))',
 								'options'=>array(
 									'ajax'=>array(
 										'type'=>'POST',

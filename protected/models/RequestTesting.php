@@ -75,7 +75,7 @@ class RequestTesting extends CActiveRecord
 			'testing_lab' => 'Lab',
 			'testing_part' => 'Balai',
 			'testing_total' => 'Jumlah Sample',
-			'request_id' => 'Request',
+			'request_id' => 'Permohonan',
 			'status' => 'Status',
 			);
 	}

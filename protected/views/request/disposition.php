@@ -11,4 +11,4 @@ $this->breadcrumbs=array(
 $this->pageTitle='Edit Disposisi';
 ?>
 
-<?php echo $this->renderPartial('_form_disposition', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form_upload_disposition', array('model'=>$model)); ?>

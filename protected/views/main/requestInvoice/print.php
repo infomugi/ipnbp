@@ -143,8 +143,8 @@ function terbilang($satuan){
 									<BR>
 										Bendahara Penerima Negara - PNBP<BR>
 										<BR> <BR> <BR> <BR> 
-											<b><u>Ahmad Gojali</u></b><BR>
-											NIP. 19690527 200701 1 002
+											<b><u><?php echo $model->Signature->address; ?></u></b><BR>
+											<?php echo $model->Signature->name; ?>
 										</div>
 									</div>
 
