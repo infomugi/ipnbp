@@ -9,7 +9,7 @@ if($filter=="company"){
 	$this->pageTitle=$title;
 }elseif($filter=="balai"){
 	$url = 'request/calendarrequestdivision/status/'.$status.'/balai/'.$balai;
-	$title = "Jadwal Pengujian ".Unit::model()->name($balai);
+	$title = "Jadwal Pengujian Per Balai";
 	$this->pageTitle=$title;
 }else{
 	$url = 'request/calendarcompany/';
