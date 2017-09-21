@@ -7,7 +7,29 @@ $this->breadcrumbs=array(
 	$model->id_payment,
 	);
 
-$this->pageTitle='Detail Pembayaran';
+$this->pageTitle='Detail Pembayaran - '.$model->code;
+
+function terbilang($satuan){
+	$huruf = array ("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh","sebelas");
+	if ($satuan < 12)
+		return " ".$huruf[$satuan];
+	elseif ($satuan < 20)
+		return terbilang($satuan - 10)." belas";
+	elseif ($satuan < 100)
+		return terbilang($satuan / 10)." puluh".terbilang($satuan % 10);
+	elseif ($satuan < 200)
+		return "seratus".terbilang($satuan - 100);
+	elseif ($satuan < 1000)
+		return terbilang($satuan / 100)." ratus".terbilang($satuan % 100);
+	elseif ($satuan < 2000)
+		return "seribu".terbilang($satuan - 1000); 
+	elseif ($satuan < 1000000)
+		return terbilang($satuan / 1000)." ribu".terbilang($satuan % 1000); 
+	elseif ($satuan < 1000000000)
+		return terbilang($satuan / 1000000)." juta".terbilang($satuan % 1000000); 
+	elseif ($satuan >= 1000000000)
+		echo "Angka yang Anda masukkan terlalu besar";
+}
 ?>
 
 <span class="visible-xs">
@@ -57,16 +79,46 @@ $this->pageTitle='Detail Pembayaran';
 															// 'update_id',
 															'code',
 															'date',
-															'term',
+															array('name'=>'term','value'=>RequestPayment::model()->term($model->term)),
 															'total',
+															array('label'=>'Terbilang','value'=>ucwords(terbilang($model->total))),
 															'file',
-															'invoice_id',
-															'request_id',
-															'status',
+															// 'invoice_id',
+															// 'request_id',
+															// 'status',
 															),
 															)); ?>
 
-													<STYLE>
-														th{width:150px;}
-													</STYLE>
+															<div class="no-padding">
+																<div class="col-md-6">
+																	<h4><i class="mdi mdi-calendar"></i> Log Invoice</h4>
+																	<?php $this->widget('zii.widgets.CDetailView', array(
+																		'data'=>$model,
+																		'htmlOptions'=>array("class"=>"table"),
+																		'attributes'=>array(
+																			array('name'=>'print_by','value'=>$model->print_by==0 ? "-" : $model->PrintBy->first_name),
+																			array('name'=>'print_date','value'=>$model->print_by==0 ? "-" : $model->print_date),
+																			array('name'=>'print_click','value'=>$model->print_by==0 ? "-" : $model->print_click),
+																			),
+																			)); ?>
+																		</div>
+
+																		<div class="col-md-6">
+																			<?php $this->widget('zii.widgets.CDetailView', array(
+																				'data'=>$model,
+																				'htmlOptions'=>array("class"=>"table"),
+																				'attributes'=>array(
+																					array('name'=>'created_id','value'=>$model->created_id==0 ? "-" : $model->CreatedBy->first_name),
+																					array('name'=>'created_date','value'=>$model->created_id==0 ? "-" : $model->created_date),
+																					array('name'=>'update_id','value'=>$model->update_id==0 ? "-" : $model->UpdateBy->first_name),
+																					array('name'=>'update_date','value'=>$model->update_id==0 ? "-" : $model->update_date),
+																					),
+																					)); ?>
+																				</div>
+
+																			</div>
+
+																			<STYLE>
+																				th{width:150px;}
+																			</STYLE>
 

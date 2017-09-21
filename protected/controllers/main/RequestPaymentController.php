@@ -28,7 +28,7 @@ class RequestPaymentController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload','search'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -198,6 +198,16 @@ class RequestPaymentController extends Controller
 	public function actionPrint($id)
 	{
 		$this->layout = "print";
+
+		$update=$this->loadModel($id);
+		$update->setScenario('print');
+
+		// IF Invoice Print
+		$update->print_by = YII::app()->user->id;
+		$update->print_date = date("Y-m-d h:i:s");
+		$update->print_click += 1;
+		$update->save();
+		
 		$this->render('print',array(
 			'model'=>$this->loadModel($id),
 			));
@@ -237,4 +247,36 @@ class RequestPaymentController extends Controller
 			'model'=>$model,
 			));
 	}
+
+	public function actionSearch()
+	{
+		$id_invoice='';
+		$code='';
+		$balance='';
+		$total='';
+
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'status=:status';
+		$criteria->params = array(':status'=>1);
+		$itu = RequestInvoice::model()->findAll($criteria);		
+
+		foreach($itu as $i=>$ii)
+		{
+			if($_POST['data']==$ii->id_invoice)
+			{
+				$id_invoice=$ii->id_invoice;
+				$code=$ii->code;
+				$balance=$ii->balance;
+				$total=$ii->total;
+			}		      
+		}        
+
+		echo CJSON::encode(array(
+			'id_invoice'=>$id_invoice,
+			'code'=>$code,
+			'balance'=>$balance,
+			'total'=>$total,
+			));
+		Yii::app()->end();
+	}	
 }

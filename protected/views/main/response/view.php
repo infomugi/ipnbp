@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	$model->id_response,
 	);
 
-$this->pageTitle='Detail Surat Tanggapan';
+$this->pageTitle='Detail Surat Tanggapan - '.$model->letter_code;
 ?>
 
 <span class="visible-xs">
@@ -50,23 +50,30 @@ $this->pageTitle='Detail Surat Tanggapan';
 														'data'=>$model,
 														'htmlOptions'=>array("class"=>"table"),
 														'attributes'=>array(
-															// 'id_response',
-															// 'created_date',
-															// 'created_id',
-															// 'update_date',
-															// 'update_id',
 															'letter_date',
 															'letter_code',
 															'letter_attachment',
 															'date_send',
 															'date_feedback',
 															'description',
-															'request_id',
-															'status',
+															// 'request_id',
+															// 'status',
 															),
 															)); ?>
 
-													<STYLE>
-														th{width:150px;}
-													</STYLE>
+															<h4><i class="mdi mdi-calendar"></i> Log <?php echo $this->pageTitle; ?></h4>
+															<?php $this->widget('zii.widgets.CDetailView', array(
+																'data'=>$model,
+																'htmlOptions'=>array("class"=>"table"),
+																'attributes'=>array(
+																	array('name'=>'created_id','value'=>$model->created_id==0 ? "-" : $model->CreatedBy->first_name),
+																	array('name'=>'created_date','value'=>$model->created_id==0 ? "-" : $model->created_date),
+																	array('name'=>'update_id','value'=>$model->update_id==0 ? "-" : $model->UpdateBy->first_name),
+																	array('name'=>'update_date','value'=>$model->update_id==0 ? "-" : $model->update_date),
+																	),
+																	)); ?>
+
+															<STYLE>
+																th{width:150px;}
+															</STYLE>
 

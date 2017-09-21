@@ -46,29 +46,57 @@ $this->pageTitle='Detail Invoice';
 
 												<HR>
 
+
+													<h4>Data Invoice</h4>
 													<?php $this->widget('zii.widgets.CDetailView', array(
 														'data'=>$model,
 														'htmlOptions'=>array("class"=>"table"),
 														'attributes'=>array(
 															'id_invoice',
-															'created_date',
-															'created_id',
-															'update_date',
-															'update_id',
 															'code',
 															'date',
 															'description',
 															'total',
 															'note',
-															'signature_id',
+															array('name'=>'signature_id','value'=>$model->signature_id==0 ? "-" : $model->Signature->address),
 															'file_invoice',
 															'file_spk',
-															'request_id',
-															'status',
+															// 'request_id',
+															// 'status',
 															),
 															)); ?>
 
-													<STYLE>
-														th{width:150px;}
-													</STYLE>
+															
+															<div class="no-padding">
+																<div class="col-md-6">
+																	<h4><i class="mdi mdi-calendar"></i> Log Invoice</h4>
+																	<?php $this->widget('zii.widgets.CDetailView', array(
+																		'data'=>$model,
+																		'htmlOptions'=>array("class"=>"table"),
+																		'attributes'=>array(
+																			array('name'=>'print_by','value'=>$model->print_by==0 ? "-" : $model->PrintBy->first_name),
+																			array('name'=>'print_date','value'=>$model->print_by==0 ? "-" : $model->print_date),
+																			array('name'=>'print_click','value'=>$model->print_by==0 ? "-" : $model->print_click),
+																			),
+																			)); ?>
+																		</div>
+
+																		<div class="col-md-6">
+																			<?php $this->widget('zii.widgets.CDetailView', array(
+																				'data'=>$model,
+																				'htmlOptions'=>array("class"=>"table"),
+																				'attributes'=>array(
+																					array('name'=>'created_id','value'=>$model->created_id==0 ? "-" : $model->CreatedBy->first_name),
+																					array('name'=>'created_date','value'=>$model->created_id==0 ? "-" : $model->created_date),
+																					array('name'=>'update_id','value'=>$model->update_id==0 ? "-" : $model->UpdateBy->first_name),
+																					array('name'=>'update_date','value'=>$model->update_id==0 ? "-" : $model->update_date),
+																					),
+																					)); ?>
+																				</div>
+
+																			</div>
+
+																			<STYLE>
+																				th{width:150px;}
+																			</STYLE>
 

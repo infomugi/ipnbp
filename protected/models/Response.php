@@ -56,6 +56,8 @@ class Response extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
+			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_id'),
+			'UpdateBy'=>array(self::BELONGS_TO,'Users','update_id'),
 			);
 	}
 

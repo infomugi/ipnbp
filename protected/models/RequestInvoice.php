@@ -19,6 +19,9 @@
  * @property string $file_spk
  * @property integer $request_id
  * @property integer $status
+ * @property integer $print_by
+ * @property string $print_date
+ * @property integer $print_click
  */
 class RequestInvoice extends CActiveRecord
 {
@@ -40,12 +43,16 @@ class RequestInvoice extends CActiveRecord
 		return array(
 			// array('created_date, created_id, update_date, update_id, code, date, description, total, note, signature_id, file_invoice, file_spk, request_id, status', 'required'),
 			array('created_date, created_id, code, date, description, total, signature_id, request_id, status', 'required','on'=>'create'),
+			array('print_by, print_click, print_date', 'required','on'=>'print'),
+			
 			array('file_invoice', 'required','on'=>'upload'),
 			array('update_id, update_date', 'required','on'=>'update'),
-			array('created_id, update_id, signature_id, request_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, signature_id, request_id, status, print_by, print_click', 'numerical', 'integerOnly'=>true),
 			array('total', 'numerical'),
 			array('code', 'length', 'max'=>50),
+			array('print_date', 'length', 'max'=>25),
 			array('file_invoice, file_spk, note, description, note', 'length', 'max'=>255),
+			array('code','unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_invoice, created_date, created_id, update_date, update_id, code, date, description, total, note, signature_id, file_invoice, file_spk, request_id, status', 'safe', 'on'=>'search'),
@@ -62,6 +69,9 @@ class RequestInvoice extends CActiveRecord
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			'Signature'=>array(self::BELONGS_TO,'Unit','signature_id'),
+			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_id'),
+			'UpdateBy'=>array(self::BELONGS_TO,'Users','update_id'),
+			'PrintBy'=>array(self::BELONGS_TO,'Users','print_by'),
 			);
 	}
 
@@ -88,6 +98,9 @@ class RequestInvoice extends CActiveRecord
 			'request_id' => 'Permohonan ID',
 			'status' => 'Status',
 			'terbilang' => 'Terbilang',
+			'print_by' => 'Dicetak Oleh',
+			'print_click' => 'Total Cetak',
+			'print_date' => 'Tanggal Cetak',
 			);
 	}
 

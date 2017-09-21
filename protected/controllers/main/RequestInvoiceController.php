@@ -118,7 +118,10 @@ class RequestInvoiceController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model=$this->loadModel($id);
+		$detail=RequestPayment::model()->deleteAll('invoice_id=:invoice_id',array(':invoice_id'=>$model->id_invoice)); 
+		$model->delete();
+		
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -198,6 +201,15 @@ class RequestInvoiceController extends Controller
 	public function actionPrint($id)
 	{
 		$this->layout = "print";
+		$update=$this->loadModel($id);
+		$update->setScenario('print');
+
+		// IF Invoice Print
+		$update->print_by = YII::app()->user->id;
+		$update->print_date = date("Y-m-d h:i:s");
+		$update->print_click += 1;
+		$update->save();
+
 		$this->render('print',array(
 			'model'=>$this->loadModel($id),
 			));

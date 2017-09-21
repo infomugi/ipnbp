@@ -33,15 +33,69 @@
 					<?php echo $form->error($payment,'invoice_id'); ?>
 					<?php 
 					echo $form->dropDownList($payment, "invoice_id",
-						CHtml::listData(RequestInvoice::model()->findall(array('condition'=>'balance!=0 AND status=1 AND request_id='.$request_id)),
-							'id_invoice', 'code'
-							),
-						array("empty"=>"-- Pilih Nomor Invoice --", 'class'=>'select2 form-control')
+						CHtml::encodeArray(CHtml::listData(RequestInvoice::model()->findall(array('condition'=>'balance!=0 AND status=1 AND request_id='.$request_id)), 'id_invoice', 'code')),
+						array(
+							"empty"=>"- Pilih Nomor Invoice -", 
+							'class'=>'form-control select2',
+							'ajax' => array(
+								'type'=>'POST',
+								'dataType'=>'json',
+								'url'=>CController::createUrl('main/requestpayment/search'),
+								'data' => "js:{data:$(this).val()}",
+								'success'=>'function(data){
+									$("#RequestPayment_invoice_id").val(data.id_invoice);
+									$("#code").val(data.code);
+									$("#balance").val(data.balance);
+									$("#total").val(data.total);
+									$("#RequestSchedule_task").focus();
+								}',),							
+							)
 						); 
 						?> 
 					</div>
 
 				</div> 			
+
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						No. Invoice
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="code" class="form-control" readonly="true">
+					</div>
+
+				</div>  
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Total Pembayaran
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="total" class="form-control" readonly="true">
+					</div>
+
+				</div>  
+
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						Sisa Pembayaran
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" name="" id="balance" class="form-control" readonly="true">
+					</div>
+
+				</div>  
 
 
 
@@ -106,7 +160,7 @@
 				</div>  
 
 
-				<div class="form-group">
+				<div class="form-group" id="terbilang_payment">
 
 					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($payment,'terbilang'); ?>
@@ -187,6 +241,7 @@
 						array(
 							'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file"]', 
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+							'visible'=>'$data->file!=NULL',
 							),
 
 						),
@@ -195,10 +250,10 @@
 				array(
 					'header'=>'Print',      
 					'class'=>'CButtonColumn',
-					'template'=>'{print}',
+					'template'=>'{Print}',
 					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
-						'print'=>
+						'Print'=>
 						array(
 							'url'=>'Yii::app()->createUrl("main/requestpayment/print", array("id"=>$data->id_payment))',
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
@@ -217,6 +272,7 @@
 						array(
 							'url'=>'Yii::app()->createUrl("main/requestpayment/upload", array("id"=>$data->id_payment))',
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
+							'visible'=>'$data->print_by!=NULL',
 							),
 						),
 					),

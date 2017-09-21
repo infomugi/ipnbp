@@ -84,7 +84,7 @@
 			</div>  
 
 
-			<div class="form-group">
+			<div class="form-group" id="terbilang_invoice">
 
 				<div class="col-sm-4 control-label">
 					<?php echo $form->labelEx($invoice,'terbilang'); ?>
@@ -105,7 +105,7 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($invoice,'note'); ?>
-					<?php echo $form->textArea($invoice,'note',array('class'=>'form-control','value'=>'Pembayaran tersebut agar di transfer ke Bank BNI Cabang Bandung dengan No. Rekening 00563 19680 an. BPN 095 Puslitbang Perumahan dan Pemukiman.')); ?>
+					<?php echo $form->textArea($invoice,'note',array('class'=>'form-control')); ?>
 				</div>
 
 			</div>  
@@ -215,11 +215,13 @@
 					array(
 						'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file_invoice"]', 
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+						'visible'=>'$data->file_invoice!=NULL',
 						),
 					'SPK'=>
 					array(
 						'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/spk/".$data["file_spk"]', 
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/spk.png',
+						'visible'=>'$data->file_spk!=NULL',
 						),
 					),
 				),
@@ -248,6 +250,7 @@
 					array(
 						'url'=>'Yii::app()->createUrl("main/requestinvoice/upload", array("id"=>$data->id_invoice))',
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
+						'visible'=>'$data->print_by!=NULL',
 						),
 					),
 				),

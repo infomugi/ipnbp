@@ -8,76 +8,20 @@
 <div class="form-normal form-horizontal clearfix">
 
 	<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'request-payment-form',
-	'enableAjaxValidation'=>false,
-	'enableClientValidation' => true,
-	'clientOptions' => array(
-	'validateOnSubmit' => true,
-	),
-	'errorMessageCssClass' => 'label label-danger',
-	'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
-	)); ?>
+		'id'=>'request-payment-form',
+		'enableAjaxValidation'=>false,
+		'enableClientValidation' => true,
+		'clientOptions' => array(
+			'validateOnSubmit' => true,
+			),
+		'errorMessageCssClass' => 'label label-danger',
+		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
+		)); ?>
 
-	<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
 
 
-	<div class="col-lg-9 col-md-10"> 
-
-		
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'created_date'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'created_date'); ?>
-					<?php echo $form->textField($model,'created_date'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'created_id'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'created_id'); ?>
-					<?php echo $form->textField($model,'created_id'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'update_date'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'update_date'); ?>
-					<?php echo $form->textField($model,'update_date'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'update_id'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'update_id'); ?>
-					<?php echo $form->textField($model,'update_id'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
+		<div class="col-md-10"> 
 
 			
 			<div class="form-group">
@@ -88,12 +32,14 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'code'); ?>
-					<?php echo $form->textField($model,'code',array('size'=>50,'maxlength'=>50)),array('class'=>'form-control')); ?>
+					<?php $this->widget('CMaskedTextField',array('model'=>$model,'attribute'=>'code','mask'=>'KU.99.99/KWT-PNBP/LP/999','htmlOptions'=>array('class'=>'form-control')));
+					?>
 				</div>
 
 			</div>  
 
-			
+
+
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -102,12 +48,15 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'date'); ?>
-					<?php echo $form->textField($model,'date'),array('class'=>'form-control')); ?>
+					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+						<?php echo $form->textField($model,'date',array('class'=>'form-control')); ?>
+						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+					</div>
 				</div>
 
 			</div>  
 
-			
+
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -116,12 +65,12 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'term'); ?>
-					<?php echo $form->textField($model,'term'),array('class'=>'form-control')); ?>
+					<?php echo $form->dropDownList($model,'term',array(''=>'-- Pilih Termin --','1'=>'Termin Ke-1','2'=>'Termin Ke-2','3'=>'Termin Ke-3','4'=>'Termin Ke-4','5'=>'Termin Ke-5'),array('class'=>'select2 form-control')); ?>
 				</div>
 
 			</div>  
 
-			
+
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -130,74 +79,33 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'total'); ?>
-					<?php echo $form->textField($model,'total'),array('class'=>'form-control')); ?>
+					<?php echo $form->textField($model,'total',array('id'=>'nominal2','class'=>'form-control','onkeyup'=>'terbilang2();','readOnly'=>true)); ?>
 				</div>
 
 			</div>  
 
-			
-			<div class="form-group">
+
+			<div class="form-group" id="terbilang_payment">
 
 				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'file'); ?>
+					<?php echo $form->labelEx($model,'terbilang'); ?>
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'file'); ?>
-					<?php echo $form->textField($model,'file',array('size'=>60,'maxlength'=>255)),array('class'=>'form-control')); ?>
+					<div id="terbilang2" class="alert alert-success"></div>
 				</div>
 
 			</div>  
 
-			
+
+
 			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'invoice_id'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'invoice_id'); ?>
-					<?php echo $form->textField($model,'invoice_id'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'request_id'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'request_id'); ?>
-					<?php echo $form->textField($model,'request_id'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'status'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'status'); ?>
-					<?php echo $form->textField($model,'status'),array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-					<div class="form-group">
-			<div class="col-md-12">  
-			</br></br>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				<div class="col-md-12">  
+				</br></br>
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+			</div>
 		</div>
-	</div>
 
-	<?php $this->endWidget(); ?>
+		<?php $this->endWidget(); ?>
 
-</div></div><!-- form -->
+	</div></div><!-- form -->

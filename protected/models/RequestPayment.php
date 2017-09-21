@@ -17,6 +17,9 @@
  * @property integer $invoice_id
  * @property integer $request_id
  * @property integer $status
+ * @property integer $print_by
+ * @property string $print_date
+ * @property integer $print_click 
  */
 class RequestPayment extends CActiveRecord
 {
@@ -39,10 +42,12 @@ class RequestPayment extends CActiveRecord
 			// array('created_date, created_id, update_date, update_id, code, date, term, total, file, invoice_id, request_id, status', 'required'),
 			array('created_date, created_id, code, date, term, total, invoice_id, request_id, status', 'required','on'=>'create'),
 			array('file', 'required','on'=>'upload'),
+			array('print_by, print_click, print_date', 'required','on'=>'print'),
 			array('update_date, update_id', 'required','on'=>'update'),
-			array('created_id, update_id, term, total, invoice_id, request_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, term, total, invoice_id, request_id, status, print_by, print_click', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>50),
 			array('file', 'length', 'max'=>255),
+			array('print_date', 'length', 'max'=>25),
 			array('code','unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -60,6 +65,9 @@ class RequestPayment extends CActiveRecord
 		return array(
 			'Invoice'=>array(self::BELONGS_TO,'RequestInvoice','invoice_id'),
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
+			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_id'),
+			'UpdateBy'=>array(self::BELONGS_TO,'Users','update_id'),
+			'PrintBy'=>array(self::BELONGS_TO,'Users','print_by'),
 			);
 	}
 
@@ -142,6 +150,10 @@ class RequestPayment extends CActiveRecord
 			return "Termin Ke-2";
 		}elseif($data==3){
 			return "Termin Ke-3";
+		}elseif($data==4){
+			return "Termin Ke-4";
+		}elseif($data==5){
+			return "Termin Ke-5";
 		}else{
 			return "-";
 		}
