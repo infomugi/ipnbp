@@ -33,7 +33,7 @@ class ResponseDetail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			// array('created_date, created_id, update_date, update_id, letter_attachment, description, request_id, response_id, status', 'required'),
+			array('created_date, created_id, letter_attachment, request_id, response_id, status', 'required','on'=>'create'),
 			array('created_id, update_id, request_id, response_id, status', 'numerical', 'integerOnly'=>true),
 			array('letter_attachment, description', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -59,15 +59,15 @@ class ResponseDetail extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_response_detail' => 'Id Response Detail',
-			'created_date' => 'Created Date',
-			'created_id' => 'Created',
-			'update_date' => 'Update Date',
-			'update_id' => 'Update',
-			'letter_attachment' => 'Letter Attachment',
-			'description' => 'Description',
-			'request_id' => 'Request',
-			'response_id' => 'Response',
+			'id_response_detail' => 'ID Detail Surat Tanggapan',
+			'created_date' => 'Tanggal Buat',
+			'created_id' => 'Diinput Oleh',
+			'update_date' => 'Tanggal Update',
+			'update_id' => 'Diupdate Oleh',
+			'letter_attachment' => 'Lampiran',
+			'description' => 'Keterangan',
+			'request_id' => 'Permohonan ID',
+			'response_id' => 'Tanggapan ID',
 			'status' => 'Status',
 			);
 	}

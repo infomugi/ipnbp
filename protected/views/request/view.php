@@ -39,22 +39,38 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 				<?php 
 
+				if($model->letter_attachment!=""){
+					echo CHtml::link('<i class="icon mdi mdi-download"></i> Surat Permohonan',
+						array('downloadrequest', 'id'=>$model->id_request),
+						array('class' => 'btn btn-primary btn-md'));
+				}else{
+					echo "<button class='btn btn-warning btn-disabled'>Surat Permohonan belum di Upload</button>";
+				}
+
+				if($model->disposition_letter!=""){
+					echo CHtml::link('<i class="icon mdi mdi-download"></i>  Surat Disposisi',
+						array('downloaddisposition', 'id'=>$model->id_request),
+						array('class' => 'btn btn-primary pull-right btn-md'));
+				}else{
+					echo "<button class='btn btn-warning pull-right btn-disabled'>Surat Disposisi belum di Upload</button>";
+				}
+
+
+
+				echo "<hr>";
+
 				if(YII::app()->user->record->level==1){
 
 					echo $this->renderPartial('_form_update', array('model'=>$model,'dataDisposition'=>$dataDisposition));
 					
 				}else{
+
 					
 					$this->widget('zii.widgets.CDetailView', array(
 						'data'=>$model,
 						'htmlOptions'=>array("class"=>"table"),
 						'attributes'=>array(
-							// 'id_request',
 							'code',
-							// 'created_date',
-							// 'created_id',
-							// 'update_date',
-							// 'update_id',
 							'date',
 							array('name'=>'company_id','value'=>$model->Company->name),
 							array('name'=>'company_id','value'=>$model->Company->address),
@@ -64,9 +80,9 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 							'letter_subject',
 							'letter_attachment',
 							'disposition_letter',
+							'color',
 							// 'disposition_to',
 							// 'disposition_date',
-							// 'color',
 							// 'status',
 							),
 						)); 

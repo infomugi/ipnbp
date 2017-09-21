@@ -267,11 +267,11 @@ class Users extends CActiveRecord
 		if($a==0)
 			return "Unverified";
 		else if($a==1)
-			return "Administrator";
+			return "Superadmin";
 		else if($a==2)
-			return "Member";	
+			return "Petugas Balai";	
 		else if($a==3)
-			return "Customer";			
+			return "Petugas Administrasi";			
 		else 
 			return "Unknow";
 	}	
