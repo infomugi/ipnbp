@@ -45,19 +45,12 @@ $this->pageTitle='Kelola Kategori Pengujian';
 
 					'name',
 					'description',
-					/*
-					'id_category',
-					'icon',
-					'status',
-					'id_user',
-					'type',
-					*/
-
-					array(	
-						'name'=>'status',
-						'filter'=>array('0'=>'Disable','1'=>'Enable'),
-						'value'=>'Users::model()->status($data->status)',
-						),
+					
+					// array(	
+					// 	'name'=>'status',
+					// 	'filter'=>array('0'=>'Disable','1'=>'Enable'),
+					// 	'value'=>'Users::model()->status($data->status)',
+					// 	),
 
 					array(
 						'class'=>'CButtonColumn',

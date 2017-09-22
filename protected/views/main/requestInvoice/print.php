@@ -111,12 +111,12 @@ function terbilang($satuan){
 
 							<tr>
 								<td width="10%"></td>
-								<td width="80%" colspan="2"><b>Terbilang == <?php echo strtoupper(terbilang($model->total)); ?> ==</b></td>
+								<td width="80%" colspan="2">Terbilang == <?php echo ucwords(terbilang($model->total)); ?> ==</td>
 							</tr>
 
 							<tr>
 								<td width="10%"></td>
-								<td width="80%" colspan="2">Catatan <b><?php echo $model->note; ?></b></td>
+								<td width="80%" colspan="2">Catatan : <?php echo $model->note; ?></td>
 							</tr>
 
 

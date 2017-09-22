@@ -16,7 +16,7 @@ class TestingController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			// 'postOnly + delete', // we only allow deletion via POST request
-		);
+			);
 	}
 
 	/**
@@ -78,13 +78,15 @@ class TestingController extends Controller
 		if(isset($_POST['Testing']))
 		{
 			$model->attributes=$_POST['Testing'];
-			if($model->save())
+			$model->status = 1;
+			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id_testing));
+			}
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -108,7 +110,7 @@ class TestingController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**
@@ -133,7 +135,7 @@ class TestingController extends Controller
 		$dataProvider=new CActiveDataProvider('Testing');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+			));
 	}
 
 	/**
@@ -148,7 +150,7 @@ class TestingController extends Controller
 
 		$this->render('admin',array(
 			'model'=>$model,
-		));
+			));
 	}
 
 	/**

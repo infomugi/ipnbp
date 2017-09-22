@@ -140,7 +140,7 @@
 
 					<div class="col-sm-8">
 						<?php echo $form->error($payment,'term'); ?>
-						<?php echo $form->dropDownList($payment,'term',array(''=>'-- Pilih Termin --','1'=>'Termin Ke-1','2'=>'Termin Ke-2','3'=>'Termin Ke-3','4'=>'Termin Ke-4','5'=>'Termin Ke-5'),array('class'=>'select2 form-control')); ?>
+						<?php echo $form->dropDownList($payment,'term',array(''=>'-- Pilih Termin --','6'=>'Lunas','1'=>'Termin Ke-1','2'=>'Termin Ke-2','3'=>'Termin Ke-3','4'=>'Termin Ke-4','5'=>'Termin Ke-5'),array('class'=>'select2 form-control')); ?>
 					</div>
 
 				</div>  
@@ -239,7 +239,8 @@
 					'buttons'=>array(
 						'Pembayaran'=>
 						array(
-							'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file"]', 
+							// 'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file"]',
+							'url'=>'Yii::app()->createUrl("main/requestpayment/downloadpayment", array("id"=>$data->id_payment))', 
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
 							'visible'=>'$data->file!=NULL',
 							),

@@ -45,7 +45,7 @@ class RequestSchedule extends CActiveRecord
 			array('update_date, update_id,', 'required','on'=>'update'),
 			array('created_id, update_id, testing_number, testing_id, testing_type, request_id, status', 'numerical', 'integerOnly'=>true),
 			array('cost', 'numerical'),
-			array('task, file', 'length', 'max'=>255),
+			array('task, file, description, note', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_schedule, created_date, created_id, update_date, update_id, task, cost, start_date, end_date, description, note, testing_number, testing_id, file, request_id, status', 'safe', 'on'=>'search'),

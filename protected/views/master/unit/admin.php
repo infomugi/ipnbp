@@ -52,11 +52,11 @@ $this->pageTitle='Kelola Unit';
 						'value'=>'Unit::model()->type($data->type)',
 						),
 
-					array(	
-						'name'=>'status',
-						'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
-						'value'=>'Users::model()->status($data->status)',
-						),
+					// array(	
+					// 	'name'=>'status',
+					// 	'filter'=>array('0'=>'Tidak Aktif','1'=>'Aktif'),
+					// 	'value'=>'Users::model()->status($data->status)',
+					// 	),
 
 					array(
 						'class'=>'CButtonColumn',

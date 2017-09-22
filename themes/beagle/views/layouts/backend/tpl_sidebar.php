@@ -17,9 +17,7 @@
 									<li class="parent"><a href="<?php echo $url; ?>main/requestschedule/admin">Jadwal & RAB</a>
 
 										<ul class="sub-menu">
-											<li><a href="<?php echo $url; ?>site/calendar/filter/company">Perusahaan</a></li>
 											<li><a href="<?php echo $url; ?>site/calendar/filter/request">Permohonan</a></li>
-											<li><a href="<?php echo $url; ?>site/calendar/filter/balai">Balai</a></li>
 
 										</ul>
 
@@ -38,7 +36,6 @@
 									<li><a href="<?php echo $url; ?>master/category/admin">Kategori Pengujian</a></li>
 									<li><a href="<?php echo $url; ?>master/testing/admin">Jenis Pengujian</a></li>
 									<li><a href="<?php echo $url; ?>master/company/admin">Perusahaan/ Instansi</a></li>
-									<li><a href="<?php echo $url; ?>master/industry/admin">Kategori Pemohon</a></li>
 
 								</ul>
 							</li>

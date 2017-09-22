@@ -5,7 +5,7 @@ if($filter=="company"){
 	$this->pageTitle=$title;
 }elseif($filter=="request"){
 	$url = 'request/calendarrequest/';
-	$title = "Jadwal Pengujian Per Bulan";
+	$title = "Jadwal Pengujian Per Balai";
 	$this->pageTitle=$title;
 }elseif($filter=="balai"){
 	$url = 'request/calendarrequestdivision/status/'.$status.'/balai/'.$balai;
@@ -15,18 +15,16 @@ if($filter=="company"){
 	$url = 'request/calendarcompany/';
 }
 ?>
-<H3><?php echo $title; ?></H3>
-
 <div class="row">
 
-	<form target="_BLANK" action="<?php echo $this->createUrl('site/calendarbalai/filter/');?>" method="post">
+	<form action="<?php echo $this->createUrl('site/calendarbalai/filter/');?>" method="post">
 
 		<input type="text" name="filter" value="balai" style="display:none">
 
 		<div class="col-md-5">
 			<div class="form-group">
 
-				<select name="balai" class="form-control">
+				<select name="balai" class="form-control" required="true">
 					<option value="">- Pilih Balai -</option>
 					<?php foreach (Unit::getBalai() as $data) { ?>
 						<option value="<?php echo $data["id_unit"]; ?>"><?php echo $data["name"]; ?></option>
@@ -39,9 +37,11 @@ if($filter=="company"){
 			<div class="col-md-5">
 				<div class="form-group">
 
-					<select name="status" class="form-control">
-						<option value="1">Aktif</option>
-						<option value="0">Tidak Aktif</option>
+					<select name="status" class="form-control" required="true">
+						<option value="">-- Pilih Status --</option>
+						<option value="1">Start</option>
+						<option value="2">In Progress</option>
+						<option value="3">Close</option>
 					</select>
 
 				</div>  	

@@ -52,7 +52,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 						array('downloaddisposition', 'id'=>$model->id_request),
 						array('class' => 'btn btn-primary pull-right btn-md'));
 				}else{
-					echo "<button class='btn btn-warning pull-right btn-disabled'>Surat Disposisi belum di Upload</button>";
+					echo "<div class='pull-right label label-warning'>Surat Disposisi belum di Upload</div>";
 				}
 
 
@@ -61,7 +61,14 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 				if(YII::app()->user->record->level==1){
 
-					echo $this->renderPartial('_form_update', array('model'=>$model,'dataDisposition'=>$dataDisposition));
+					echo $this->renderPartial('_form_update', array('model'=>$model));
+
+
+					echo $this->renderPartial('_form_upload_disposition', 
+						array(
+							// 'disposition'=>$disposition,
+							'dataDisposition'=>$dataDisposition
+							));
 					
 				}else{
 
@@ -80,7 +87,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 							'letter_subject',
 							'letter_attachment',
 							'disposition_letter',
-							'color',
+							// 'color',
 							// 'disposition_to',
 							// 'disposition_date',
 							// 'status',
@@ -139,8 +146,6 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 								<?php echo $this->renderPartial('_form_response', 
 									array(
 										'response'=>$response,
-										'member'=>$member,
-										'validatedMembers'=>$validatedMembers,
 										'dataResponse'=>$dataResponse,
 										)); ?>
 

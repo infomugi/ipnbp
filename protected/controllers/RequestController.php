@@ -28,7 +28,7 @@ class RequestController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition','calendarrequestdivision'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition','calendarrequestdivision','downloadrequest','downloaddisposition'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -50,9 +50,10 @@ class RequestController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->layout="page";
+		// $this->layout="page";
 		//Form Permohonan
 		$model=$this->loadModel($id);
+		$disposition=$this->loadModel($id);
 
 		if(YII::app()->user->record->level==2):
 
@@ -66,14 +67,14 @@ class RequestController extends Controller
 		}
 
 
-			//Type = 1 (Response = Disposisi)
+		//Type = 1 (Response = Disposisi)
 		if($model->status==1):
 			$this->setActivity($id,1);
-			// Kode 2 = Disposisi
+		// Kode 2 = Disposisi
 		$model->status = 2;
 		$model->save();
 		endif;
-			// }
+		// }
 
 		endif;
 
@@ -82,8 +83,23 @@ class RequestController extends Controller
 		{
 			$model->attributes=$_POST['Request'];
 			$model->update_id = YII::app()->user->id;
-			$model->update_date = date('Y-m-d h:i:s');			
+			$model->update_date = date('Y-m-d h:i:s');	
+
+			$model->disposition_letter=CUploadedFile::getInstance($model,'disposition_letter');
+			$tmp2;
+			if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
+			{ 
+				$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
+				$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
+			}
+
+
 			if($model->save()){
+
+				if(strlen(trim($model->disposition_letter)) > 0){
+					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/disposition/'.$model->disposition_letter);	
+				} 
+
 				Yii::app()->user->setFlash('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Diperbaharui.');
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -95,8 +111,6 @@ class RequestController extends Controller
 		Yii::import('ext.multimodelform.MultiModelForm');
 
 		$response=new Response;
-		$member=new ResponseDetail;
-		$validatedMembers = array(); 
 
 		$response->setScenario('create');
 		if(isset($_POST['Response']))
@@ -114,9 +128,7 @@ class RequestController extends Controller
 				$response->letter_attachment="surat-tanggapan-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
 			}
 
-			if(MultiModelForm::validate($member,$validatedMembers,$deleteItems) && $response->save()){
-
-				$masterValues = array ('response_id'=>$response->id_response);
+			if($response->save()){
 
 				if(strlen(trim($response->letter_attachment)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->letter_attachment);	
@@ -132,9 +144,7 @@ class RequestController extends Controller
 				$this->setActivity($id,2);
 				endif;				
 
-				if(MultiModelForm::save($member,$validatedMembers,$deleteMembers,$masterValues)){
-					$this->redirect(array('view','id'=>$id));
-				}
+				$this->redirect(array('view','id'=>$id));
 
 
 			}
@@ -345,6 +355,7 @@ class RequestController extends Controller
 
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+			'dataDisposition'=>$dataDisposition,
 			'response'=>$response,
 			'dataResponse'=>$dataResponse,
 			'testing'=>$testing,
@@ -358,11 +369,6 @@ class RequestController extends Controller
 			'report'=>$report,
 			'dataReport'=>$dataReport,
 			'activity'=>$activity,
-
-			'member'=>$member,
-			'validatedMembers' => $validatedMembers,		
-
-			'dataDisposition'=>$dataDisposition,
 			));
 
 	}
@@ -802,8 +808,6 @@ class RequestController extends Controller
 			$path = Yii::getPathOfAlias('webroot')."/image/files/disposition/".$model->disposition_letter;
 			$this->downloadFile($path);
 		}
-
-
 	}		
 
 }

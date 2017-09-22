@@ -28,7 +28,7 @@ class RequestReportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','download'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -193,5 +193,26 @@ class RequestReportController extends Controller
 		$model->status = 0;
 		$model->save();
 		$this->redirect(array('index'));
-	}			
+	}		
+
+	public function downloadFile($fullpath){
+		if(!empty($fullpath)){ 
+			header("Content-type:application/pdf"); 
+			header('Content-Disposition: attachment; filename="'.basename($fullpath).'"'); 
+			header('Content-Length: ' . filesize($fullpath));
+			readfile($fullpath);
+			Yii::app()->end();
+		}
+	}
+
+	public function actionDownload($id){
+		$model=$this->loadModel($id);
+		if($model->file==""){
+			throw new CHttpException(404,'File Download Report tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/report/".$model->file;
+			$this->downloadFile($path);
+		}
+
+	}		
 }

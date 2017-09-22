@@ -49,7 +49,7 @@
 			</div>  
 
 			
-			<div class="form-group">
+	<!-- 		<div class="form-group">
 				
 				<div class="col-sm-4 control-label">
 					<?php echo $form->labelEx($model,'status'); ?>
@@ -71,7 +71,7 @@
 						?>
 					</div>
 					
-				</div>  
+				</div>  --> 
 
 			</div>
 		</div><!-- form -->

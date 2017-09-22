@@ -170,7 +170,7 @@
 
 			</div>  
 
-
+			<!-- 
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -184,6 +184,7 @@
 
 			</div>  
 
+			
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -204,35 +205,37 @@
 
 				</div> 		
 
-
-				<div class="form-group">
-
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'color'); ?>
-					</div>   
-
-					<div class="col-sm-8">
-						<div id="cp2" class="input-group colorpicker-component"><?php echo $form->textField($model,'color',array('class'=>'form-control')); ?><span class="input-group-addon"><i class="fa fa-square"></i></span> 
-						</div> 
-						<?php echo $form->error($model,'color'); ?>
-
-						
-					</div>
-
-				</div>  				
+			-->
 
 
+			<div class="form-group">
 
-				<div class="form-group">
-					<div class="col-md-12">  
-					</br></br>
-					<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'color'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<div id="cp2" class="input-group colorpicker-component"><?php echo $form->textField($model,'color',array('class'=>'form-control')); ?><span class="input-group-addon"><i class="fa fa-square"></i></span> 
+					</div> 
+					<?php echo $form->error($model,'color'); ?>
+
+					
 				</div>
+
+			</div>  				
+
+
+
+			<div class="form-group">
+				<div class="col-md-12">  
+				</br></br>
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 			</div>
-
-			<?php $this->endWidget(); ?>
-
 		</div>
 
-	</div><!-- form -->
+		<?php $this->endWidget(); ?>
+
+	</div>
+
+</div><!-- form -->
 

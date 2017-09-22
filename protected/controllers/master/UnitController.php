@@ -78,8 +78,10 @@ class UnitController extends Controller
 		if(isset($_POST['Unit']))
 		{
 			$model->attributes=$_POST['Unit'];
-			if($model->save())
+			$model->status = 1;
+			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id_unit));
+			}
 		}
 
 		$this->render('create',array(

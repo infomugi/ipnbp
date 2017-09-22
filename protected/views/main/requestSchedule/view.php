@@ -62,10 +62,10 @@ $this->pageTitle='Detail Permohonan Penjadwalan';
 															'description',
 															'note',
 															'testing_number',
-															'testing_id',
-															'file',
-															'request_id',
-															'status',
+															// 'testing_id',
+															// 'file',
+															// 'request_id',
+															// 'status',
 															),
 															)); ?>
 

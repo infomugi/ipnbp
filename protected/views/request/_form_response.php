@@ -82,76 +82,22 @@
 
 			</div>  
 
+			
+
 			<div class="form-group">
+				<div class="col-md-12">  
+					<?php echo CHtml::submitButton($response->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				</div>
+			</div>
 
-				<div class="col-sm-4 control-label">
-				</div>   
+			<?php $this->endWidget(); ?>
 
-				<div class="col-sm-8">
-
-
-					<?php
-
-	// see http://www.yiiframework.com/doc/guide/1.1/en/form.table
-	// Note: Can be a route to a config file too,
-	//       or create a method 'getMultiModelForm()' in the member model
-
-					$memberFormConfig = array(
-						'elements'=>array(
-							'letter_attachment'=>array(
-								'type'=>'file',
-								'class'=>'btn btn-info',
-								'maxlength'=>40,
-								),
-							));
-
-					$this->widget('ext.multimodelform.MultiModelForm',array(
-			'id' => 'id_response_detail', //the unique widget id
-			'formConfig' => $memberFormConfig, //the form configuration array
-			'model' => $member, //instance of the form model
-
-			//if submitted not empty from the controller,
-			//the form will be rendered with validation errors
-			'validatedItems' => $validatedMembers,
-
-	        //array of member instances loaded from db
-			// 'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
-			'data' => $member->findAll('response_id=:response_id', array(':response_id'=>$response->id_response)),
-			'sortAttribute' => 'id_response_detail',
-			'hideCopyTemplate'=>true,
-			'clearInputs'=>false,
-			'tableView' => true, 
-			'addItemAsButton' => false,
-			'showAddItemOnError' => false, 
-			'fieldsetWrapper' => array('tag' => 'div',
-				'htmlOptions' => array('class' => 'view','style'=>'position:relative;background:#EFEFEF;')
-				),
-			'addItemText' => '<div class="btn btn-info btn-flat btn-small btn-sm"><i class="icon-plus"></i> Tambah Lampiran</div>',
-			'removeHtmlOptions' => array('class' => 'btn btn-danger btn-flat btn-small', 'style' => 'margin-top: -13px;margin-bottom: -1px;'),
-			));
-			?> 
+		</div><!-- form -->
+	</div><!-- form -->
 
 
-
-		</div>
-
-	</div>
-
-
-	<div class="form-group">
-		<div class="col-md-12">  
-			<?php echo CHtml::submitButton($response->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
-		</div>
-	</div>
-
-	<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-</div><!-- form -->
-
-
-<h4>Data Surat Tanggapan</h4>
-<?php 
+	<h4>Data Surat Tanggapan</h4>
+	<?php 
 // $this->widget('zii.widgets.grid.CGridView', array(
 // 	'id'=>'response-grid',
 // 	'dataProvider'=>$dataResponse,
@@ -206,100 +152,100 @@
 // 			),
 // 		),
 // 		)); 
-?>
+	?>
 
-<div class="table-responsive">
-	<table class="table table-responsive table-hover table-striped">
-		<thead>
-			<tr>
-				<th>No. Surat</th>
-				<th>Tanggal Surat</th>
-				<th>Catatan</th>
-				<th>Surat Tanggapan</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
+	<div class="table-responsive">
+		<table class="table table-responsive table-hover table-striped">
+			<thead>
+				<tr>
+					<th>No. Surat</th>
+					<th>Tanggal Surat</th>
+					<th>Catatan</th>
+					<th>Surat Tanggapan</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
 
-			<?php foreach($dataResponse->getData() as $key => $valueTesting) { ?>
+				<?php foreach($dataResponse->getData() as $key => $valueTesting) { ?>
 
-				<tr class="clickable" data-toggle="collapse" id="row1" data-target=".<?php echo $valueTesting->id_response; ?>">
-					<td>
-						<H4><i class="icon mdi mdi-caret-right-circle"></i> <?php echo $valueTesting->letter_code; ?></H4></td>
-						<td><H4><?php echo $valueTesting->letter_date; ?></H4></td>
-						<td><H4><?php echo $valueTesting->description; ?></H4></td>
-
+					<tr class="clickable" data-toggle="collapse" id="row1" data-target=".<?php echo $valueTesting->id_response; ?>">
 						<td>
-							<?php echo CHtml::link('<i class="icon mdi mdi-download"></i> Download', 
-								array('main/requesttesting/download', 'id'=>$valueTesting->id_response,
-									), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Download Surat Tanggapan'));
-							?>
+							<H4><i class="icon mdi mdi-caret-right-circle"></i> <?php echo $valueTesting->letter_code; ?></H4></td>
+							<td><H4><?php echo $valueTesting->letter_date; ?></H4></td>
+							<td><H4><?php echo $valueTesting->description; ?></H4></td>
 
-						</td>
-
-						<td>
-
-							<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>', 
-								array('main/responsedetail/create', 'request'=>$valueTesting->request_id, 'response'=>$valueTesting->id_response,
-									), array('class' => 'btn btn-sm btn-primary btn-flat', 'title'=>'Tambah Lampiran untuk No. Surat '.$valueTesting->letter_code));
-							?>
-
-							<?php echo CHtml::link('<i class="icon mdi mdi-edit"></i>', 
-								array('main/response/update', 'id'=>$valueTesting->id_response,
-									), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Edit Tanggapan'));
-							?>
-
-
-							<?php echo CHtml::link('<i class="icon mdi mdi-close"></i>', 
-								array('main/response/delete', 'id'=>$valueTesting->id_response,
-									), array('class' => 'btn btn-sm btn-danger btn-flat', 'title'=>'Hapus Tanggapan'));
-							?>
-
-						</td>
-					</tr>
-
-					<?php 
-					$detailResponse=new CActiveDataProvider('ResponseDetail',array('criteria'=>array('condition'=>'request_id='.$valueTesting->request_id.' AND response_id='.$valueTesting->id_response)));
-					foreach($detailResponse->getData() as $key => $detail) { 
-						?>
-
-						<tr class="collapse <?php echo $valueTesting->id_response; ?>">
-
-							<td></td>
-							<td class="format-date"><?php echo $detail->created_date; ?></td>
-							<td><?php echo $detail->description; ?></td>
 							<td>
 								<?php echo CHtml::link('<i class="icon mdi mdi-download"></i> Download', 
-									array('main/responsedetail/download', 'id'=>$detail->id_response_detail,
-										), array('class' => 'btn btn-sm btn-warning btn-flat', 'title'=>'Download Lampiran Surat Tanggapan'));
+									array('main/requesttesting/download', 'id'=>$valueTesting->id_response,
+										), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Download Surat Tanggapan'));
 								?>
 
 							</td>
 
-
 							<td>
 
+								<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>', 
+									array('main/responsedetail/create', 'request'=>$valueTesting->request_id, 'response'=>$valueTesting->id_response,
+										), array('class' => 'btn btn-sm btn-primary btn-flat', 'title'=>'Tambah Lampiran untuk No. Surat '.$valueTesting->letter_code));
+								?>
+
 								<?php echo CHtml::link('<i class="icon mdi mdi-edit"></i>', 
-									array('main/responsedetail/update', 'id'=>$detail->id_response_detail,
-										), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Update Tanggapan'));
+									array('main/response/update', 'id'=>$valueTesting->id_response,
+										), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Edit Tanggapan'));
 								?>
 
 
 								<?php echo CHtml::link('<i class="icon mdi mdi-close"></i>', 
-									array('main/responsedetail/delete', 'id'=>$detail->id_response_detail,
-										), array('class' => 'btn btn-sm btn-danger btn-flat', 'title'=>'Hapus Lampiran'));
+									array('main/response/delete', 'id'=>$valueTesting->id_response,
+										), array('class' => 'btn btn-sm btn-danger btn-flat', 'title'=>'Hapus Tanggapan'));
 								?>
 
 							</td>
-
 						</tr>
 
-						<?php } ?> 
+						<?php 
+						$detailResponse=new CActiveDataProvider('ResponseDetail',array('criteria'=>array('condition'=>'request_id='.$valueTesting->request_id.' AND response_id='.$valueTesting->id_response)));
+						foreach($detailResponse->getData() as $key => $detail) { 
+							?>
 
-						<?php } ?> 
+							<tr class="collapse <?php echo $valueTesting->id_response; ?>">
 
-					</tbody>
-				</table>
-			</div>
+								<td></td>
+								<td class="format-date"><?php echo $detail->created_date; ?></td>
+								<td><?php echo $detail->description; ?></td>
+								<td>
+									<?php echo CHtml::link('<i class="icon mdi mdi-download"></i> Download', 
+										array('main/responsedetail/download', 'id'=>$detail->id_response_detail,
+											), array('class' => 'btn btn-sm btn-warning btn-flat', 'title'=>'Download Lampiran Surat Tanggapan'));
+									?>
+
+								</td>
+
+
+								<td>
+
+									<?php echo CHtml::link('<i class="icon mdi mdi-edit"></i>', 
+										array('main/responsedetail/update', 'id'=>$detail->id_response_detail,
+											), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Update Tanggapan'));
+									?>
+
+
+									<?php echo CHtml::link('<i class="icon mdi mdi-close"></i>', 
+										array('main/responsedetail/delete', 'id'=>$detail->id_response_detail,
+											), array('class' => 'btn btn-sm btn-danger btn-flat', 'title'=>'Hapus Lampiran'));
+									?>
+
+								</td>
+
+							</tr>
+
+							<?php } ?> 
+
+							<?php } ?> 
+
+						</tbody>
+					</table>
+				</div>
 
 

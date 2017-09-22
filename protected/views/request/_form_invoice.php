@@ -213,13 +213,15 @@
 				'buttons'=>array(
 					'Invoice'=>
 					array(
-						'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file_invoice"]', 
+						// 'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file_invoice"]', 
+						'url'=>'Yii::app()->createUrl("main/requestinvoice/downloadinvoice", array("id"=>$data->id_invoice))',
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
 						'visible'=>'$data->file_invoice!=NULL',
 						),
 					'SPK'=>
 					array(
-						'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/spk/".$data["file_spk"]', 
+						// 'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/spk/".$data["file_spk"]', 
+						'url'=>'Yii::app()->createUrl("main/requestinvoice/downloadspk", array("id"=>$data->id_invoice))',
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/spk.png',
 						'visible'=>'$data->file_spk!=NULL',
 						),

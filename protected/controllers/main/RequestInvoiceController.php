@@ -28,7 +28,7 @@ class RequestInvoiceController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload','downloadinvoice','downloadspk'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -250,4 +250,38 @@ class RequestInvoiceController extends Controller
 			'model'=>$model,
 			));
 	}		
+
+	public function downloadFile($fullpath){
+		if(!empty($fullpath)){ 
+			header("Content-type:application/pdf"); 
+			header('Content-Disposition: attachment; filename="'.basename($fullpath).'"'); 
+			header('Content-Length: ' . filesize($fullpath));
+			readfile($fullpath);
+			Yii::app()->end();
+		}
+	}
+
+	public function actionDownloadInvoice($id){
+		$model=$this->loadModel($id);
+		if($model->file_invoice==""){
+			throw new CHttpException(404,'File Download Invoice tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/invoice/".$model->file_invoice;
+			$this->downloadFile($path);
+		}
+
+	}
+
+	public function actionDownloadSpk($id){
+		$model=$this->loadModel($id);
+
+		if($model->file_spk==""){
+			throw new CHttpException(404,'File Download SPK tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/spk/".$model->file_spk;
+			$this->downloadFile($path);
+		}
+	}		
+
+
 }

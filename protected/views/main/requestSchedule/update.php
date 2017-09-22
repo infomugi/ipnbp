@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 	'Edit',
 	);
 
-$this->pageTitle='Edit Jadwal & RAB - #'.$model->id_schedule;
+$this->pageTitle='Edit Jadwal & RAB';
 ?>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

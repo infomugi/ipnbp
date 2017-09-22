@@ -129,6 +129,6 @@ class RequestTesting extends CActiveRecord
 	public function getRequest()
 	{
 		$testing=Testing::model()->findByPk($this->testing_type);
-		return $this->id_testing.' - '.$testing->name;
+		return $testing->name;
 	}
 }

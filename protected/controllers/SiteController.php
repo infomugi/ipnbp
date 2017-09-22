@@ -194,7 +194,7 @@ class SiteController extends Controller
 
 		}else{
 
-			$this->layout="page";			
+			// $this->layout="page";			
 			$balai = "";
 			$status = 1;
 
@@ -214,7 +214,7 @@ class SiteController extends Controller
 			$this->redirect(array('site/login'));
 
 		}else{
-			$this->layout="page";			
+			// $this->layout="page";			
 
 			$balai = $_POST["balai"];
 			$status = $_POST["status"];

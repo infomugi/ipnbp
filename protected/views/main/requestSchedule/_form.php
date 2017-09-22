@@ -50,7 +50,7 @@
 									$("#testing_type").val(data.testing_type);
 									$("#testing_part").val(data.testing_part);
 									$("#RequestSchedule_testing_number").val(data.testing_number);
-									$("#testing_total").val("Total Sample " + data.testing_total);
+									$("#testing_total").val(data.testing_total);
 									$("#RequestSchedule_task").focus();
 								}',),							
 							)
@@ -238,6 +238,32 @@
 						<?php echo $form->error($model,'file'); ?>
 						<?php echo $form->fileField($model,'file',array('class'=>'btn btn-info')); ?>
 					</div>
+				</div>
+
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'status'); ?>
+					</div>   
+
+					<div class="col-sm-8 be-radio">
+						<?php echo $form->error($model,'status'); ?>
+						<?php
+						echo $form->radioButtonList($model,'status',
+							array('1'=>'Start','2'=>'In Progress','3'=>'Close'),
+							array(
+								'template'=>'{input}{label}',
+								'separator'=>'',
+								'labelOptions'=>array(
+									'class'=>'minimal', 'style'=>'padding-right:20px;margin-left:5px'),
+
+								)                              
+							);
+							?>
+						</div>
+
+					</div>  
 
 
 

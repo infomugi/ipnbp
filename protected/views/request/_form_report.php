@@ -124,7 +124,22 @@
 
 
 			'description',
-			'file',
+
+			array(
+				'header'=>'Download Laporan',      
+				'class'=>'CButtonColumn',
+				'template'=>'{File}',
+				'htmlOptions'=>array('width'=>'15px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'File'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestreport/download", array("id"=>$data->id_report))', 
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+						'visible'=>'$data->file!=NULL',
+						),
+
+					),
+				),
 
 			array(
 				'class'=>'CButtonColumn',

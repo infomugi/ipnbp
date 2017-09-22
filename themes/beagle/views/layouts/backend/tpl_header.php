@@ -37,13 +37,14 @@ if($total==0){
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/admin/assets/css/style.css" type="text/css"/>
 </head>
 <body>
-	<div class="be-wrapper be-color-header">
+	<div class="be-wrapper be-collapsible-sidebar be-collapsible-sidebar-collapsed be-color-header">
 		<nav class="navbar navbar-default navbar-fixed-top be-top-header">
 			<div class="container-fluid">
 				<div class="navbar-header"><a href="<?php echo $url; ?>/site/dashboard" class="navbar-brand"></a>
 				</div>
 				<div class="be-right-navbar">
 					<ul class="nav navbar-nav navbar-right be-user-nav">
+						<!-- <li><a href="#" class="be-toggle-left-sidebar"><span class="icon mdi mdi-dns"></span></a></li> -->
 						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><img src="<?php echo $url; ?>image/avatar/<?php echo Users::model()->showAvatar(YII::app()->user->id); ?>" alt="Avatar"><span class="user-name"><?php echo YII::app()->user->name; ?></span></a>
 							<ul role="menu" class="dropdown-menu">
 								<li>

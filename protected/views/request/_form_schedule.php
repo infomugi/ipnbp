@@ -50,7 +50,7 @@
 									$("#testing_type").val(data.testing_type);
 									$("#testing_part").val(data.testing_part);
 									$("#RequestSchedule_testing_number").val(data.testing_number);
-									$("#testing_total").val("Total Sample " + data.testing_total);
+									$("#testing_total").val(data.testing_total);
 									$("#RequestSchedule_task").focus();
 								}',),							
 							)
