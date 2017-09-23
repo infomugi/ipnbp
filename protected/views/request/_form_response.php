@@ -173,7 +173,7 @@
 					<tr class="clickable" data-toggle="collapse" id="row1" data-target=".<?php echo $valueTesting->id_response; ?>">
 						<td>
 							<H4><i class="icon mdi mdi-caret-right-circle"></i> <?php echo $valueTesting->letter_code; ?></H4></td>
-							<td><H4><?php echo $valueTesting->letter_date; ?></H4></td>
+							<td><H4><?php echo Request::model()->date($valueTesting->letter_date); ?></H4></td>
 							<td><H4><?php echo $valueTesting->description; ?></H4></td>
 
 							<td>
@@ -221,7 +221,7 @@
 							<tr class="collapse <?php echo $valueTesting->id_response; ?>">
 
 								<td></td>
-								<td class="format-date"><?php echo $detail->created_date; ?></td>
+								<td><?php echo Request::model()->date($detail->created_date); ?></td>
 								<td><?php echo $detail->description; ?></td>
 								<td colspan="2">
 									<?php echo CHtml::link('<i class="icon mdi mdi-download"></i> Download', 

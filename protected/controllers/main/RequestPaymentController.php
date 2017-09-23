@@ -28,7 +28,7 @@ class RequestPaymentController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','upload','search','downloadpayment'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','upload','uploadpayment','search','downloadpayment','download'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -222,61 +222,6 @@ class RequestPaymentController extends Controller
 		}
 	}
 
-	public function actionSend($id)
-	{
-		Yii::import('ext.yii-mail.YiiMailMessage');
-		$email = new YiiMailMessage;	
-
-		//Data Invoice
-		$model=$this->loadModel($id);
-		$model->status = 1;
-		$model->save();
-
-		$greet = $this->loadGreeting();
-
-		//Data Request
-		$request=$this->loadRequest($model->request_id);
-
-		//Send Mail
-		$message_title = "Faktur Pembayaran";
-		$message_content = 
-		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Faktur Pembayaran No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
-		";
-		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
-		$message_button = "Konfirmasi";
-
-		//Send Email
-		$email->subject = $request->Company->name." - Faktur Pembayaran (".$model->code.")";
-		$email->addTo($request->Company->email);
-		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
-
-		// Email Attachment
-		if($model->file!=""){	
-			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/payment/".$model->file;
-			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
-			$email->attach($swiftAttachment_payment);
-		}
-
-		// Email Template
-		$message_template = $this->renderPartial('/email/informasi',
-			array(
-				'email'=>$request->Company->email,
-				'title'=>$message_title,
-				'message'=>$message_content,
-				'link'=>$message_link,
-				'button'=>$message_button
-				),TRUE);
-
-		$email->setBody($message_template, 'text/html');
-		if(Yii::app()->mail->send($email)){
-			Yii::app()->user->setFlash('Success', 'Faktur Pembayaran sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
-			$this->redirect(array('request/view','id'=>$model->request_id));
-		}
-
-	}	
-
-
 	public function actionPrint($id)
 	{
 		$this->layout = "print";
@@ -310,7 +255,7 @@ class RequestPaymentController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'file'))) > 0) 
 			{ 
 				$tmp=CUploadedFile::getInstance($model,'file'); 
-				$model->file="bukti-pembayaran-".$model->code.'-'.mktime().'.'.$tmp->extensionName; 
+				$model->file="bukti-pembayaran-".$id.'.'.$tmp->extensionName; 
 			}
 
 			if($model->save()){
@@ -319,7 +264,7 @@ class RequestPaymentController extends Controller
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/payment/'.$model->file);	
 				} 		
 
-				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$model->Invoice->code.' Disimpan.');
+				Yii::app()->user->setFlash('Success', 'Bukti Pembayaran atas Invoice No. '.$model->Invoice->code.' Disimpan.');
 
 				$this->redirect(array('request/view','id'=>$model->request_id));
 			}
@@ -329,6 +274,41 @@ class RequestPaymentController extends Controller
 			'model'=>$model,
 			));
 	}
+
+	public function actionUploadPayment($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('upload_payment');
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['RequestPayment']))
+		{
+			$model->attributes=$_POST['RequestPayment'];
+
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'file_payment'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'file_payment'); 
+				$model->file_payment="kwitansi-".$id.'.'.$tmp->extensionName; 
+			}
+
+			if($model->save()){
+
+				if(strlen(trim($model->file_payment)) > 0){
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/receipt/'.$model->file_payment);	
+				} 		
+
+				Yii::app()->user->setFlash('Success', 'Kwintansi atas Invoice No. '.$model->Invoice->code.' Disimpan.');
+
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
+		}
+
+		$this->render('upload_payment',array(
+			'model'=>$model,
+			));
+	}	
 
 	public function actionSearch()
 	{
@@ -372,7 +352,7 @@ class RequestPaymentController extends Controller
 		}
 	}
 
-	public function actionDownloadPayment($id){
+	public function actionDownload($id){
 		$model=$this->loadModel($id);
 		if($model->file==""){
 			throw new CHttpException(404,'File Download Bukti Pembayaran tidak Tersedia.');
@@ -381,6 +361,77 @@ class RequestPaymentController extends Controller
 			$this->downloadFile($path);
 		}
 
+	}	
+
+	public function actionDownloadPayment($id){
+		$model=$this->loadModel($id);
+		if($model->file_payment==""){
+			throw new CHttpException(404,'File Download Kwitansi tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/receipt/".$model->file_payment;
+			$this->downloadFile($path);
+		}
+
 	}
+
+	public function actionSend($id)
+	{
+		Yii::import('ext.yii-mail.YiiMailMessage');
+		$email = new YiiMailMessage;	
+
+		//Data Invoice
+		$model=$this->loadModel($id);
+		$model->status = 1;
+		$model->save();
+
+		$greet = $this->loadGreeting();
+
+		//Data Request
+		$request=$this->loadRequest($model->request_id);
+
+		//Send Mail
+		$message_title = "Faktur Pembayaran";
+		$message_content = 
+		$greet."
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Faktur Pembayaran No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		";
+		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_button = "Konfirmasi";
+
+		//Send Email
+		$email->subject = $request->Company->name." - Faktur Pembayaran (".$model->code.")";
+		$email->addTo($request->Company->email);
+		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+
+		// Email Attachment
+		if($model->file!=""){	
+			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/payment/".$model->file;
+			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
+			$email->attach($swiftAttachment_payment);
+		}
+		if($model->file_payment!=""){	
+			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/receipt/".$model->file_payment;
+			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
+			$email->attach($swiftAttachment_payment);
+		}
+
+		// Email Template
+		$message_template = $this->renderPartial('/email/informasi',
+			array(
+				'email'=>$request->Company->email,
+				'title'=>$message_title,
+				'message'=>$message_content,
+				'link'=>$message_link,
+				'button'=>$message_button
+				),TRUE);
+
+		$email->setBody($message_template, 'text/html');
+		if(Yii::app()->mail->send($email)){
+			Yii::app()->user->setFlash('Success', 'Faktur Pembayaran sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
+			$this->redirect(array('request/view','id'=>$model->request_id));
+		}
+
+	}	
+
 
 }

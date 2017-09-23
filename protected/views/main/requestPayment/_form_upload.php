@@ -14,11 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
-		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 		<div class="col-lg-9 col-md-10"> 
@@ -30,8 +30,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'file'); ?>
 					<?php echo $form->fileField($model,'file',array('class'=>'btn btn-info')); ?>
+					<?php echo $form->error($model,'file'); ?>
 				</div>
 
 			</div>   

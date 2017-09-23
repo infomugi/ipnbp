@@ -28,7 +28,7 @@ class RequestInvoiceController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','upload','downloadinvoice','downloadspk'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','uploadinvoice','uploadspk','downloadinvoice','downloadspk'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -302,10 +302,10 @@ class RequestInvoiceController extends Controller
 			));
 	}	
 
-	public function actionUpload($id)
+	public function actionUploadInvoice($id)
 	{
 		$model=$this->loadModel($id);
-		$model->setScenario('upload');
+		$model->setScenario('upload_invoice');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -318,7 +318,7 @@ class RequestInvoiceController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'file_invoice'))) > 0) 
 			{ 
 				$tmp1=CUploadedFile::getInstance($model,'file_invoice'); 
-				$model->file_invoice="invoice-".Request::model()->generateRandomString().'.'.$tmp1->extensionName; 
+				$model->file_invoice="invoice-".$id.'.'.$tmp1->extensionName; 
 			}
 
 			if($model->save()){
@@ -333,7 +333,43 @@ class RequestInvoiceController extends Controller
 			}
 		}
 
-		$this->render('upload',array(
+		$this->render('upload_invoice',array(
+			'model'=>$model,
+			));
+	}		
+
+	public function actionUploadSpk($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('upload_spk');
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['RequestInvoice']))
+		{
+			$model->attributes=$_POST['RequestInvoice'];
+
+			$tmp1;
+			if(strlen(trim(CUploadedFile::getInstance($model,'file_spk'))) > 0) 
+			{ 
+				$tmp1=CUploadedFile::getInstance($model,'file_spk'); 
+				$model->file_spk="spk-".$id.'.'.$tmp1->extensionName; 
+			}
+
+			if($model->save()){
+
+				if(strlen(trim($model->file_spk)) > 0){
+					$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/spk/'.$model->file_spk);	
+				} 
+
+				Yii::app()->user->setFlash('Success', 'File SPK No. '.$model->spk_no.' Diupload.');
+
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
+		}
+
+		$this->render('upload_spk',array(
 			'model'=>$model,
 			));
 	}		

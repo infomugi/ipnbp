@@ -269,6 +269,34 @@
 					),	
 
 
+				array(
+					'header'=>'Print',      
+					'class'=>'CButtonColumn',
+					'template'=>'{Print}',
+					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'Print'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestinvoice/print", array("id"=>$data->id_invoice))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+							),
+						),
+					),
+
+				array(
+					'header'=>'Kirim Email (Invoice)',      
+					'class'=>'CButtonColumn',
+					'template'=>'{Send}',
+					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'Send'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestinvoice/send", array("id"=>$data->id_invoice))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/email.png',
+							),
+						),
+					),	
+
 
 
 				array(
@@ -292,47 +320,26 @@
 						),
 					),
 
-				array(
-					'header'=>'Print',      
-					'class'=>'CButtonColumn',
-					'template'=>'{Print}',
-					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
-					'buttons'=>array(
-						'Print'=>
-						array(
-							'url'=>'Yii::app()->createUrl("main/requestinvoice/print", array("id"=>$data->id_invoice))',
-							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
-							),
-						),
-					),
 
 
-
-				array(
-					'header'=>'Kirim Email (Invoice)',      
-					'class'=>'CButtonColumn',
-					'template'=>'{Send}',
-					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
-					'buttons'=>array(
-						'Send'=>
-						array(
-							'url'=>'Yii::app()->createUrl("main/requestinvoice/send", array("id"=>$data->id_invoice))',
-							'imageUrl'=>YII::app()->baseUrl.'/image/setting/email.png',
-							),
-						),
-					),
 
 
 				array(
 					'header'=>'Upload',      
 					'class'=>'CButtonColumn',
-					'template'=>'{upload}',
+					'template'=>'{Upload Invoice}{Upload SPK}',
 					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
-						'upload'=>
+						'Upload Invoice'=>
 						array(
-							'url'=>'Yii::app()->createUrl("main/requestinvoice/upload", array("id"=>$data->id_invoice))',
+							'url'=>'Yii::app()->createUrl("main/requestinvoice/uploadinvoice", array("id"=>$data->id_invoice))',
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
+							'visible'=>'$data->print_by!=NULL',
+							),
+						'Upload SPK'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestinvoice/uploadspk", array("id"=>$data->id_invoice))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload_file.png',
 							'visible'=>'$data->print_by!=NULL',
 							),
 						),

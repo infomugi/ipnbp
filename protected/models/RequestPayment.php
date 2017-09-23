@@ -41,7 +41,6 @@ class RequestPayment extends CActiveRecord
 		return array(
 			// array('created_date, created_id, update_date, update_id, code, date, term, total, file, invoice_id, request_id, status', 'required'),
 			array('created_date, created_id, code, date, term, total, invoice_id, request_id, status', 'required','on'=>'create'),
-			array('file', 'required','on'=>'upload'),
 			array('print_by, print_click, print_date', 'required','on'=>'print'),
 			array('update_date, update_id', 'required','on'=>'update'),
 			array('created_id, update_id, term, total, invoice_id, request_id, status, print_by, print_click', 'numerical', 'integerOnly'=>true),
@@ -49,6 +48,12 @@ class RequestPayment extends CActiveRecord
 			array('file', 'length', 'max'=>255),
 			array('print_date', 'length', 'max'=>25),
 			array('code','unique'),
+
+			array('file', 'required','on'=>'upload'),
+			array('file_payment', 'required','on'=>'upload_payment'),
+
+			array('file', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'upload'),
+			array('file_payment', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'upload_payment'),			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_payment, created_date, created_id, update_date, update_id, code, date, term, total, file, invoice_id, request_id, status', 'safe', 'on'=>'search'),
@@ -92,6 +97,7 @@ class RequestPayment extends CActiveRecord
 			'request_id' => 'Permohonan ID',
 			'status' => 'Status',
 			'terbilang' => 'Terbilang',
+			'file_payment' => 'File Kwintansi',
 			);
 	}
 

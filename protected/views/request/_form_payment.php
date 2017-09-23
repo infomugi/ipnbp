@@ -232,23 +232,6 @@
 					),	
 
 				array(
-					'header'=>'Bukti Pembayaran',      
-					'class'=>'CButtonColumn',
-					'template'=>'{Pembayaran}',
-					'htmlOptions'=>array('width'=>'15px', 'style' => 'text-align: center;'),
-					'buttons'=>array(
-						'Pembayaran'=>
-						array(
-							// 'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/invoice/".$data["file"]',
-							'url'=>'Yii::app()->createUrl("main/requestpayment/downloadpayment", array("id"=>$data->id_payment))', 
-							'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
-							'visible'=>'$data->file!=NULL',
-							),
-
-						),
-					),
-
-				array(
 					'header'=>'Print',      
 					'class'=>'CButtonColumn',
 					'template'=>'{Print}',
@@ -260,11 +243,10 @@
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
 							),
 						),
-					),
-
+					),			
 
 				array(
-					'header'=>'Kirim Email (Kuintansi)',      
+					'header'=>'Kirim Email (Kwintansi)',      
 					'class'=>'CButtonColumn',
 					'template'=>'{Send}',
 					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
@@ -275,21 +257,50 @@
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/email.png',
 							),
 						),
+					),						
+
+				array(
+					'header'=>'Download',      
+					'class'=>'CButtonColumn',
+					'template'=>'{File Kwintansi}{Bukti Pembayaran}',
+					'htmlOptions'=>array('width'=>'15px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'File Kwintansi'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestpayment/downloadpayment", array("id"=>$data->id_payment))', 
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+							'visible'=>'$data->file_payment!=NULL',
+							),
+						'Bukti Pembayaran'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestpayment/download", array("id"=>$data->id_payment))', 
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/spk.png',
+							'visible'=>'$data->file!=NULL',
+							),
+
+						),
 					),
 
 
 				array(
 					'header'=>'Upload',      
 					'class'=>'CButtonColumn',
-					'template'=>'{Upload}',
+					'template'=>'{Upload Kuitansi}{Upload Bukti Pembayaran}',
 					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
-						'Upload'=>
+						'Upload Kuitansi'=>
 						array(
-							'url'=>'Yii::app()->createUrl("main/requestpayment/upload", array("id"=>$data->id_payment))',
+							'url'=>'Yii::app()->createUrl("main/requestpayment/uploadpayment", array("id"=>$data->id_payment))',
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
 							'visible'=>'$data->print_by!=NULL',
 							),
+						'Upload Bukti Pembayaran'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestpayment/upload", array("id"=>$data->id_payment))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload_file.png',
+							'visible'=>'$data->print_by!=NULL',
+							),
+						
 						),
 					),
 
