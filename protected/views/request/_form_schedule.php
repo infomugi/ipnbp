@@ -287,8 +287,13 @@
 					'value'=>'RequestSchedule::model()->testingNumber($data->testing_number)',
 					),
 
-				'start_date',
-				'end_date',
+				array(	
+					'header'=>'Jadwal',
+					'value'=>'Request::model()->date($data->start_date)." s/d ".Request::model()->date($data->end_date)',
+					),
+
+				// 'start_date',
+				// 'end_date',
 				'task',
 
 				array(	

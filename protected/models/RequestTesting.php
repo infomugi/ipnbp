@@ -39,6 +39,7 @@ class RequestTesting extends CActiveRecord
 			array('created_date, created_id, testing_type, testing_lab, testing_part, request_id, testing_total, status', 'required','on'=>'create'),
 			array('update_date, update_id', 'required','on'=>'update'),
 			array('created_id, update_id, testing_type, testing_lab, testing_part, request_id, status, testing_total', 'numerical', 'integerOnly'=>true),
+			array('testing_type', 'checkUnique','on'=>'create'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_testing, created_date, created_id, update_date, update_id, testing_type, testing_lab, testing_part, request_id, status', 'safe', 'on'=>'search'),
@@ -131,4 +132,12 @@ class RequestTesting extends CActiveRecord
 		$testing=Testing::model()->findByPk($this->testing_type);
 		return $testing->name;
 	}
+
+	public function checkUnique($attribute,$params)
+	{
+		$models = $this->model()->findAllByAttributes(array('testing_type' =>$this->testing_type,'request_id'=>$this->request_id));
+		if(count($models)>0){
+			$this->addError($attribute, 'Tahapan Pengujian ini sudah ada.');
+		}
+	}	
 }
