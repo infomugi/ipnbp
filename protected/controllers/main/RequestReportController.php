@@ -334,9 +334,9 @@ class RequestReportController extends Controller
 		$message_title = "Survei Kepuasan Pelanggan";
 		$message_content = 
 		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>link</i> untuk mengisi Kuesioner Survei Kepuasan Pelanggan Puslitbang Perumahan & Pemukiman atas Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p></br></br></br></br> 
-		<p>Silahkan klik tombol <b>Isi Kuesioner</b>. Survei kepusan pelanggan PUSPERKIM tahun ".date('Y').", bertujuan menggali masukan, persepsi dan saran dari pelanggan dalam rangka peningkatan kinerja PUSPERKIM.</p></br></br></br></br>
-		<p>Nama / Perusahaan masuk akan dirahasiakan. Diharapkan dengan adanya survei ini, PUSPERKIM dapat meningkatkan pelayanan dan dapat memenuhi segala harapan pelanggan.</p></br></br></br></br>
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>link</i> untuk mengisi Kuesioner Survei Kepuasan Pelanggan Puslitbang Perumahan & Pemukiman atas Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p></br></br>
+		<p>Silahkan klik tombol <b>Isi Kuesioner</b>. Survei kepusan pelanggan PUSPERKIM tahun ".date('Y').", bertujuan menggali masukan, persepsi dan saran dari pelanggan dalam rangka peningkatan kinerja PUSPERKIM.</p></br></br>
+		<p>Nama / Perusahaan masuk akan dirahasiakan. Diharapkan dengan adanya survei ini, PUSPERKIM dapat meningkatkan pelayanan dan dapat memenuhi segala harapan pelanggan.</p></br></br>
 		Terimakasih.
 		";
 		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
