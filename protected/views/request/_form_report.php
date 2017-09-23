@@ -14,11 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
-		<?php echo $form->errorSummary($report, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($report, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 		<div class="col-lg-9 col-md-10"> 
@@ -140,6 +140,34 @@
 
 					),
 				),
+
+			array(
+				'header'=>'Kirim Email (Laporan)',      
+				'class'=>'CButtonColumn',
+				'template'=>'{Send}',
+				'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'Send'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestreport/send", array("id"=>$data->id_report))',
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/email.png',
+						),
+					),
+				),	
+
+			array(
+				'header'=>'Kirim Email (Kuesioner)',      
+				'class'=>'CButtonColumn',
+				'template'=>'{Quesioner}',
+				'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+				'buttons'=>array(
+					'Quesioner'=>
+					array(
+						'url'=>'Yii::app()->createUrl("main/requestreport/send", array("id"=>$data->id_report))',
+						'imageUrl'=>YII::app()->baseUrl.'/image/setting/kuesioner.png',
+						),
+					),
+				),			
 
 			array(
 				'class'=>'CButtonColumn',

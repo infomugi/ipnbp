@@ -97,16 +97,19 @@ function terbilang($satuan){
 						<table>
 							<tr rowspan="3">
 								<b>
-									<td width="10%">No.</td>
-									<td width="50%">Uraian</td>
-									<td width="40%">Jumlah</td>
+									<td width="10%"><b>No.</b></td>
+									<td width="50%"><b>Uraian</b></td>
+									<td width="40%"><b>Jumlah</b></td>
 								</b>
 							</tr>
 
 							<tr>
-								<td width="10%">1.</td>
-								<td width="50%"><?php echo $model->description; ?></td>
-								<td width="40%"><b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></td>
+								<td width="10%"><br><br>1.</td>
+								<td width="50%">Pembayaran Biaya Pekerjaan <b>"<?php echo $model->description; ?>"</b>
+									<br>
+									<b>SPK No : <?php echo $model->spk_no; ?>, Tanggal <?php echo Yii::app()->dateFormatter->format("dd MMM yyyy", $model->spk_date); ?></b>
+								</td>
+								<td width="40%"><br><br><b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></td>
 							</tr>
 
 							<tr>

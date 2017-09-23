@@ -33,6 +33,8 @@ class RequestDisposition extends CActiveRecord
 		return array(
 			array('created_date, created_by, request_id, disposition_date, disposition_to, status', 'required'),
 			array('created_by, request_id, disposition_to, status', 'numerical', 'integerOnly'=>true),
+
+			array('disposition_to', 'checkUnique','on'=>'create'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_disposition, created_date, created_by, request_id, disposition_date, disposition_to, last_view, status', 'safe', 'on'=>'search'),
@@ -49,6 +51,7 @@ class RequestDisposition extends CActiveRecord
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			'Balai'=>array(self::BELONGS_TO,'unit','disposition_to'),
+			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_by'),
 			);
 	}
 
@@ -146,5 +149,13 @@ class RequestDisposition extends CActiveRecord
 		$sql = "SELECT count(id_disposition) as total FROM request_disposition WHERE status=".$data." AND disposition_to=".$division;
 		$command = YII::app()->db->createCommand($sql);
 		return $command->queryAll();
+	}
+
+	public function checkUnique($attribute,$params)
+	{
+		$models = $this->model()->findAllByAttributes(array('disposition_to' =>$this->disposition_to,'request_id'=>$this->request_id));
+		if(count($models)>0){
+			$this->addError($attribute, 'Disposisi ke '.$this->Balai->name.' sudah dikirim');
+		}
 	}
 }

@@ -14,11 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
-		<?php echo $form->errorSummary($payment, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($payment, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 		<div class="col-md-10"> 
@@ -30,7 +30,6 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($payment,'invoice_id'); ?>
 					<?php 
 					echo $form->dropDownList($payment, "invoice_id",
 						CHtml::encodeArray(CHtml::listData(RequestInvoice::model()->findall(array('condition'=>'balance!=0 AND status=1 AND request_id='.$request_id)), 'id_invoice', 'code')),
@@ -52,6 +51,7 @@
 							)
 						); 
 						?> 
+						<?php echo $form->error($payment,'invoice_id'); ?>
 					</div>
 
 				</div> 			
@@ -106,9 +106,9 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($payment,'code'); ?>
 						<?php $this->widget('CMaskedTextField',array('model'=>$payment,'attribute'=>'code','mask'=>'KU.99.99/KWT-PNBP/LP/999','htmlOptions'=>array('class'=>'form-control')));
 						?>
+						<?php echo $form->error($payment,'code'); ?>
 					</div>
 
 				</div>  
@@ -122,11 +122,11 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($payment,'date'); ?>
 						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
 							<?php echo $form->textField($payment,'date',array('class'=>'form-control')); ?>
 							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 						</div>
+						<?php echo $form->error($payment,'date'); ?>
 					</div>
 
 				</div>  
@@ -139,8 +139,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($payment,'term'); ?>
 						<?php echo $form->dropDownList($payment,'term',array(''=>'-- Pilih Termin --','6'=>'Lunas','1'=>'Termin Ke-1','2'=>'Termin Ke-2','3'=>'Termin Ke-3','4'=>'Termin Ke-4','5'=>'Termin Ke-5'),array('class'=>'select2 form-control')); ?>
+						<?php echo $form->error($payment,'term'); ?>
 					</div>
 
 				</div>  
@@ -153,8 +153,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($payment,'total'); ?>
 						<?php echo $form->textField($payment,'total',array('id'=>'nominal2','class'=>'form-control','onkeyup'=>'terbilang2();')); ?>
+						<?php echo $form->error($payment,'total'); ?>
 					</div>
 
 				</div>  
@@ -181,8 +181,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($payment,'file'); ?>
 						<?php echo $form->fileField($payment,'file',array('class'=>'btn btn-info')); ?>
+						<?php echo $form->error($payment,'file'); ?>
 					</div>
 
 				</div>   
@@ -258,6 +258,21 @@
 						array(
 							'url'=>'Yii::app()->createUrl("main/requestpayment/print", array("id"=>$data->id_payment))',
 							'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+							),
+						),
+					),
+
+
+				array(
+					'header'=>'Kirim Email (Kuintansi)',      
+					'class'=>'CButtonColumn',
+					'template'=>'{Send}',
+					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'Send'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestpayment/send", array("id"=>$data->id_payment))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/email.png',
 							),
 						),
 					),

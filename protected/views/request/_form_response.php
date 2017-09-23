@@ -14,11 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
-		<?php echo $form->errorSummary($response, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($response, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 
@@ -31,11 +31,11 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($response,'letter_date'); ?>
 					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
 						<?php echo $form->textField($response,'letter_date',array('class'=>'form-control')); ?>
 						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 					</div>
+					<?php echo $form->error($response,'letter_date'); ?>
 				</div>
 
 			</div>  
@@ -48,8 +48,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($response,'letter_code'); ?>
 					<?php echo $form->textField($response,'letter_code',array('class'=>'form-control')); ?>
+					<?php echo $form->error($response,'letter_code'); ?>
 				</div>
 
 			</div>  
@@ -62,8 +62,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($response,'letter_attachment'); ?>
 					<?php echo $form->fileField($response,'letter_attachment',array('class'=>'btn btn-info')); ?>
+					<?php echo $form->error($response,'letter_attachment'); ?>
 				</div>
 
 			</div>  
@@ -76,8 +76,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($response,'description'); ?>
 					<?php echo $form->textArea($response,'description',array('class'=>'form-control')); ?>
+					<?php echo $form->error($response,'description'); ?>
 				</div>
 
 			</div>  
@@ -162,6 +162,7 @@
 					<th>Tanggal Surat</th>
 					<th>Catatan</th>
 					<th>Surat Tanggapan</th>
+					<th>Kirim Email</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -179,6 +180,14 @@
 								<?php echo CHtml::link('<i class="icon mdi mdi-download"></i> Download', 
 									array('main/requesttesting/download', 'id'=>$valueTesting->id_response,
 										), array('class' => 'btn btn-sm btn-success btn-flat', 'title'=>'Download Surat Tanggapan'));
+								?>
+
+							</td>
+
+							<td>
+								<?php echo CHtml::link('<i class="icon mdi mdi-email"></i> Kirim', 
+									array('main/response/send', 'id'=>$valueTesting->id_response,
+										), array('class' => 'btn btn-sm btn-warning btn-flat', 'title'=>'Kirim Surat Tanggapan'));
 								?>
 
 							</td>
@@ -214,7 +223,7 @@
 								<td></td>
 								<td class="format-date"><?php echo $detail->created_date; ?></td>
 								<td><?php echo $detail->description; ?></td>
-								<td>
+								<td colspan="2">
 									<?php echo CHtml::link('<i class="icon mdi mdi-download"></i> Download', 
 										array('main/responsedetail/download', 'id'=>$detail->id_response_detail,
 											), array('class' => 'btn btn-sm btn-warning btn-flat', 'title'=>'Download Lampiran Surat Tanggapan'));

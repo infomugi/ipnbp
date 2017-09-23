@@ -79,25 +79,32 @@ class RequestController extends Controller
 		endif;
 
 		$model->setScenario('update');
+		$model->setScenario('disposition');
 		if(isset($_POST['Request']))
 		{
 			$model->attributes=$_POST['Request'];
 			$model->update_id = YII::app()->user->id;
 			$model->update_date = date('Y-m-d h:i:s');	
 
-			$model->disposition_letter=CUploadedFile::getInstance($model,'disposition_letter');
+			$disposition_letter=CUploadedFile::getInstance($model,'disposition_letter');
 			$tmp2;
-			if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
-			{ 
-				$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
-				$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
-			}
+			if (!empty($disposition_letter)) {
+				if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
+				{ 
+					$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
+					$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
+				}
 
+			}
 
 			if($model->save()){
 
-				if(strlen(trim($model->disposition_letter)) > 0){
-					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/disposition/'.$model->disposition_letter);	
+				if (!empty($disposition_letter)) {
+
+					if(strlen(trim($model->disposition_letter)) > 0){
+						$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/disposition/'.$model->disposition_letter);	
+
+					} 
 				} 
 
 				Yii::app()->user->setFlash('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Diperbaharui.');
@@ -107,9 +114,6 @@ class RequestController extends Controller
 
 
 		//Form Surat Tanggapan
-		// MultimodelForm
-		Yii::import('ext.multimodelform.MultiModelForm');
-
 		$response=new Response;
 
 		$response->setScenario('create');
@@ -136,13 +140,13 @@ class RequestController extends Controller
 
 				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
 
-				if($model->status==2):
+				// if($model->status==2):
 					// Kode 3 = Surat Tanggapan
-					$model->status = 3;
+				$model->status = 3;
 				$model->save();
 					//Type 2 = Tanggapan 
 				$this->setActivity($id,2);
-				endif;				
+				// endif;				
 
 				$this->redirect(array('view','id'=>$id));
 
@@ -247,13 +251,13 @@ class RequestController extends Controller
 
 				//Type = 3 (Payment = Invoice)
 				Yii::app()->user->setFlash('Success', 'Invoice No. '.$invoice->code.' Disimpan.');
-				if($model->status==3):
+				// if($model->status==3):
 				// Kode 4 = Invoice
-					$model->status = 4;
+				$model->status = 4;
 				$model->save();
 				//Type 6 = Invoice 
 				$this->setActivity($id,6);
-				endif;
+				// endif;
 
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -294,13 +298,13 @@ class RequestController extends Controller
 
 				Yii::app()->user->setFlash('Success', 'Pembayaran atas Invoice No. '.$payment->Invoice->code.' Disimpan.');
 
-				if($model->status==4):
+				// if($model->status==4):
 				// Kode 6 = Laporan Dikirim
-					$model->status = 5;
+				$model->status = 5;
 				$model->save();
 				//Type 5 = Report 
 				$this->setActivity($id,3);	
-				endif;					
+				// endif;					
 
 
 				$this->redirect(array('view','id'=>$id));
@@ -312,6 +316,7 @@ class RequestController extends Controller
 
 		// Form Report
 		$report=new RequestReport;
+		$this->performAjaxValidation($report);
 		if(isset($_POST['RequestReport']))
 		{
 			$report->attributes=$_POST['RequestReport'];
@@ -333,13 +338,13 @@ class RequestController extends Controller
 				if(strlen(trim($report->file)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/report/'.$report->file);	
 				} 
-				if($model->status==5):
+				// if($model->status==5):
 				// Kode 6 = Laporan Dikirim
-					$model->status = 6;
+				$model->status = 6;
 				$model->save();
 				//Type 5 = Report 
 				$this->setActivity($id,5);	
-				endif;			
+				// endif;			
 
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -350,11 +355,27 @@ class RequestController extends Controller
 		$activity=$this->loadActivity($id);
 
 
-			//Data Disposisi
+		$disposition=new RequestDisposition;
+		$disposition->setScenario('create');
+		if(isset($_POST['RequestDisposition']))
+		{
+			$disposition->attributes=$_POST['RequestDisposition'];
+			$disposition->created_date = date('Y-m-d h:i:s');
+			$disposition->created_by = YII::app()->user->id;
+			$disposition->request_id = $id;
+			$disposition->status = 0;
+			if($disposition->save()){
+				Yii::app()->user->setFlash('Success', 'Berhasil di Disposisi ke '.$disposition->Balai->name.'.');
+				$this->redirect(array('request/view','id'=>$disposition->request_id));
+			}
+		}		
+
+		//Data Disposisi
 		$dataDisposition=new CActiveDataProvider('RequestDisposition',array('criteria'=>array('condition'=>'request_id='.$id)));
 
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+			'disposition'=>$disposition,
 			'dataDisposition'=>$dataDisposition,
 			'response'=>$response,
 			'dataResponse'=>$dataResponse,

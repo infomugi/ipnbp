@@ -165,62 +165,6 @@
 				
 			</div>  
 
-			<!-- 
-			<div class="form-group">
-				
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'type'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'type'); ?>
-					<?php echo $form->dropDownList($model,'type',array(''=>'-- Pilih Badan Usaha --','1'=>'PMDN','2'=>'Swasta Nasional','3'=>'Perseorangan','4'=>'PMA','5'=>'BUMN','6'=>'Kopeasi','7'=>'Join Vuture','8'=>'Join Venture','9'=>'Perorangan'),array('class'=>'select2 form-control')); ?>
-				</div>
-				
-			</div>  
-
-			
-			<div class="form-group">
-				
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'place'); ?>
-				</div>   
-
-				<div class="col-sm-8 be-radio">
-					<?php echo $form->error($model,'place'); ?>
-					<?php
-					echo $form->radioButtonList($model,'place',
-						array('1'=>'Pusat','2'=>'Cabang'),
-						array(
-							'template'=>'{input}{label}',
-							'separator'=>'',
-							'labelOptions'=>array(
-								'class'=>'minimal', 'style'=>'padding-right:20px;margin-left:5px'),
-
-							)                              
-						);
-						?>
-					</div>
-					
-				</div>  
-
-				
-				<div class="form-group">
-					
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'classification'); ?>
-					</div>   
-
-					<div class="col-sm-8">
-						<?php echo $form->error($model,'classification'); ?>
-						<?php echo $form->dropDownList($model,'classification',array(''=>'-- Pilih Klasifikasi --','1'=>'Besar','2'=>'Kecil','3'=>'Sedang','4'=>'Menengah','5'=>'< Kecil'),array('class'=>'select2 form-control')); ?>
-					</div>
-					
-				</div>  
-
-			-->
-
-
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -269,31 +213,7 @@
 
 				</div>  
 
-				<!-- 
-				<div class="form-group">
 
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'status'); ?>
-					</div>   
-
-					<div class="col-sm-8 be-radio">
-						<?php echo $form->error($model,'status'); ?>
-						<?php
-						echo $form->radioButtonList($model,'status',
-							array('1'=>'Aktif','0'=>'Tidak Aktif'),
-							array(
-								'template'=>'{input}{label}',
-								'separator'=>'',
-								'labelOptions'=>array(
-									'class'=>'minimal', 'style'=>'padding-right:20px;margin-left:5px'),
-
-								)                              
-							);
-							?>
-						</div>
-
-					</div>  
-				-->
 
 				<div class="form-group">
 					<div class="col-md-12">  

@@ -193,21 +193,7 @@
 					</div> 	 -->	
 
 
-					<div class="form-group">
-
-						<div class="col-sm-4 control-label">
-							<?php echo $form->labelEx($model,'disposition_letter'); ?>
-						</div>   
-
-						<div class="col-sm-8">
-							<?php echo $form->error($model,'disposition_letter'); ?>
-							<?php echo $form->fileField($model,'disposition_letter',array('class'=>'form-control')); ?>
-						</div>
-
-					</div>  
-
-
-
+					
 					<div class="form-group">
 
 						<div class="col-sm-4 control-label">
@@ -222,7 +208,21 @@
 							
 						</div>
 
-					</div>  
+					</div>
+
+
+					<div class="form-group">
+
+						<div class="col-sm-4 control-label">
+							<?php echo $form->labelEx($model,'disposition_letter'); ?>
+						</div>   
+
+						<div class="col-sm-8">
+							<?php echo $form->error($model,'disposition_letter'); ?>
+							<?php echo $form->fileField($model,'disposition_letter',array('class'=>'form-control')); ?>
+						</div>
+
+					</div>    
 
 
 					<div class="form-group">
@@ -233,11 +233,11 @@
 
 							<?php 
 
-							if($model->disposition_letter!=""):
-								echo CHtml::link('<i class="fa fa-develope"></i> Disposisi ke Balai', 
-									array('main/requestdisposition/create', 'id'=>$model->id_request,
-										), array('class' => 'btn btn-info btn-flat', 'title'=>'Kirim Disposisi ke Balai'));
-							endif;
+							// if($model->disposition_letter!=""):
+							// 	echo CHtml::link('<i class="fa fa-develope"></i> Disposisi ke Balai', 
+							// 		array('main/requestdisposition/create', 'id'=>$model->id_request,
+							// 			), array('class' => 'btn btn-info btn-flat', 'title'=>'Kirim Disposisi ke Balai'));
+							// endif;
 
 							?>
 

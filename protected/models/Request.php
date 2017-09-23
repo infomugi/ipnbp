@@ -53,7 +53,7 @@ class Request extends CActiveRecord
 
 			array('letter_attachment, disposition_letter', 'length', 'max' => 255, 'tooLong' => '{attribute} is too long (max {max} chars).', 'on' => 'create'),
 			array('letter_attachment, disposition_letter', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'create'),
-			array('disposition_letter', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'update'),
+			array('disposition_letter', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'disposition'),
 
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

@@ -14,11 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
 		)); ?>
 
-		<?php echo $form->errorSummary($testing, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($testing, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 		<div class="col-md-10"> 
@@ -30,7 +30,6 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($testing,'testing_type'); ?>
 					<?php 
 					echo $form->dropDownList($testing, "testing_type",
 						CHtml::listData(Testing::model()->findall(array('condition'=>'status=1')),
@@ -56,6 +55,7 @@
 							)
 						); 
 						?> 
+						<?php echo $form->error($testing,'testing_type'); ?>
 					</div>
 
 				</div>
@@ -67,8 +67,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($testing,'testing_part'); ?>
 						<input type="text" class="form-control" id="part" disabled="true">
+						<?php echo $form->error($testing,'testing_part'); ?>
 						<div style="display:none;">
 							<?php echo $form->textField($testing,'testing_part',array('class'=>'form-control','hidden'=>true)); ?>
 						</div>
@@ -84,8 +84,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($testing,'testing_lab'); ?>
 						<input type="text" class="form-control" id="lab" disabled="true">
+						<?php echo $form->error($testing,'testing_lab'); ?>
 						<div style="display:none;">
 							<?php echo $form->textField($testing,'testing_lab',array('class'=>'form-control','hidden'=>true)); ?>
 						</div>
@@ -101,42 +101,41 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($testing,'testing_total'); ?>
 						<?php echo $form->textField($testing,'testing_total',array('class'=>'form-control')); ?>
+						<?php echo $form->error($testing,'testing_total'); ?>
 					</div>
 
 				</div>  
 
 				<div class="form-group">
 					<div class="col-md-12">  
-					</br></br>
-					<?php echo CHtml::submitButton($testing->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+						<?php echo CHtml::submitButton($testing->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+					</div>
 				</div>
+
+				<?php $this->endWidget(); ?>
+
 			</div>
-
-			<?php $this->endWidget(); ?>
-
-		</div>
-	</div><!-- form -->
+		</div><!-- form -->
 
 
-	<h4>Data Permohonan Pengujian</h4>
-	<?php $this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'testing-grid',
-		'dataProvider'=>$dataTesting,
+		<h4>Data Permohonan Pengujian</h4>
+		<?php $this->widget('zii.widgets.grid.CGridView', array(
+			'id'=>'testing-grid',
+			'dataProvider'=>$dataTesting,
 				// 'filter'=>$model,	
-		'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-		'columns'=>array(
+			'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+			'columns'=>array(
 
 					// array(
 					// 	'header'=>'No',
 					// 	'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
 					// 	'htmlOptions'=>array('width'=>'10px', 
 					// 		'style' => 'text-align: center;')),
-			'id_testing',
-			array('name'=>'testing_type','value'=>'$data->Testing->name'),
-			array('name'=>'testing_lab','value'=>'$data->Lab->name'),
-			array('name'=>'testing_part','value'=>'$data->Balai->name'),
+				'id_testing',
+				array('name'=>'testing_type','value'=>'$data->Testing->name'),
+				array('name'=>'testing_lab','value'=>'$data->Lab->name'),
+				array('name'=>'testing_part','value'=>'$data->Balai->name'),
 
 			// array(	
 			// 	'name'=>'status',
@@ -144,24 +143,24 @@
 			// 	'value'=>'Users::model()->status($data->status)',
 			// 	),
 
-			array(
-				'class'=>'CButtonColumn',
-				'template'=>'{view}{update}{delete}',
-				'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
-				'buttons'=>array(
-					'view'=>
-					array(
-						'url'=>'Yii::app()->createUrl("main/requesttesting/view", array("id"=>$data->id_testing))',
-						),
-					'update'=>
-					array(
-						'url'=>'Yii::app()->createUrl("main/requesttesting/update", array("id"=>$data->id_testing))',
-						),
-					'delete'=>
-					array(
-						'url'=>'Yii::app()->createUrl("main/requesttesting/delete", array("id"=>$data->id_testing))',
+				array(
+					'class'=>'CButtonColumn',
+					'template'=>'{view}{update}{delete}',
+					'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'view'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requesttesting/view", array("id"=>$data->id_testing))',
+							),
+						'update'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requesttesting/update", array("id"=>$data->id_testing))',
+							),
+						'delete'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requesttesting/delete", array("id"=>$data->id_testing))',
+							),
 						),
 					),
 				),
-			),
-			)); ?>
+				)); ?>

@@ -28,7 +28,7 @@ class RequestPaymentController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload','search','downloadpayment'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','upload','search','downloadpayment'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -166,6 +166,49 @@ class RequestPaymentController extends Controller
 		return $model;
 	}
 
+	public function loadRequest($id)
+	{
+		$model=Request::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadCompany($id)
+	{
+		$model=Company::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}		
+
+	public function loadGreeting(){
+		date_default_timezone_set("Asia/Jakarta");
+		$b = time();
+		$hour = date("G",$b);
+
+		if ($hour>=0 && $hour<=11)
+		{
+			return "Selamat Pagi";
+		}
+		elseif ($hour >=12 && $hour<=14)
+		{
+			return "Selamat Siang";
+		}
+		elseif ($hour >=15 && $hour<=17)
+		{
+			return "Selamat Sore";
+		}
+		elseif ($hour >=17 && $hour<=18)
+		{
+			return "Selamat Petang";
+		}
+		elseif ($hour >=19 && $hour<=23)
+		{
+			return "Selamat Malam";
+		}
+	}	
+
 	/**
 	 * Performs the AJAX validation.
 	 * @param RequestPayment $model the model to be validated
@@ -179,21 +222,60 @@ class RequestPaymentController extends Controller
 		}
 	}
 
-	public function actionEnable($id)
+	public function actionSend($id)
 	{
+		Yii::import('ext.yii-mail.YiiMailMessage');
+		$email = new YiiMailMessage;	
+
+		//Data Invoice
 		$model=$this->loadModel($id);
 		$model->status = 1;
 		$model->save();
-		$this->redirect(array('index'));
+
+		$greet = $this->loadGreeting();
+
+		//Data Request
+		$request=$this->loadRequest($model->request_id);
+
+		//Send Mail
+		$message_title = "Faktur Pembayaran";
+		$message_content = 
+		$greet."
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Faktur Pembayaran No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		";
+		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_button = "Konfirmasi";
+
+		//Send Email
+		$email->subject = $request->Company->name." - Faktur Pembayaran (".$model->code.")";
+		$email->addTo($request->Company->email);
+		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+
+		// Email Attachment
+		if($model->file!=""){	
+			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/payment/".$model->file;
+			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
+			$email->attach($swiftAttachment_payment);
+		}
+
+		// Email Template
+		$message_template = $this->renderPartial('/email/informasi',
+			array(
+				'email'=>$request->Company->email,
+				'title'=>$message_title,
+				'message'=>$message_content,
+				'link'=>$message_link,
+				'button'=>$message_button
+				),TRUE);
+
+		$email->setBody($message_template, 'text/html');
+		if(Yii::app()->mail->send($email)){
+			Yii::app()->user->setFlash('Success', 'Faktur Pembayaran sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
+			$this->redirect(array('request/view','id'=>$model->request_id));
+		}
+
 	}	
 
-	public function actionDisable($id)
-	{
-		$model=$this->loadModel($id);
-		$model->status = 0;
-		$model->save();
-		$this->redirect(array('index'));
-	}	
 
 	public function actionPrint($id)
 	{

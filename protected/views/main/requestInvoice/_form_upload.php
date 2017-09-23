@@ -14,13 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
 		<div class="col-md-10"> 
-
-			<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
 
 			<div class="form-group">
 

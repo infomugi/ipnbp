@@ -22,9 +22,13 @@
  * @property integer $print_by
  * @property string $print_date
  * @property integer $print_click
+ * @property integer $testing_id
+ * @property string $spk_no
+ * @property integer $spk_date
  */
 class RequestInvoice extends CActiveRecord
 {
+	private $request;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -47,10 +51,10 @@ class RequestInvoice extends CActiveRecord
 			
 			array('file_invoice', 'required','on'=>'upload'),
 			array('update_id, update_date', 'required','on'=>'update'),
-			array('created_id, update_id, signature_id, request_id, status, print_by, print_click', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, signature_id, request_id, status, print_by, print_click, testing_id', 'numerical', 'integerOnly'=>true),
 			array('total', 'numerical'),
-			array('code', 'length', 'max'=>50),
-			array('print_date', 'length', 'max'=>25),
+			array('code, spk_no', 'length', 'max'=>50),
+			array('print_date, spk_date', 'length', 'max'=>25),
 			array('file_invoice, file_spk, note, description, note', 'length', 'max'=>255),
 			array('code','unique'),
 			// The following rule is used by search().
@@ -101,6 +105,9 @@ class RequestInvoice extends CActiveRecord
 			'print_by' => 'Dicetak Oleh',
 			'print_click' => 'Total Cetak',
 			'print_date' => 'Tanggal Cetak',
+			'spk_no' => 'Nomor SPK',
+			'spk_date' => 'Tanggal SPK',
+			'testing_id' => 'Pengujian',
 			);
 	}
 
@@ -152,6 +159,12 @@ class RequestInvoice extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getRequest()
+	{
+		$testing=Testing::model()->findByPk($this->testing_id);
+		return $testing->name;
 	}
 
 	

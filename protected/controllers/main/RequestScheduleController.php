@@ -28,7 +28,7 @@ class RequestScheduleController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search','downloadrab','upload'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -301,5 +301,62 @@ class RequestScheduleController extends Controller
 			'testing_number'=>$testing_number,
 			));
 		Yii::app()->end();
-	}			
+	}		
+
+	public function downloadFile($fullpath){
+		if(!empty($fullpath)){ 
+			header("Content-type:application/pdf"); 
+			header('Content-Disposition: attachment; filename="'.basename($fullpath).'"'); 
+			header('Content-Length: ' . filesize($fullpath));
+			readfile($fullpath);
+			Yii::app()->end();
+		}
+	}
+
+	public function actionDownloadRab($id){
+		$model=$this->loadModel($id);
+		if($model->file==""){
+			throw new CHttpException(404,'File Download Invoice tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/schedule/".$model->file;
+			$this->downloadFile($path);
+		}
+
+	}
+
+	public function actionUpload($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('upload');
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['RequestSchedule']))
+		{
+			$model->attributes=$_POST['RequestSchedule'];
+
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'file'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'file'); 
+				$model->file="file-rab-".$model->Request->code.'-'.mktime().'.'.$tmp->extensionName; 
+			}
+
+			if($model->save()){
+
+				if(strlen(trim($model->file)) > 0){
+					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/schedule/'.$model->file);	
+				} 	
+
+				Yii::app()->user->setFlash('Success', 'File RAB Disimpan.');
+
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
+		}
+
+		$this->render('upload',array(
+			'model'=>$model,
+			));
+	}	
+
 }

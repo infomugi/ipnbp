@@ -65,14 +65,13 @@
 
 	<!-- /\/\/\/\/\/\/\/\/ START Inbox Preview Text /\/\/\/\/\/\/\/\/ -->
 	<div style="display: none; width: 0px; height: 0px; min-height: 0px; overflow: hidden; font-size: 0px; line-height: 0px; color: #ffffff; mso-hide: all;">
-		<?php echo Yii::app()->db->createCommand("SELECT name FROM event where id_event=1")->queryScalar();?>
 	</div>
 	<!-- /\/\/\/\/\/\/\/\/ END Inbox Preview Text /\/\/\/\/\/\/\/\/ -->
 
 	<table align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 		<tbody><tr>
 			<!-- Change background color of email -->
-			<td style="background-color: #e0e0e0;">
+			<td style="background-color: #ecf0f1;">
 				<table align="center" class="mobile-width" width="680" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; margin: 0 auto;">
 					<tbody><tr>
 						<!-- min-width necessary in order to prevent auto-sizing in Gmail app -->
@@ -81,23 +80,16 @@
 							<!-- /\/\/\/\/\/\/\/\/ START Hero /\/\/\/\/\/\/\/\/ -->
 							<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 								<tbody><tr>
-									<td style="background-color: #E91E63;">
+									<td style="background-color: #f39c12;">
 										<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 											<tbody><tr>
 												<td valign="top">
 													<table align="left" class="mobile-width" width="582" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 														<tbody><tr>
 															<td valign="top" class="center" style="padding-left: 40px; padding-top: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 35px; line-height: 47px;color: #FFF; text-align: left;font-weight: 700;">
-																<div style="font-size: 12px; line-height: 45px; mso-line-height-rule: exactly;">&nbsp;</div>
-																EVENT MUSLIMAHBAPER :)
+																<img src="https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/072012/14kemenpu.jpg?itok=2R_j-FA4" width="28px" /> PNBP
 																<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;line-height: 27px;color: #f5f5f5;margin-bottom: 15px;font-weight: 700;">
-																<?php echo Yii::app()->db->createCommand("SELECT name FROM event where id_event=1")->queryScalar();?>
-																-
-																	<?php 
-																	$tanggal =  Yii::app()->db->createCommand("SELECT date FROM event where id_event=1")->queryScalar();
-																	$tanggalbaru1 = date('d F Y', strtotime($tanggal ));
-																	echo $tanggalbaru1;
-																	;?>
+																	Pusat Litbang Perumahan dan Pemukiman
 																</div>
 															</td>
 														</tr>
@@ -145,7 +137,7 @@
 													<td valign="top">
 														<table class="mobile-width" width="582" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 															<tbody><tr>
-																<td style="padding-left:20px;padding-right:20px;padding-top:22px;padding-bottom:22px;border-radius:4px;background-color: #f5d0e3;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:26px;color: #a67c97;font-weight:bold;text-align:left;">
+																<td style="padding-left:20px;padding-right:20px;padding-top:22px;padding-bottom:22px;border-radius:4px;background-color: #f5ead0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:26px;color: #000;text-align:justify;">
 																	<?php echo nl2br($message); ?>
 																</td>
 															</tr>
@@ -163,7 +155,7 @@
 						<!-- /\/\/\/\/\/\/\/\/ START Hero /\/\/\/\/\/\/\/\/ -->
 						<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 							<tbody><tr>
-								<td style="background-color: #E91E63;">
+								<td style="background-color: #f39c12;">
 									<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 										<tbody><tr>
 											<td valign="top">
@@ -174,8 +166,8 @@
 															<!-- Hero Button -->
 															<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; display: inline-block;">
 																<tbody><tr>
-																	<td style="-webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px;background-color: #9C27B0;">
-																		<a href="<?php echo nl2br($link); ?>" target="_blank" style="padding: 15px 42px; display: inline-block;border: 1px solid #9C27B0; -webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 18px; line-height: normal; color: #ffffff; font-weight: bold; text-decoration: none;"><!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]--><?php echo nl2br($button); ?><!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]--></a>
+																	<td style="-webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px;background-color: #d35400;">
+																		<a href="<?php echo nl2br($link); ?>" target="_blank" style="padding: 15px 42px; display: inline-block;border: 1px solid #d35400; -webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 18px; line-height: normal; color: #ffffff; font-weight: bold; text-decoration: none;"><!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]--><?php echo nl2br($button); ?><!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]--></a>
 																	</td>
 																</tr>
 															</tbody></table>

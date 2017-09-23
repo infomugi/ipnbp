@@ -28,7 +28,7 @@ class RequestInvoiceController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','print','upload','downloadinvoice','downloadspk'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','upload','downloadinvoice','downloadspk'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -169,6 +169,49 @@ class RequestInvoiceController extends Controller
 		return $model;
 	}
 
+	public function loadRequest($id)
+	{
+		$model=Request::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadCompany($id)
+	{
+		$model=Company::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}		
+
+	public function loadGreeting(){
+		date_default_timezone_set("Asia/Jakarta");
+		$b = time();
+		$hour = date("G",$b);
+
+		if ($hour>=0 && $hour<=11)
+		{
+			return "Selamat Pagi";
+		}
+		elseif ($hour >=12 && $hour<=14)
+		{
+			return "Selamat Siang";
+		}
+		elseif ($hour >=15 && $hour<=17)
+		{
+			return "Selamat Sore";
+		}
+		elseif ($hour >=17 && $hour<=18)
+		{
+			return "Selamat Petang";
+		}
+		elseif ($hour >=19 && $hour<=23)
+		{
+			return "Selamat Malam";
+		}
+	}
+
 	/**
 	 * Performs the AJAX validation.
 	 * @param RequestInvoice $model the model to be validated
@@ -182,21 +225,65 @@ class RequestInvoiceController extends Controller
 		}
 	}
 
-	public function actionEnable($id)
+	public function actionSend($id)
 	{
+		Yii::import('ext.yii-mail.YiiMailMessage');
+		$email = new YiiMailMessage;	
+
+		//Data Invoice
 		$model=$this->loadModel($id);
 		$model->status = 1;
 		$model->save();
-		$this->redirect(array('index'));
-	}	
 
-	public function actionDisable($id)
-	{
-		$model=$this->loadModel($id);
-		$model->status = 0;
-		$model->save();
-		$this->redirect(array('index'));
-	}		
+		$greet = $this->loadGreeting();
+
+		//Data Request
+		$request=$this->loadRequest($model->request_id);
+
+		//Send Mail
+		$message_title = "Invoice & SPK";
+		$message_content = 
+		$greet."
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Invoice No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date)." dan SPK No. (".$model->spk_no.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->spk_date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		";
+		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_button = "Konfirmasi";
+
+		//Send Email
+		$email->subject = $request->Company->name." - File Invoice (".$model->code.") dan SPK";
+		$email->addTo($request->Company->email);
+		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+
+		// Email Attachment
+		if($model->file_invoice!=""){	
+			$message_link_invoice = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/invoice/".$model->file_invoice;
+			$swiftAttachment_invoice = Swift_Attachment::fromPath($message_link_invoice);              
+			$email->attach($swiftAttachment_invoice);
+		}
+
+		if($model->file_spk!=""){	
+			$message_link_spk = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/spk/".$model->file_spk;
+			$swiftAttachment_spk = Swift_Attachment::fromPath($message_link_spk);              
+			$email->attach($swiftAttachment_spk);
+		}
+
+		// Email Template
+		$message_template = $this->renderPartial('/email/informasi',
+			array(
+				'email'=>$request->Company->email,
+				'title'=>$message_title,
+				'message'=>$message_content,
+				'link'=>$message_link,
+				'button'=>$message_button
+				),TRUE);
+
+		$email->setBody($message_template, 'text/html');
+		if(Yii::app()->mail->send($email)){
+			Yii::app()->user->setFlash('Success', 'Invoice & SPK sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
+			$this->redirect(array('request/view','id'=>$model->request_id));
+		}
+
+	}	
 
 	public function actionPrint($id)
 	{
@@ -231,7 +318,7 @@ class RequestInvoiceController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'file_invoice'))) > 0) 
 			{ 
 				$tmp1=CUploadedFile::getInstance($model,'file_invoice'); 
-				$model->file_invoice="invoice-".$model->code.'-'.mktime().'.'.$tmp1->extensionName; 
+				$model->file_invoice="invoice-".Request::model()->generateRandomString().'.'.$tmp1->extensionName; 
 			}
 
 			if($model->save()){

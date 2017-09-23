@@ -63,12 +63,18 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 					echo $this->renderPartial('_form_update', array('model'=>$model));
 
+					if($model->disposition_letter!=""){
 
-					echo $this->renderPartial('_form_upload_disposition', 
-						array(
-							// 'disposition'=>$disposition,
-							'dataDisposition'=>$dataDisposition
-							));
+						echo $this->renderPartial('_form_upload_disposition', 
+							array(
+								'disposition'=>$disposition,
+								'dataDisposition'=>$dataDisposition
+								));
+
+
+					}else{
+						// echo "<div class='pull-right label label-warning'>Surat Disposisi belum di Upload</div>";
+					}
 					
 				}else{
 
@@ -178,6 +184,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 																'model'=>$model,
 																'invoice'=>$invoice,
 																'dataInvoice'=>$dataInvoice,
+																'request_id'=>$model->id_request,
 																)); ?>
 															</div>
 

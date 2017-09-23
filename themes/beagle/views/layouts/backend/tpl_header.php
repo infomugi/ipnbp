@@ -4,7 +4,7 @@ $url = Yii::app()->baseUrl."/";
 $cs = Yii::app()->getClientScript();
 
 // Query Notifikasi
-foreach (RequestDisposition::countDisposision(0,YII::app()->user->record->level) as $data) {
+foreach (RequestDisposition::countDisposision(0,YII::app()->user->record->division) as $data) {
 	$total = $data['total']; 						
 } 
 if($total==0){

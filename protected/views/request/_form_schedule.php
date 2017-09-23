@@ -14,11 +14,11 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
-		<?php echo $form->errorSummary($schedule, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($schedule, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 		<div class="col-md-10"> 
@@ -31,7 +31,6 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($schedule,'testing_id'); ?>
 					<?php 
 					echo $form->dropDownList($schedule, "testing_id",
 						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)), 'id_testing', 'request')),
@@ -56,6 +55,7 @@
 							)
 						); 
 						?> 
+						<?php echo $form->error($schedule,'testing_id'); ?>
 					</div>
 
 
@@ -69,8 +69,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'testing_type'); ?>
 						<input type="text" name="" id="testing_type" class="form-control" readonly="true">
+						<?php echo $form->error($schedule,'testing_type'); ?>
 						<div>
 							<?php echo $form->textField($schedule,'testing_type',array('class'=>'form-control')); ?>
 						</div>
@@ -126,8 +126,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'testing_number'); ?>
 						<?php echo $form->textField($schedule,'testing_number',array('class'=>'form-control','readonly'=>true)); ?>
+						<?php echo $form->error($schedule,'testing_number'); ?>
 						<?php 
 						// echo $form->dropDownList($schedule,'testing_number',array(''=>'-- Pilih Sample Pengujian --','1'=>'Sample 1','2'=>'Sample 2','3'=>'Sample 3'),array('class'=>'select2 form-control')); 
 						?>
@@ -143,8 +143,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'task'); ?>
 						<?php echo $form->textField($schedule,'task',array('class'=>'form-control')); ?>
+						<?php echo $form->error($schedule,'task'); ?>
 					</div>
 
 				</div> 
@@ -157,8 +157,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'cost'); ?>
 						<?php echo $form->textField($schedule,'cost',array('class'=>'form-control')); ?>
+						<?php echo $form->error($schedule,'cost'); ?>
 					</div>
 
 				</div>  
@@ -171,11 +171,11 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'start_date'); ?>
 						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
 							<?php echo $form->textField($schedule,'start_date',array('class'=>'form-control')); ?>
 							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 						</div>
+						<?php echo $form->error($schedule,'start_date'); ?>
 					</div>
 
 				</div>  
@@ -190,11 +190,11 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'end_date'); ?>
 						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
 							<?php echo $form->textField($schedule,'end_date',array('class'=>'form-control')); ?>
 							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 						</div>
+						<?php echo $form->error($schedule,'end_date'); ?>
 					</div>
 
 				</div>  
@@ -207,8 +207,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'description'); ?>
 						<?php echo $form->textArea($schedule,'description',array('class'=>'form-control')); ?>
+						<?php echo $form->error($schedule,'description'); ?>
 					</div>
 
 				</div>  
@@ -221,8 +221,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'note'); ?>
 						<?php echo $form->textArea($schedule,'note',array('class'=>'form-control')); ?>
+						<?php echo $form->error($schedule,'note'); ?>
 					</div>
 
 				</div>  
@@ -235,8 +235,8 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($schedule,'file'); ?>
 						<?php echo $form->fileField($schedule,'file',array('class'=>'btn btn-info')); ?>
+						<?php echo $form->error($schedule,'file'); ?>
 					</div>
 
 
@@ -296,12 +296,46 @@
 					'value'=>'Request::model()->rupiah($data->cost)',
 					),
 
-				array(      
-					'class'=>'CLinkColumn',      
-					'header'=>'File RAB',      
-					'label'=>'Download',  
-					'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/schedule/".$data["file"]',      
-					), 
+				// array(      
+				// 	'class'=>'CLinkColumn',      
+				// 	'header'=>'File RAB',      
+				// 	'label'=>'Download',  
+				// 	'visible'=>'$data->file!=NULL',
+				// 	'urlExpression'=>'Yii::app()->request->baseUrl."/image/files/schedule/".$data["file"]',      
+				// 	), 
+
+
+				array(
+					'header'=>'Download File RAB',      
+					'class'=>'CButtonColumn',
+					'template'=>'{RAB}',
+					'htmlOptions'=>array('width'=>'75px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'RAB'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestschedule/downloadrab", array("id"=>$data->id_schedule))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/spk.png',
+							'visible'=>'$data->file!=NULL',
+							),
+						),
+					),		
+
+
+				array(
+					'header'=>'Upload',      
+					'class'=>'CButtonColumn',
+					'template'=>'{Upload}',
+					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'buttons'=>array(
+						'Upload'=>
+						array(
+							'url'=>'Yii::app()->createUrl("main/requestschedule/upload", array("id"=>$data->id_schedule))',
+							'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
+							// 'visible'=>'$data->file!=NULL',
+							),
+						),
+					),
+				
 
 				// 'description',
 				// 'note',

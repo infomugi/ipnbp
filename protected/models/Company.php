@@ -46,7 +46,7 @@ class Company extends CActiveRecord
 			// array('created_date, update_date, company_code, name, address, email, phone, faximile, postal_code, province, city, category_id, status', 'required'),
 			array('created_date, update_date, company_code, name, address, email, phone', 'required'),
 			array('postal_code, type, place, category_id, status', 'numerical', 'integerOnly'=>true),
-			array('company_code, phone, phone_second classification', 'length', 'max'=>15),
+			array('company_code, phone, phone_second, classification', 'length', 'max'=>15),
 			array('name', 'length', 'max'=>100),
 			array('owner, email, email_second, city, province', 'length', 'max'=>50),
 			array('faximile', 'length', 'max'=>25),
