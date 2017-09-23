@@ -28,7 +28,7 @@ class RequestReportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','download','send'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','download','send','sendQuesioner'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -313,6 +313,57 @@ class RequestReportController extends Controller
 		}
 
 	}	
+
+
+	public function actionSendQuesioner($id)
+	{
+		Yii::import('ext.yii-mail.YiiMailMessage');
+		$email = new YiiMailMessage;	
+
+		//Data Invoice
+		$model=$this->loadModel($id);
+		$model->status = 1;
+		$model->save();
+
+		$greet = $this->loadGreeting();
+
+		//Data Request
+		$request=$this->loadRequest($model->request_id);
+
+		//Send Mail
+		$message_title = "Survei Kepuasan Pelanggan";
+		$message_content = 
+		$greet."
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>link</i> untuk mengisi Kuesioner Survei Kepuasan Pelanggan Puslitbang Perumahan & Pemukiman atas Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p></br></br></br></br> 
+		<p>Silahkan klik tombol <b>Isi Kuesioner</b>. Survei kepusan pelanggan PUSPERKIM tahun ".date('Y').", bertujuan menggali masukan, persepsi dan saran dari pelanggan dalam rangka peningkatan kinerja PUSPERKIM.</p></br></br></br></br>
+		<p>Nama / Perusahaan masuk akan dirahasiakan. Diharapkan dengan adanya survei ini, PUSPERKIM dapat meningkatkan pelayanan dan dapat memenuhi segala harapan pelanggan.</p></br></br></br></br>
+		Terimakasih.
+		";
+		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_button = "Isi Kuesioner";
+
+		//Send Email
+		$email->subject = "Survei Kepuasan ".$request->Company->name." atas Pengujian No. (".$request->code.")";
+		$email->addTo($request->Company->email);
+		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+
+		// Email Template
+		$message_template = $this->renderPartial('/email/informasi',
+			array(
+				'email'=>$request->Company->email,
+				'title'=>$message_title,
+				'message'=>$message_content,
+				'link'=>$message_link,
+				'button'=>$message_button
+				),TRUE);
+
+		$email->setBody($message_template, 'text/html');
+		if(Yii::app()->mail->send($email)){
+			Yii::app()->user->setFlash('Success', 'Link Kuesioner sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
+			$this->redirect(array('request/view','id'=>$model->request_id));
+		}
+
+	}		
 
 
 }

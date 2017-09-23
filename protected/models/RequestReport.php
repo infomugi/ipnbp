@@ -11,10 +11,16 @@
  * @property integer $update_id
  * @property string $upload_date
  * @property string $accept_date
+ * @property string $report_date
  * @property string $description
  * @property string $file
  * @property integer $request_id
  * @property integer $status
+ * @property integer $send_id
+ * @property string $send_date
+ * @property integer $quesioner_id
+ * @property string $quesioner_date
+ * @property string $token
  */
 class RequestReport extends CActiveRecord
 {
@@ -35,8 +41,8 @@ class RequestReport extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('created_date, created_id, request_id, status', 'required','on'=>'create'),
-			array('created_id, update_id, request_id, status', 'numerical', 'integerOnly'=>true),
-			array('file, description, update_date, upload_date, accept_date', 'length', 'max'=>255),
+			array('created_id, update_id, request_id, status, send_id, quesioner_id', 'numerical', 'integerOnly'=>true),
+			array('file, description, update_date, upload_date, accept_date, send_date, quesioner_date, report_date, token', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_report, created_date, created_id, update_date, update_id, upload_date, accept_date, description, file, request_id, status', 'safe', 'on'=>'search'),

@@ -163,7 +163,7 @@
 				'buttons'=>array(
 					'Quesioner'=>
 					array(
-						'url'=>'Yii::app()->createUrl("main/requestreport/send", array("id"=>$data->id_report))',
+						'url'=>'Yii::app()->createUrl("main/requestreport/sendquesioner", array("id"=>$data->id_report))',
 						'imageUrl'=>YII::app()->baseUrl.'/image/setting/kuesioner.png',
 						),
 					),
