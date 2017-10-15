@@ -45,11 +45,12 @@ $this->pageTitle='Kelola Permohonan Pengujian';
 
 					'code',
 					'date',
+					'letter_subject',
 					array('name'=>'company_id','value'=>'$data->Company->name'),
 
 					array(	
 						'name'=>'status',
-						'filter'=>array('0'=>'-','1'=>'Permohonan','2'=>'Disposisi','3'=>'Surat Tanggapan','4'=>'Invoice & SPK','5'=>'Kuitansi','6'=>'Laporan Dikirim','7'=>'Laporan Diterima'),
+						'filter'=>array('0'=>'-','1'=>'Permohonan','2'=>'Disposisi','8'=>'Jadwal & RAB','3'=>'Surat Tanggapan','4'=>'Invoice & SPK','5'=>'Kuitansi','6'=>'Laporan Dikirim','7'=>'Laporan Diterima'),
 						'value'=>'Request::model()->history($data->status)',
 						),
 

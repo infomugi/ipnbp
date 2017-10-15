@@ -44,7 +44,7 @@ $this->pageTitle='Kelola Kategori Pengujian';
 							'style' => 'text-align: center;')),
 
 					'name',
-					'description',
+				    // 	'description',
 					
 					// array(	
 					// 	'name'=>'status',

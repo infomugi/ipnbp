@@ -57,6 +57,11 @@ class RequestReport extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
+			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_id'),
+			'UpdateBy'=>array(self::BELONGS_TO,'Users','update_id'),
+			'SendBy'=>array(self::BELONGS_TO,'Users','send_id'),
+			'QuesionerBy'=>array(self::BELONGS_TO,'Users','quesioner_id'),
 			);
 	}
 
@@ -67,16 +72,22 @@ class RequestReport extends CActiveRecord
 	{
 		return array(
 			'id_report' => 'Id Report',
-			'created_date' => 'Created Date',
-			'created_id' => 'Created',
-			'update_date' => 'Update Date',
-			'update_id' => 'Update',
+			'created_date' => 'Tanggal Buat',
+			'created_id' => 'Diinput Oleh',
+			'update_date' => 'Tanggal Update',
+			'update_id' => 'Diperbaharui Oleh',
 			'upload_date' => 'Tanggal Upload',
 			'accept_date' => 'Tanggal Laporan di Terima',
+			'report_date' => 'Tanggal Info Laporan',
+			'send_date' => 'Tanggal Kirim Laporan',
 			'description' => 'Catatan',
 			'file' => 'File Laporan',
 			'request_id' => 'Request',
 			'status' => 'Status',
+			'send_id' => 'Laporan Dikirim Oleh',
+			'quesioner_id' => 'Kuesioner Dikirim Oleh',
+			'quesioner_date' => 'Tanggal Kuesioner Dikirim',
+			'token' => 'Token Kuesioner',
 			);
 	}
 

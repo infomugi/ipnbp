@@ -1,6 +1,6 @@
 <?php
 
-class RequestInvoiceController extends Controller
+class RequestinvoiceController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class RequestInvoiceController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','uploadinvoice','uploadspk','downloadinvoice','downloadspk'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','print','uploadinvoice','uploadspk','downloadinvoice','downloadspk','spk'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -242,11 +242,12 @@ class RequestInvoiceController extends Controller
 
 		//Send Mail
 		$message_title = "Invoice & SPK";
+		$message_confirm = "<p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br>";
 		$message_content = 
 		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Invoice No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date)." dan SPK No. (".$model->spk_no.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->spk_date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Invoice No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date)." dan SPK No. (".$model->spk_no.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->spk_date).".</p></br></br></br></br> Terimakasih.
 		";
-		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_link = Yii::app()->request->hostInfo."/registration/activation/";
 		$message_button = "Konfirmasi";
 
 		//Send Email
@@ -256,19 +257,19 @@ class RequestInvoiceController extends Controller
 
 		// Email Attachment
 		if($model->file_invoice!=""){	
-			$message_link_invoice = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/invoice/".$model->file_invoice;
+			$message_link_invoice = YiiBase::getPathOfAlias("webroot")."/image/files/invoice/".$model->file_invoice;
 			$swiftAttachment_invoice = Swift_Attachment::fromPath($message_link_invoice);              
 			$email->attach($swiftAttachment_invoice);
 		}
 
 		if($model->file_spk!=""){	
-			$message_link_spk = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/spk/".$model->file_spk;
+			$message_link_spk = YiiBase::getPathOfAlias("webroot")."/image/files/spk/".$model->file_spk;
 			$swiftAttachment_spk = Swift_Attachment::fromPath($message_link_spk);              
 			$email->attach($swiftAttachment_spk);
 		}
 
 		// Email Template
-		$message_template = $this->renderPartial('/email/informasi',
+		$message_template = $this->renderPartial('/email/notifikasi',
 			array(
 				'email'=>$request->Company->email,
 				'title'=>$message_title,
@@ -406,5 +407,17 @@ class RequestInvoiceController extends Controller
 		}
 	}		
 
+
+	public function actionSpk()
+	{
+		$model=new RequestInvoice('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['RequestInvoice']))
+			$model->attributes=$_GET['RequestInvoice'];
+
+		$this->render('admin_spk',array(
+			'model'=>$model,
+			));
+	}
 
 }

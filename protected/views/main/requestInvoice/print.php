@@ -64,92 +64,105 @@ function terbilang($satuan){
 <div class="kotak">
 	<div class="line3"></div>
 	<div class="line2"></div>
+
+	<div class="kotak" style="text-align:left">
+		NOMOR : <?php echo $model->code; ?>
+	</div>
+
 	<BR> <BR>
+
 		<div class="judul"><U>I N V O I C E</U></div>
-		<div class="info">NOMOR : <?php echo $model->code; ?></div>
-
-	</div>
-
-	<div class="kotak">
-		<div class="kiri">
-
-			Kepada Yth. : </BR>
-			<B>
-				<?php echo RequestPayment::model()->findCompany($model->Request->company_id); ?></BR>
-				<?php echo RequestPayment::model()->findCompanyAddress($model->Request->company_id); ?>
-			</B>
+		<BR> <BR>
 
 		</div>
-		<div class="kanan" style="font-size:18px;line-height:20px;text-align: center;">
 
-		</div>
-	</div>
+		<div class="kotak">
+			<div class="kiri">
 
+				Kepada Yth. : </BR>
+				<B>
+					<?php echo RequestPayment::model()->findCompany($model->Request->company_id); ?></BR>
+					<?php echo RequestPayment::model()->findCompanyAddress($model->Request->company_id); ?>
+				</B>
 
-
-
-	<div class="kotak" style="text-align:justify;font-size:18px;line-height:20px;">
-		<div class="isi">
-
-			<BR> <BR>
-				<p>
-					<div class="jadwal">
-						<table>
-							<tr rowspan="3">
-								<b>
-									<td width="10%"><b>No.</b></td>
-									<td width="50%"><b>Uraian</b></td>
-									<td width="40%"><b>Jumlah</b></td>
-								</b>
-							</tr>
-
-							<tr>
-								<td width="10%"><br><br>1.</td>
-								<td width="50%">Pembayaran Biaya Pekerjaan <b>"<?php echo $model->description; ?>"</b>
-									<br>
-									<b>SPK No : <?php echo $model->spk_no; ?>, Tanggal <?php echo Yii::app()->dateFormatter->format("dd MMM yyyy", $model->spk_date); ?></b>
-								</td>
-								<td width="40%"><br><br><b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></td>
-							</tr>
-
-							<tr>
-								<td width="10%"></td>
-								<td width="80%" colspan="2">Terbilang == <?php echo ucwords(terbilang($model->total)); ?> ==</td>
-							</tr>
-
-							<tr>
-								<td width="10%"></td>
-								<td width="80%" colspan="2">Catatan : <?php echo $model->note; ?></td>
-							</tr>
-
-
-
-						</table>
-					</div>
-				</p>
+			</div>
+			<div class="kanan" style="font-size:18px;line-height:20px;text-align: center;">
 
 			</div>
 		</div>
-		<BR>
+
+
+
+
+		<div class="kotak" style="text-align:justify;font-size:18px;line-height:20px;">
+			<div class="isi">
+
+				<BR> <BR>
+					<p>
+						<div class="jadwal">
+							<table>
+								<tr rowspan="3" style="text-align:center">
+									<b>
+										<td width="10%"><b>No.</b></td>
+										<td width="50%"><b>Uraian</b></td>
+										<td width="40%"><b>Jumlah</b></td>
+									</b>
+								</tr>
+
+								<tr>
+									<td width="10%"><br><br>1.</td>
+									<td width="50%">Pembayaran Biaya Pekerjaan <b>"<?php echo $model->description; ?>"</b>
+										<br>
+										<b>SPK No : <?php echo $model->spk_no; ?>, Tanggal <?php echo Yii::app()->dateFormatter->format("dd MMM yyyy", $model->spk_date); ?></b>
+									</td>
+									<td width="40%"><br><br><b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></td>
+								</tr>
+
+								<tr>
+									<td width="10%"></td>
+									<td width="50%"><center><b>Jumlah</b></center>
+									</td>
+									<td width="40%"><b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></td>
+								</tr>
+
+								<tr>
+									<td width="10%"></td>
+									<td width="80%" colspan="2">Terbilang : == <?php echo ucwords(terbilang($model->total)); ?> Rupiah ==</td>
+								</tr>
+
+								<tr>
+									<td width="10%"></td>
+									<td width="80%" colspan="2">Catatan : <?php echo $model->note; ?></td>
+								</tr>
+
+
+
+							</table>
+						</div>
+					</p>
+
+				</div>
+			</div>
 			<BR>
-				<div class="kotak">
-					<div class="kiri">
+				<BR>
+					<div class="kotak">
+						<div class="kiri">
 
-					</div>
-					<div class="kanan" style="font-size:18px;line-height:20px;text-align: center;">
+						</div>
+						<div class="kanan" style="font-size:18px;line-height:20px;text-align: center;">
 
-						<BR>
 							<BR>
 								<BR>
-
-									Bandung, <?php echo $tanggal_buat;?>
 									<BR>
-										Bendahara Penerima Negara - PNBP<BR>
-										<BR> <BR> <BR> <BR> 
-											<b><u><?php echo $model->Signature->address; ?></u></b><BR>
-											<?php echo $model->Signature->name; ?>
+
+										Bandung, <?php echo $tanggal_buat;?>
+										<BR>
+											Bendahara Penerima Negara - PNBP<BR>
+											<BR> <BR> <BR> <BR> 
+												<b><u><?php echo $model->Signature->address; ?></u></b><BR>
+												<?php echo $model->Signature->name; ?>
+											</div>
 										</div>
-									</div>
 
 
 

@@ -4,6 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
+
 <div class="form-normal form-horizontal clearfix">
 	<div class="col-lg-9 col-md-10"> 
 
@@ -15,99 +16,138 @@
 				'validateOnSubmit' => true,
 				),
 			'errorMessageCssClass' => 'parsley-errors-list filled',
-			'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
-			)); ?>
-
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($disposition,'disposition_date'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-						<?php echo $form->textField($disposition,'disposition_date',array('class'=>'form-control')); ?>
-						<span class="input-group-addon btn btn-success"><i class="icon-th mdi mdi-calendar"></i></span>
-					</div>
-					<?php echo $form->error($disposition,'disposition_date'); ?>
-				</div>
-
-			</div>  
-
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($disposition,'disposition_to'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php 
-					echo $form->dropDownList($disposition, "disposition_to",
-						CHtml::listData(Unit::model()->findall(array('condition'=>'type=1')),
-							'id_unit', 'name'
-							),
-						array("empty"=>"-- Disposisi Ke --", 'class'=>'select2 form-control')
-						); 
-						?> 
-						<?php echo $form->error($disposition,'disposition_to'); ?>
-					</div>
-
-				</div> 		
-
-				
+			'htmlOptions' => array(
+				// 'onsubmit'=>"return false;", /* Disable normal form submit */
+				// 'onkeypress'=>" if(event.keyCode == 13){ send(); } " /* Do ajax call when user presses enter key */
+				'class' => 'form-horizontal', 'role' => 'form',)
+				)); ?>
 
 				<div class="form-group">
-					<div class="col-md-12">  
-						<?php echo CHtml::submitButton($disposition->isNewRecord ? 'Kirim Disposisi' : 'Edit', array('class' => 'btn btn-success btn-flat pull-right')); ?>
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($disposition,'disposition_date'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+							<?php echo $form->textField($disposition,'disposition_date',array('class'=>'form-control')); ?>
+							<span class="input-group-addon btn btn-success"><i class="icon-th mdi mdi-calendar"></i></span>
+						</div>
+						<?php echo $form->error($disposition,'disposition_date'); ?>
 					</div>
-				</div>
 
-				<?php $this->endWidget(); ?>
+				</div>  
 
-			</div></div><!-- form -->
+				<div class="form-group">
 
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($disposition,'disposition_to'); ?>
+					</div>   
 
-			<?php $this->widget('zii.widgets.grid.CGridView', array(
-				'id'=>'request-disposition-grid',
-				'dataProvider'=>$dataDisposition,
-				'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
-				'columns'=>array(
-
-					array(
-						'header'=>'No',
-						'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
-						'htmlOptions'=>array('width'=>'10px', 
-							'style' => 'text-align: center;')),
-
-					'disposition_date',
-					array(	
-						'name'=>'disposition_to',
-						'value'=>'$data->Balai->name',
-						),
-					array(	
-						'name'=>'last_view',
-						'value'=>'RequestDisposition::model()->views($data->last_view)',
-						),
-					array(	
-						'name'=>'status',
-						'filter'=>array('0'=>'Terkirim','1'=>'Diterima'),
-						'value'=>'RequestDisposition::model()->status($data->status)',
-						),
-
-					array(
-						'class'=>'CButtonColumn',
-						'template'=>'{view}{delete}',
-						'buttons'=>array(
-							'view'=>
-							array(
-								'url'=>'Yii::app()->createUrl("main/requestdisposition/view", array("id"=>$data->id_disposition))',
+					<div class="col-sm-8">
+						<?php 
+						echo $form->dropDownList($disposition, "disposition_to",
+							CHtml::listData(Unit::model()->findall(array('condition'=>'type=1')),
+								'id_unit', 'name'
 								),
-							'delete'=>
-							array(
-								'url'=>'Yii::app()->createUrl("main/requestdisposition/delete", array("id"=>$data->id_disposition))',
+							array("empty"=>"-- Disposisi Ke --", 'class'=>'select2 form-control')
+							); 
+							?> 
+							<?php echo $form->error($disposition,'disposition_to'); ?>
+						</div>
+
+					</div> 		
+
+
+
+					<div class="form-group">
+						<div class="col-md-12">  
+							<?php echo CHtml::submitButton($disposition->isNewRecord ? 'Kirim Disposisi' : 'Edit', array('class' => 'btn btn-success btn-flat pull-right'),array('onclick'=>'send();')); ?>
+						</div>
+					</div>
+
+					<?php $this->endWidget(); ?>
+
+				</div></div><!-- form -->
+
+
+				<?php $this->widget('zii.widgets.grid.CGridView', array(
+					'id'=>'request-disposition-grid',
+					'dataProvider'=>$dataDisposition,
+					'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
+					'columns'=>array(
+
+						array(
+							'header'=>'No',
+							'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+							'htmlOptions'=>array('width'=>'10px', 
+								'style' => 'text-align: center;')),
+
+						'disposition_date',
+						array(	
+							'name'=>'disposition_to',
+							'value'=>'$data->Balai->name',
+							),
+						array(	
+							'name'=>'last_view',
+							'value'=>'RequestDisposition::model()->views($data->last_view)',
+							),
+						array(	
+							'name'=>'status',
+							'filter'=>array('0'=>'Terkirim','1'=>'Diterima'),
+							'value'=>'RequestDisposition::model()->status($data->status)',
+							),
+
+						array(
+							'class'=>'CButtonColumn',
+							'template'=>'{view}{delete}',
+							'buttons'=>array(
+								'view'=>
+								array(
+									'url'=>'Yii::app()->createUrl("main/requestdisposition/view", array("id"=>$data->id_disposition))',
+									),
+								'delete'=>
+								array(
+									'url'=>'Yii::app()->createUrl("main/requestdisposition/delete", array("id"=>$data->id_disposition))',
+									),
 								),
 							),
 						),
-					),
-					)); ?>
+						)); ?>
 
+				<script type="text/javascript">
+					// setInterval(   
+					// 	function(){
+					// 		$.fn.yiiGridView.update('request-disposition-grid', {   
+					// 			data: $(this).serialize()
+					// 		});
+					// 		return false;
+					// 	}, 
+					// 	10000  
+					// 	);
+
+					function send()
+					{
+
+						var data=$("#request-disposition-form").serialize();
+
+
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo Yii::app()->createAbsoluteUrl("request/view/id/".$model->id_request); ?>',
+
+							data:data,
+							success:function(data){
+								alert(data); 
+							},
+							   error: function(data) { // if error occured
+							   	alert("Error occured.please try again");
+							   	alert(data);
+							   },
+
+							   dataType:'html'
+							});
+
+					}
+
+				</script>

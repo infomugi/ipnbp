@@ -1,6 +1,6 @@
 <?php
 
-class ResponseDetailController extends Controller
+class ResponsedetailController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -89,7 +89,7 @@ class ResponseDetailController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'letter_attachment'))) > 0) 
 			{ 
 				$tmp=CUploadedFile::getInstance($model,'letter_attachment'); 
-				$model->letter_attachment="surat-tanggapan-".$model->request_id.'-'.mktime().'.'.$tmp->extensionName; 
+				$model->letter_attachment="surat-tanggapan-".$model->request_id.'-'.time().'.'.$tmp->extensionName; 
 			}
 
 			if($model->save()){

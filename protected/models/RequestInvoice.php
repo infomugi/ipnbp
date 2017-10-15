@@ -29,6 +29,7 @@
 class RequestInvoice extends CActiveRecord
 {
 	private $request;
+// 	public $searchCompany;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -65,6 +66,8 @@ class RequestInvoice extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_invoice, created_date, created_id, update_date, update_id, code, date, description, total, note, signature_id, file_invoice, file_spk, request_id, status', 'safe', 'on'=>'search'),
+			
+// 			array('searchCompany', 'safe'),
 			);
 	}
 
@@ -105,7 +108,7 @@ class RequestInvoice extends CActiveRecord
 			'file_invoice' => 'File Invoice',
 			'file_spk' => 'File SPK',
 			'request_id' => 'Permohonan ID',
-			'status' => 'Status',
+			'status' => 'Status Bayar Terakhir',
 			'terbilang' => 'Terbilang',
 			'print_by' => 'Dicetak Oleh',
 			'print_click' => 'Total Cetak',
@@ -149,6 +152,9 @@ class RequestInvoice extends CActiveRecord
 		$criteria->compare('file_spk',$this->file_spk,true);
 		$criteria->compare('request_id',$this->request_id);
 		$criteria->compare('status',$this->status);
+		
+        // $criteria->with = array('Company');
+        // $criteria->addSearchCondition('Company.name', $this->searchCompany);		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -20,6 +20,7 @@
 				'data'=>$data,
 				'htmlOptions'=>array("class"=>"table"),
 				'attributes'=>array(
+							'part_id',
 							'id_category',
 		'name',
 		'description',

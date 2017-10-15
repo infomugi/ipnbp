@@ -15,6 +15,8 @@
  * @property string $date_send
  * @property string $date_feedback
  * @property string $description
+ * @property string $description_email
+ * @property string $description_reject
  * @property integer $request_id
  * @property integer $status
  */
@@ -36,11 +38,11 @@ class Response extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_date, created_id, letter_date, letter_code, request_id, letter_attachment, status', 'required','on'=>'create'),
+			array('created_date, created_id, request_id', 'required','on'=>'create'),
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, request_id, status', 'numerical', 'integerOnly'=>true),
-			array('letter_code', 'length', 'max'=>25),
-			array('letter_attachment, description', 'length', 'max'=>255),
+			array('letter_code, status', 'length', 'max'=>25),
+			array('letter_attachment, description, description_email, description_reject', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_response, created_date, created_id, update_date, update_id, letter_date, letter_code, letter_attachment, date_send, date_feedback, description, request_id, status', 'safe', 'on'=>'search'),
@@ -78,6 +80,8 @@ class Response extends CActiveRecord
 			'date_send' => 'Tanggal Kirim',
 			'date_feedback' => 'Tanggal Feedback',
 			'description' => 'Catatan',
+			'description_email' => 'Email Penolakan',
+			'description_reject' => 'Alasan Penolakan',
 			'request_id' => 'Permintaan ID',
 			'status' => 'Status',
 			);
@@ -130,4 +134,14 @@ class Response extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function status($a)
+	{
+		if($a==1)
+			return "Diterima";
+		else if($a==2)
+			return "Ditolak";
+		else 
+			return "-";
+	}	
 }

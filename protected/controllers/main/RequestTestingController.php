@@ -1,6 +1,6 @@
 <?php
 
-class RequestTestingController extends Controller
+class RequesttestingController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -177,6 +177,14 @@ class RequestTestingController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model->name;
+	}
+	
+	public function loadCategory($id)
+	{
+		$model=Category::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->name;
 	}	
 
 	/**
@@ -212,10 +220,12 @@ class RequestTestingController extends Controller
 	{
 		$name='';
 		$part='';
-		$lab='';
+		$category='';
 		$part_id='';
-		$lab_id='';
+		$category_id='';
 		$id_testing='';
+		$time='';
+		$price='';
 
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'status=:status';
@@ -228,20 +238,24 @@ class RequestTestingController extends Controller
 			{
 				$id_testing=$ii->id_testing;
 				$part_id=$ii->part_id;
-				$lab_id=$ii->lab_id;
+				$category_id=$ii->category_id;
 				$name=$ii->name;
 				$part=$this->loadUnit($ii->part_id);
-				$lab=$this->loadUnit($ii->lab_id);
+				$category=$this->loadCategory($ii->category_id);
+				$time=$ii->time;
+				$price=$ii->price;
 			}		      
 		}        
 
 		echo CJSON::encode(array(
 			'id_testing'=>$id_testing,
-			'lab_id'=>$lab_id,
+			'category_id'=>$category_id,
 			'part_id'=>$part_id,
 			'name'=>$name,
 			'part'=>$part,
-			'lab'=>$lab,
+			'category'=>$category,
+			'time'=>$time,
+			'price'=>$price,
 			));
 		Yii::app()->end();
 	}				

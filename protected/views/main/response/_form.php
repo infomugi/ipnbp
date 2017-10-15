@@ -14,18 +14,16 @@
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
 			),
-		'errorMessageCssClass' => 'label label-danger',
+		'errorMessageCssClass' => 'parsley-errors-list filled',
 		'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 		)); ?>
 
-		<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
+		<?php //echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
 
 
 
-		<div class="col-lg-9 col-md-10"> 
+		<div class="col-md-10">
 
-
-			
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -33,13 +31,16 @@
 				</div>   
 
 				<div class="col-sm-8">
+					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+						<?php echo $form->textField($model,'letter_date',array('class'=>'form-control')); ?>
+						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+					</div>
 					<?php echo $form->error($model,'letter_date'); ?>
-					<?php echo $form->textField($model,'letter_date',array('class'=>'form-control')); ?>
 				</div>
 
 			</div>  
 
-			
+
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -47,13 +48,13 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'letter_code'); ?>
 					<?php echo $form->textField($model,'letter_code',array('class'=>'form-control')); ?>
+					<?php echo $form->error($model,'letter_code'); ?>
 				</div>
 
 			</div>  
 
-			
+
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -61,41 +62,13 @@
 				</div>   
 
 				<div class="col-sm-8">
+					<?php echo $form->fileField($model,'letter_attachment',array('class'=>'btn btn-info')); ?>
 					<?php echo $form->error($model,'letter_attachment'); ?>
-					<?php echo $form->textField($model,'letter_attachment',array('class'=>'form-control')); ?>
 				</div>
 
 			</div>  
 
-			
-			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'date_send'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'date_send'); ?>
-					<?php echo $form->textField($model,'date_send',array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'date_feedback'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'date_feedback'); ?>
-					<?php echo $form->textField($model,'date_feedback',array('class'=>'form-control')); ?>
-				</div>
-
-			</div>  
-
-			
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -103,34 +76,48 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'description'); ?>
 					<?php echo $form->textArea($model,'description',array('class'=>'form-control')); ?>
+					<?php echo $form->error($model,'description'); ?>
 				</div>
 
 			</div>  
-
+			
 			
 			<div class="form-group">
-
+				
 				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'request_id'); ?>
+					<?php echo $form->labelEx($model,'status'); ?>
 				</div>   
 
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'request_id'); ?>
-					<?php echo $form->textField($model,'request_id',array('class'=>'form-control')); ?>
-				</div>
+				<div class="col-sm-8 be-radio">
+					<?php echo $form->error($model,'status'); ?>
+					<?php
+					echo $form->radioButtonList($model,'status',
+						array('1'=>'Diterima','2'=>'Ditolak'),
+						array(
+							'template'=>'{input}{label}',
+							'separator'=>'',
+							'labelOptions'=>array(
+								'style'=>'padding-right:20px;margin-left:15px'),
 
-			</div>  
+							)                              
+						);
+						?>
+					</div>
+					
+				</div>  
 
+			
 
 			<div class="form-group">
 				<div class="col-md-12">  
-				</br></br>
-				<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+					<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				</div>
 			</div>
-		</div>
 
-		<?php $this->endWidget(); ?>
+			<?php $this->endWidget(); ?>
 
-</div></div><!-- form -->
+		</div><!-- form -->
+	</div><!-- form -->
+
+

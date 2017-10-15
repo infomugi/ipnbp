@@ -18,9 +18,11 @@
  * @property integer $testing_number
  * @property integer $testing_id
  * @property integer $testing_type
+ * @property integer $testing_part
  * @property string $file
  * @property integer $request_id
  * @property integer $status
+ * @property integer $status_schedule
  */
 class RequestSchedule extends CActiveRecord
 {
@@ -43,11 +45,11 @@ class RequestSchedule extends CActiveRecord
 			// array('created_date, created_id, update_date, update_id, task, cost, start_date, end_date, description, note, testing_number, testing_id, file, request_id, status', 'required'),
 			array('created_date, created_id, task, start_date, end_date, testing_number, testing_id, testing_type, request_id, status', 'required','on'=>'create'),
 			array('update_date, update_id,', 'required','on'=>'update'),
-			array('created_id, update_id, testing_number, testing_id, testing_type, request_id, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, update_id, testing_number, testing_id, testing_type, request_id, status, testing_part, status_schedule', 'numerical', 'integerOnly'=>true),
 			array('cost', 'numerical'),
 			array('task, file, description, note', 'length', 'max'=>255),
 			array('file', 'required','on'=>'upload'),
-			array('file', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'upload'),
+			array('file', 'file', 'types' => 'pdf, doc, docx, xls, xlsx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'upload'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_schedule, created_date, created_id, update_date, update_id, task, cost, start_date, end_date, description, note, testing_number, testing_id, file, request_id, status', 'safe', 'on'=>'search'),
@@ -87,9 +89,11 @@ class RequestSchedule extends CActiveRecord
 			'testing_number' => 'Sample Ke-',
 			'testing_id' => 'Jenis Pengujian',
 			'testing_type' => 'Tipe Pengujian',
+			'testing_part' => 'Balai',
 			'file' => 'File RAB',
 			'request_id' => 'Request',
 			'status' => 'Status',
+			'status_schedule' => 'Status Jadwal',
 			);
 	}
 
@@ -125,6 +129,7 @@ class RequestSchedule extends CActiveRecord
 		$criteria->compare('testing_number',$this->testing_number);
 		$criteria->compare('testing_id',$this->testing_id);
 		$criteria->compare('testing_type',$this->testing_type);
+		$criteria->compare('testing_part',$this->testing_part);
 		$criteria->compare('file',$this->file,true);
 		$criteria->compare('request_id',$this->request_id);
 		$criteria->compare('status',$this->status);
@@ -157,10 +162,66 @@ class RequestSchedule extends CActiveRecord
 		}
 	}
 
+	public function statusSchedule($data){
+		if($data==1){
+			return "Revisi";
+		}elseif($data==2){
+			return "Fix";
+		}else{
+			return "-";
+		}
+	}	
+
 	public static function countDataTesting($type,$requestID)
 	{
 		$sql = "SELECT count(id_schedule) FROM request_schedule WHERE testing_type=".$type." AND request_id=".$requestID;
 		$command = Yii::app()->db->createCommand($sql);
 		return $command->queryScalar();
 	}	
+
+	public static function countSchedule($type,$requestID,$status)
+	{
+		$sql = "
+		SELECT
+		count(rs.id_schedule)
+		FROM
+		request_schedule AS rs
+		LEFT JOIN request_testing rt ON rs.testing_id = rt.id_testing
+		LEFT JOIN ref_unit AS u ON u.id_unit = rt.testing_part
+		WHERE u.id_unit=".$type." AND rs.request_id=".$requestID;
+		$command = Yii::app()->db->createCommand($sql);
+		$result = $command->queryScalar();
+
+		if($status==1){
+
+			if($result==0){
+				return "Balai Belum Membuat Jadwal & RAB";
+			}else{
+				return "Terdapat ".$result." Data Jadwal & RAB";
+			}
+
+		}else{
+
+			if($result==0){
+				return "Balai Belum Menentukan Tahapan Pengujian, Jadwal & RAB";
+			}else{
+				return "Terdapat ".$result." Data Jadwal & RAB";
+			}
+
+		}
+	}		
+
+
+	public function status($data){
+		if($data==1){
+			return "Start";
+		}elseif($data==2){
+			return "On Progress";
+		}elseif($data==3){
+			return "Close";
+		}else{
+			return "-";
+		}
+	}
+	
 }

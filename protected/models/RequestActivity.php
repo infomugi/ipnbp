@@ -9,6 +9,8 @@
  * @property string $request_date
  * @property integer $approve_id
  * @property string $approve_date
+ * @property integer $schedule_id
+ * @property string $schedule_date 
  * @property integer $response_id
  * @property string $response_date
  * @property integer $invoice_id
@@ -41,7 +43,7 @@ class RequestActivity extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			// array('activity_date, request_date, approve_id, approve_date, response_id, response_date, invoice_id, invoice_date, payment_id, payment_date, report_send_id, report_send_date, report_accept_id, report_accept_date, request_id, status', 'required'),
-			array('approve_id, response_id, invoice_id, payment_id, report_send_id, report_accept_id, request_id, status', 'numerical', 'integerOnly'=>true),
+			array('approve_id, response_id, schedule_id, invoice_id, payment_id, report_send_id, report_accept_id, request_id, status', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_activity, activity_date, request_date, approve_id, approve_date, response_id, response_date, invoice_id, invoice_date, payment_id, payment_date, report_send_id, report_send_date, report_accept_id, report_accept_date, request_id, status', 'safe', 'on'=>'search'),
@@ -71,6 +73,8 @@ class RequestActivity extends CActiveRecord
 			'request_date' => 'Request Date',
 			'approve_id' => 'Approve',
 			'approve_date' => 'Approve Date',
+			'schedule_id' => 'Schedule',
+			'schedule_date' => 'Schedule Date',			
 			'response_id' => 'Response',
 			'response_date' => 'Response Date',
 			'invoice_id' => 'Invoice',

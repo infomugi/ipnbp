@@ -4,7 +4,6 @@
 /* @var $form CActiveForm */
 ?>
 
-
 <div class="form-normal form-horizontal clearfix">
 
 	<?php $form=$this->beginWidget('CActiveForm', array(
@@ -31,10 +30,23 @@
 
 				<div class="col-sm-8">
 					<?php 
+					// echo CHtml::dropDownList('category_id','', CHtml::listData(Category::model()->findall(array('condition'=>'status=1')),
+					// 	'id_category', 'name'
+					// 	),
+					// array(
+					// 	"empty"=>"- Pilih Kategori Pengujian -", 
+					// 	'class'=>'form-control select2',
+					// 	'ajax' => array(
+					// 		'type'=>'POST', 
+					// 		'url'=>CController::createUrl('master/testing/load'), 
+					// 		'update'=>'#RequestTesting_testing_type', 
+					// 		))); 
+
 					echo $form->dropDownList($testing, "testing_type",
-						CHtml::listData(Testing::model()->findall(array('condition'=>'status=1')),
-							'id_testing', 'name'
+						CHtml::listData(Testing::model()->findall(array('condition'=>'status=1 AND part_id='.YII::app()->user->record->division)),
+							'id_testing', 'showTesting'
 							),
+						// array(),
 						array(
 							"empty"=>"- Pilih Jenis Pengujian -", 
 							'class'=>'form-control select2',
@@ -46,10 +58,12 @@
 								'success'=>'function(data){
 									$("#name").val(data.name);
 									$("#part").val(data.part);
-									$("#lab").val(data.lab);
+									$("#category").val(data.category);
+									$("#time").val(data.time);
+									$("#price").val(data.price);
 									$("#RequestTesting_testing_type").val(data.id_testing);
 									$("#RequestTesting_testing_part").val(data.part_id);
-									$("#RequestTesting_testing_lab").val(data.lab_id);
+									$("#RequestTesting_testing_lab").val(data.category_id);
 									$("#RequestTesting_testing_total").focus();
 								}',),							
 							)
@@ -84,14 +98,40 @@
 					</div>   
 
 					<div class="col-sm-8">
-						<input type="text" class="form-control" id="lab" disabled="true">
+						<input type="text" class="form-control" id="category" disabled="true">
 						<?php echo $form->error($testing,'testing_lab'); ?>
 						<div style="display:none;">
 							<?php echo $form->textField($testing,'testing_lab',array('class'=>'form-control','hidden'=>true)); ?>
 						</div>
 					</div>
 
-				</div>  
+				</div> 
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($testing,'time'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="time" disabled="true">
+
+					</div> 
+				</div> 
+
+				<div class="form-group">
+
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($testing,'price'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="price" disabled="true">
+						<?php echo $form->error($testing,'price'); ?>
+
+					</div>
+
+				</div> 				
 
 
 				<div class="form-group">
@@ -134,7 +174,7 @@
 					// 		'style' => 'text-align: center;')),
 				'id_testing',
 				array('name'=>'testing_type','value'=>'$data->Testing->name'),
-				array('name'=>'testing_lab','value'=>'$data->Lab->name'),
+				array('name'=>'testing_lab','value'=>'$data->Category->name'),
 				array('name'=>'testing_part','value'=>'$data->Balai->name'),
 
 			// array(	

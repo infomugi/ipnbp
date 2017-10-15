@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	$model->id_invoice,
 	);
 
-$this->pageTitle='Detail Invoice';
+$this->pageTitle='Detail Invoice - '.$model->code;
 ?>
 
 <span class="visible-xs">
@@ -52,16 +52,16 @@ $this->pageTitle='Detail Invoice';
 														'data'=>$model,
 														'htmlOptions'=>array("class"=>"table"),
 														'attributes'=>array(
-															'id_invoice',
+															// 'id_invoice',
 															'code',
 															'date',
 															'description',
 															'total',
 															'note',
 															array('name'=>'signature_id','value'=>$model->signature_id==0 ? "-" : $model->Signature->address),
-															'file_invoice',
-															'file_spk',
-															'testing_id',
+															// 'file_invoice',
+															// 'file_spk',
+															// 'testing_id',
 															'spk_no',
 															'spk_date',
 															// 'request_id',

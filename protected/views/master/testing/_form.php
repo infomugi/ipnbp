@@ -81,15 +81,45 @@
 						<?php echo $form->error($model,'lab_id'); ?>
 						<?php 
 						echo $form->dropDownList($model, "lab_id",
-							CHtml::listData(Unit::model()->findall(array('condition'=>'type=2')),
-								'id_unit', 'name'
+							CHtml::listData(Category::model()->findall(array('condition'=>'status=1')),
+								'id_category', 'name'
 								),
-							array("empty"=>"-- Pilih Lab --", 'class'=>'select2 form-control')
+							array("empty"=>"-- Pilih Kategori --", 'class'=>'select2 form-control')
 							); 
 							?> 
 						</div>
 
-					</div>  						
+					</div>  		
+					
+					
+								
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'time'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'time'); ?>
+					<?php echo $form->textField($model,'time',array('class'=>'form-control')); ?>
+				</div>
+
+			</div>  
+			
+			
+						
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'price'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($model,'price'); ?>
+					<?php echo $form->textField($model,'price',array('class'=>'form-control')); ?>
+				</div>
+
+			</div>  
 
 
 <!-- 					<div class="form-group">

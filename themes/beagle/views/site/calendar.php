@@ -39,9 +39,9 @@ if($filter=="company"){
 
 					<select name="status" class="form-control" required="true">
 						<option value="">-- Pilih Status --</option>
-						<option value="1">Start</option>
-						<option value="2">In Progress</option>
-						<option value="3">Close</option>
+						<!--<option value="1">Start</option>-->
+						<option value="2">Sedang Berjalan</option>
+						<option value="3">Selesai</option>
 					</select>
 
 				</div>  	

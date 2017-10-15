@@ -28,12 +28,12 @@ class ResponseController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','send'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','download','sendreject'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index'),
+				'actions'=>array('view','index','download','sendreject'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -236,8 +236,8 @@ class ResponseController extends Controller
 
 		//Data Invoice
 		$model=$this->loadModel($id);
-		$model->status = 1;
-		$model->save();
+		// $model->status = 1;
+		// $model->save();
 
 		$greet = $this->loadGreeting();
 
@@ -246,27 +246,83 @@ class ResponseController extends Controller
 
 		//Send Mail
 		$message_title = "Surat Tanggapan";
+		$message_confirm = "<p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br>";
 		$message_content = 
 		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> Surat Tanggapan No. (".$model->letter_code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->letter_date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> Surat Tanggapan No. (".$model->letter_code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->letter_date).".</p></br></br></br></br> Terimakasih.
 		";
-		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_link = Yii::app()->request->hostInfo."/registration/activation/";
 		$message_button = "Konfirmasi";
 
 		//Send Email
 		$email->subject = $request->Company->name." - Surat Tanggapan No.".$model->letter_code." (".$request->letter_subject.")";
 		$email->addTo($request->Company->email);
-		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
 
 		// Email Attachment
 		if($model->letter_attachment!=""){	
-			$message_link_response = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/response/".$model->letter_attachment;
+			$message_link_response = YiiBase::getPathOfAlias("webroot")."/image/files/response/".$model->letter_attachment;
 			$swiftAttachment = Swift_Attachment::fromPath($message_link_response);              
 			$email->attach($swiftAttachment);
 		}
 
 		// Email Template
-		$message_template = $this->renderPartial('/email/informasi',
+		$message_template = $this->renderPartial('/email/notifikasi',
+			array(
+				'email'=>$request->Company->email,
+				'title'=>$message_title,
+				'message'=>$message_content,
+				'link'=>$message_link,
+				'button'=>$message_button
+				),TRUE);
+
+		$email->setBody($message_template, 'text/html');
+		if(Yii::app()->mail->send($email)){
+			Yii::app()->user->setFlash('Success', 'Surat Tanggapan sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
+			$this->redirect(array('request/view','id'=>$model->request_id));
+		}
+
+	}		
+
+	public function actionSendReject($id)
+	{
+		Yii::import('ext.yii-mail.YiiMailMessage');
+		$email = new YiiMailMessage;	
+
+		//Data Invoice
+		$model=$this->loadModel($id);
+		// $model->status = 2;
+		// $model->save();
+
+		$greet = $this->loadGreeting();
+
+		//Data Request
+		$request=$this->loadRequest($model->request_id);
+
+		//Send Mail
+		$message_title = "Surat Tanggapan";
+		$message_confirm = "<p>".$model->description_reject."</p>";
+		$message_content = 
+		$greet."
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> Surat Tanggapan No. (".$model->letter_code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->letter_date).".</p>".$message_confirm."</br></br>Terimakasih.";
+		$message_link = Yii::app()->request->hostInfo."/registration/activation/";
+		$message_button = "Konfirmasi";
+
+		//Send Email
+		$email->subject = $request->Company->name." - Surat Tanggapan No.".$model->letter_code." (".$request->letter_subject.")";
+		$email->addTo($request->Company->email);
+		// $email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+
+		// Email Attachment
+		if($model->letter_attachment!=""){	
+			$message_link_response = YiiBase::getPathOfAlias("webroot")."/image/files/response/".$model->letter_attachment;
+			$swiftAttachment = Swift_Attachment::fromPath($message_link_response);              
+			$email->attach($swiftAttachment);
+		}
+
+		// Email Template
+		$message_template = $this->renderPartial('/email/notifikasi',
 			array(
 				'email'=>$request->Company->email,
 				'title'=>$message_title,
@@ -282,4 +338,27 @@ class ResponseController extends Controller
 		}
 
 	}			
+
+	
+	
+	public function downloadFile($fullpath){
+		if(!empty($fullpath)){ 
+			header("Content-type:application/pdf"); 
+			header('Content-Disposition: attachment; filename="'.basename($fullpath).'"'); 
+			header('Content-Length: ' . filesize($fullpath));
+			readfile($fullpath);
+			Yii::app()->end();
+		}
+	}
+
+	public function actionDownload($id){
+		$model=$this->loadModel($id);
+		if($model->letter_attachment==""){
+			throw new CHttpException(404,'File Download Surat Tanggapan tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/response/".$model->letter_attachment;
+			$this->downloadFile($path);
+		}
+
+	}	
 }

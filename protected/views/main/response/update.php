@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 	'Edit',
 	);
 
-	$this->pageTitle='Edit Response';
+	$this->pageTitle='Edit Surat Tanggapan';
 	?>
 
 	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

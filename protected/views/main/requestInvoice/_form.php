@@ -131,15 +131,16 @@
 				</div>  
 
 
+
 				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'file_invoice'); ?>
+						<?php echo $form->labelEx($model,'spk_no'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($model,'file_invoice'); ?>
-						<?php echo $form->fileField($model,'file_invoice',array('class'=>'btn btn-info')); ?>
+						<?php echo $form->textField($model,'spk_no',array('class'=>'form-control')); ?>
+						<?php echo $form->error($model,'spk_no'); ?>
 					</div>
 
 				</div>  
@@ -148,15 +149,19 @@
 				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'file_spk'); ?>
+						<?php echo $form->labelEx($model,'spk_date'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($model,'file_spk'); ?>
-						<?php echo $form->fileField($model,'file_spk',array('class'=>'btn btn-info')); ?>
+						<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+							<?php echo $form->textField($model,'spk_date',array('class'=>'form-control')); ?>
+							<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+						</div>
+						<?php echo $form->error($model,'spk_date'); ?>
 					</div>
 
 				</div>  
+
 
 
 				<div class="form-group">

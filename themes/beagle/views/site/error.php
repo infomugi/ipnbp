@@ -12,9 +12,10 @@ $this->breadcrumbs=array(
   <div class="error-number"><?php echo $code; ?></div>
   <div class="error-description"><?php echo CHtml::encode($message); ?></div>
   <div class="error-goback-button">
-    <?php echo CHtml::link('Kembali ke Dashboard', 
-      array('site/dashboard',
-        ), array('class' => 'btn btn-xl btn-primary', 'title'=>'Kembali'));
+    <?php 
+    // echo CHtml::link('Kembali ke Dashboard', 
+    //   array('site/dashboard',
+    //     ), array('class' => 'btn btn-xl btn-primary', 'title'=>'Kembali'));
         ?>
       </div>
       <div class="footer">&copy; <?php echo date('Y'); ?> - <?php echo YII::app()->name; ?></div>

@@ -38,6 +38,7 @@ return array(
 
 	// application components
 	'components'=>array(
+  
 
 		'mail' => array(
 			'class' => 'ext.yii-mail.YiiMail',
@@ -48,6 +49,12 @@ return array(
 				'username'=>'infomugi.com@gmail.com',
 				'password'=>'areyouhackerman?',	
 				'port'=>465,
+
+					// 'host'=>'mail.sinerjiteknoindo.com',
+					// 'encryption'=>'ssl', 
+					// 'username'=>'pnbp@sinerjiteknoindo.com',
+					// 'password'=>'Vl*{J2MCT7A$',
+					// 'port'=>465,				
 				),
 			'viewPath' => 'application.views.mail',
 			'logging' => true,
@@ -82,6 +89,7 @@ return array(
 				//Page URL Activation and Reset
 				'reset/<token:[a-zA-Z0-9-]+>/'=>'site/reset',
 				'activation/<token:[a-zA-Z0-9-]+>/'=>'site/activation',
+				'kuesioner/<token:[a-zA-Z0-9-]+>/'=>'main/requestreport/quesioner',
 
 				// Page
 				'view/<id:[a-zA-Z0-9-]+>/'=>'main/request/view',
@@ -102,7 +110,8 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>YII_DEBUG ? null : 'site/error',
+			// 'errorAction'=>YII_DEBUG ? null : 'site/error',
+			'errorAction' => 'site/error'
 			),
 
 		'log'=>array(

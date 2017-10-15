@@ -56,6 +56,40 @@
 
 			</div>  
 
+
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($report,'report_date'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($report,'report_date'); ?>
+					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+						<?php echo $form->textField($report,'report_date',array('class'=>'form-control')); ?>
+						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+					</div>
+				</div>
+
+			</div>  
+
+
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($report,'send_date'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<?php echo $form->error($report,'send_date'); ?>
+					<div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+						<?php echo $form->textField($report,'send_date',array('class'=>'form-control')); ?>
+						<span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+					</div>
+				</div>
+
+			</div>  
+
 			
 			<div class="form-group">
 

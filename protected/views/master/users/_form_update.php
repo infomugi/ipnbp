@@ -21,11 +21,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'username'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'username'); ?>
 					<?php echo $form->textField($model,'username',array('class'=>'form-control','placeholder'=>'Username')); ?>
 				</div>
@@ -35,11 +35,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'email'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'email'); ?>
 					<?php echo $form->textField($model,'email',array('class'=>'form-control','placeholder'=>'Email Address')); ?>
 				</div>
@@ -49,11 +49,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'first_name'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'first_name'); ?>
 					<?php echo $form->textField($model,'first_name',array('class'=>'form-control','placeholder'=>'First Name')); ?>
 				</div>
@@ -63,11 +63,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'last_name'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'last_name'); ?>
 					<?php echo $form->textField($model,'last_name',array('class'=>'form-control','placeholder'=>'Last Name')); ?>
 				</div>
@@ -77,11 +77,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'location'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'location'); ?>
 					<?php echo $form->textField($model,'location',array('class'=>'form-control','placeholder'=>'Address')); ?>
 				</div>
@@ -91,11 +91,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'website'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'website'); ?>
 					<?php echo $form->textField($model,'website',array('class'=>'form-control','placeholder'=>'Website')); ?>
 				</div>
@@ -105,11 +105,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'bio'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'bio'); ?>
 					<?php echo $form->textArea($model,'bio',array('class'=>'form-control','placeholder'=>'Bio')); ?>
 				</div>
@@ -118,11 +118,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'job'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'job'); ?>
 					<?php echo $form->textField($model,'job',array('class'=>'form-control','placeholder'=>'Job Title')); ?>
 				</div>
@@ -131,11 +131,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'phone'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'phone'); ?>
 					<?php echo $form->textField($model,'phone',array('class'=>'form-control','placeholder'=>'Phone')); ?>
 				</div>
@@ -144,11 +144,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'pin'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'pin'); ?>
 					<?php echo $form->textField($model,'pin',array('class'=>'form-control','placeholder'=>'Pin BB')); ?>
 				</div>
@@ -158,11 +158,11 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'birth'); ?>
 				</div>   
 
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<?php echo $form->error($model,'birth'); ?>
 					<?php echo $form->textField($model,'birth',array('class'=>'form-control','placeholder'=>'Birthday','data-mask'=>"99-99-9999")); ?>
 				</div>
@@ -172,7 +172,7 @@
 
 			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
+				<div class="col-sm-3 control-label">
 					<?php echo $form->labelEx($model,'gender'); ?>
 				</div>   
 
@@ -197,11 +197,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-4 control-label">
+					<div class="col-sm-3 control-label">
 						<?php echo $form->labelEx($model,'facebook'); ?>
 					</div>   
 
-					<div class="col-sm-8">
+					<div class="col-sm-9">
 
 						<?php echo $form->error($model,'facebook'); ?>
 						<?php echo $form->textField($model,'facebook',array('class'=>'form-control','placeholder'=>'Facebook Account')); ?>
@@ -213,11 +213,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-4 control-label">
+					<div class="col-sm-3 control-label">
 						<?php echo $form->labelEx($model,'twitter'); ?>
 					</div>   
 
-					<div class="col-sm-8">
+					<div class="col-sm-9">
 
 						<?php echo $form->error($model,'twitter'); ?>
 						<?php echo $form->textField($model,'twitter',array('class'=>'form-control','placeholder'=>'Twitter Account')); ?>
@@ -229,11 +229,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-4 control-label">
+					<div class="col-sm-3 control-label">
 						<?php echo $form->labelEx($model,'gplus'); ?>
 					</div>   
 
-					<div class="col-sm-8">
+					<div class="col-sm-9">
 
 						<?php echo $form->error($model,'gplus'); ?>
 						<?php echo $form->textField($model,'gplus',array('class'=>'form-control','placeholder'=>'Google+ Account')); ?>
@@ -245,11 +245,11 @@
 
 				<div class="form-group">
 
-					<div class="col-sm-4 control-label">
+					<div class="col-sm-3 control-label">
 						<?php echo $form->labelEx($model,'division'); ?>
 					</div>   
 
-					<div class="col-sm-8">
+					<div class="col-sm-9">
 						<?php echo $form->error($model,'division'); ?>
 						<?php 
 						echo $form->dropDownList($model, "division",

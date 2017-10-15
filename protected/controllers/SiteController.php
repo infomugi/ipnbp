@@ -48,7 +48,8 @@ class SiteController extends Controller
 			$this->redirect(array('site/login'));
 
 		}else{
-			
+
+			$dataShedule=new CActiveDataProvider('RequestTesting');
 
 			$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'testing_part='.YII::app()->user->record->division)));
 
@@ -70,11 +71,12 @@ class SiteController extends Controller
 					'pageSize'=>'20',
 					)));				
 
-			$this->render('dashboard',array(
+			$this->render('index',array(
 				'dataUnread'=>$dataUnread,
 				'dataActivity'=>$dataActivity,
 				'dataTesting'=>$dataTesting,
 				'dataDisposition'=>$dataDisposition,
+				'dataShedule'=>$dataShedule,
 				));
 
 		}
@@ -229,5 +231,38 @@ class SiteController extends Controller
 		}
 	}			
 
+
+	public function actionReport()
+	{
+		if(Yii::app()->user->isGuest) {
+
+			$this->redirect(array('site/login'));
+
+		}else{
+
+			$this->render('report');
+
+		}
+	}
+	
+	public function actionBalai()
+	{
+		if(Yii::app()->user->isGuest) {
+
+			$this->redirect(array('site/login'));
+
+		}else{
+
+			$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'testing_part='.YII::app()->user->record->division)));
+
+			$dataDisposition=new CActiveDataProvider('RequestDisposition',array('criteria'=>array('condition'=>'disposition_to='.YII::app()->user->record->division)));
+
+			$this->render('dashboard',array(
+				'dataTesting'=>$dataTesting,
+				'dataDisposition'=>$dataDisposition,
+				));
+
+		}
+	}	
 
 }

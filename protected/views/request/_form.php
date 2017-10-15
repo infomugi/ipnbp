@@ -74,8 +74,28 @@
 					</div>
 
 				</div>  
+<!--
+				<div class="form-group">
 
-<!-- 				<div class="form-group">
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'category_id'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<?php 
+						echo $form->dropDownList($model, "category_id",
+							CHtml::listData(Category::model()->findall(array('condition'=>'status=1')),
+								'id_category', 'description'
+								),
+							array("empty"=>"-- Kategori Pengujian --", 'class'=>'select2 form-control')
+							); 
+							?> 
+							<?php echo $form->error($model,'category_id'); ?>
+						</div>
+
+					</div>  
+
+ 				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
 						<?php echo $form->labelEx($model,'company_address'); ?>

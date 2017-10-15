@@ -25,18 +25,14 @@ $this->pageTitle='Kelola Surat Tanggapan';
 			'htmlOptions'=>array('width'=>'10px', 
 				'style' => 'text-align: center;')),
 
-		'letter_date',
 		'letter_code',
-		'letter_attachment',
-		'date_send',
-		'date_feedback',
+		'letter_date',
 		'description',
-		'request_id',
 
 		array(	
 			'name'=>'status',
-			'filter'=>array('0'=>'Disable','1'=>'Enable'),
-			'value'=>'Users::model()->status($data->status)',
+			'filter'=>array('1'=>'Diterima','2'=>'Ditolak'),
+			'value'=>'Response::model()->status($data->status)',
 			),
 
 		array(

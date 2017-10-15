@@ -33,7 +33,7 @@
 				<div class="col-sm-8">
 					<?php 
 					echo $form->dropDownList($schedule, "testing_id",
-						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id)), 'id_testing', 'request')),
+						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$request_id.' AND testing_part='.YII::app()->user->record->division)), 'id_testing', 'request')),
 						array(
 							"empty"=>"- Pilih Jenis Pengujian -", 
 							'class'=>'form-control select2',
@@ -45,6 +45,7 @@
 								'success'=>'function(data){
 									$("#RequestSchedule_testing_id").val(data.id_testing);
 									$("#RequestSchedule_testing_type").val(data.id_type);
+									$("#RequestSchedule_testing_part").val(data.part_id);
 									$("#testing_lab").val(data.testing_lab);
 									$("#testing_type").val(data.testing_type);
 									$("#testing_part").val(data.testing_part);
@@ -87,6 +88,9 @@
 
 					<div class="col-sm-8">
 						<input type="text" name="" id="testing_part" class="form-control" readonly="true">
+						<div  style="display:none;">
+							<?php echo $form->textField($schedule,'testing_part',array('class'=>'form-control')); ?>
+						</div>
 					</div>
 
 				</div>  
@@ -96,7 +100,7 @@
 				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
-						Lab
+						Kategori
 					</div>   
 
 					<div class="col-sm-8">
@@ -200,19 +204,6 @@
 				</div>  
 
 
-				<div class="form-group">
-
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($schedule,'description'); ?>
-					</div>   
-
-					<div class="col-sm-8">
-						<?php echo $form->textArea($schedule,'description',array('class'=>'form-control')); ?>
-						<?php echo $form->error($schedule,'description'); ?>
-					</div>
-
-				</div>  
-
 
 				<div class="form-group">
 
@@ -300,6 +291,8 @@
 					'name'=>'cost',
 					'value'=>'Request::model()->rupiah($data->cost)',
 					),
+
+				'note',
 
 				// array(      
 				// 	'class'=>'CLinkColumn',      

@@ -44,7 +44,23 @@
 								'success'=>'function(data){
 									$("#RequestInvoice_testing_id").val(data.id_testing);
 									$("#RequestInvoice_description").val(data.testing_type);
-									
+									$("#part_id").val(data.part_id);
+
+									if($("#part_id").val()==0){
+										$("#RequestInvoice_spk_no").val("");
+									}
+									if($("#part_id").val()==8){
+										jQuery("#RequestInvoice_spk_no").mask("999/KS/PNBP/AMPLP/LP/2099");
+									}
+									if($("#part_id").val()==9){
+										$("#RequestInvoice_spk_no").val("__/KS/PNBP/BB/LP/20__");
+									}
+									if($("#part_id").val()==10){
+										jQuery("#RequestInvoice_spk_no").mask("999/KS/PNBP/SAINS/LP/2099");
+									}
+									if($("#part_id").val()==11){
+										jQuery("#RequestInvoice_spk_no").mask("999/KS/SKB/SKB/LP/2099");
+									}
 									$("#RequestInvoice_code").focus();
 								}',),							
 							)
@@ -201,6 +217,8 @@
 						</div>   
 
 						<div class="col-sm-8">
+							<input type="text" style="display:none;" id="part_id" class="form-control" name="">
+
 							<?php echo $form->textField($invoice,'spk_no',array('class'=>'form-control')); ?>
 							<?php echo $form->error($invoice,'spk_no'); ?>
 						</div>

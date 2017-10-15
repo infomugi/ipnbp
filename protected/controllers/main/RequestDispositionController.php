@@ -1,6 +1,6 @@
 <?php
 
-class RequestDispositionController extends Controller
+class RequestdispositionController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -83,6 +83,11 @@ class RequestDispositionController extends Controller
 			$model->request_id = $id;
 			$model->status = 0;
 			if($model->save()){
+
+				//$description,$activityid,$type,$point,$status,$part,$object
+				Activities::model()->my($model->Balai->name,23,10,1,$model->disposition_to,$model->id_disposition);			
+
+
 				$this->redirect(array('request/view','id'=>$model->request_id));
 			}
 		}

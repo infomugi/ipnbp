@@ -1,6 +1,6 @@
 <?php
 
-class RequestReportController extends Controller
+class RequestreportController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,15 +28,19 @@ class RequestReportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','download','send','sendQuesioner'),
+				'actions'=>array('create','update','view','delete','admin','index','download','send','sendQuesioner'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index'),
+				'actions'=>array('view','delete','update'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
-				),			
+				),
+			array('allow',
+				'actions'=>array('quesioner'),
+				'users'=>array('*'),
+				),							
 			array('deny',
 				'users'=>array('*'),
 				),
@@ -166,6 +170,15 @@ class RequestReportController extends Controller
 		return $model;
 	}
 
+	public function loadToken($token)
+	{
+		$model=RequestReport::model()->findByAttributes(array('token'=>$token));
+		if($model===null)
+			throw new CHttpException(404,'Link Kuesioner atau Token anda sudah tidak valid.');
+		return $model;
+	}
+
+
 	public function loadRequest($id)
 	{
 		$model=Request::model()->findByPk($id);
@@ -223,21 +236,6 @@ class RequestReportController extends Controller
 		}
 	}
 
-	public function actionEnable($id)
-	{
-		$model=$this->loadModel($id);
-		$model->status = 1;
-		$model->save();
-		$this->redirect(array('index'));
-	}	
-
-	public function actionDisable($id)
-	{
-		$model=$this->loadModel($id);
-		$model->status = 0;
-		$model->save();
-		$this->redirect(array('index'));
-	}		
 
 	public function downloadFile($fullpath){
 		if(!empty($fullpath)){ 
@@ -268,6 +266,8 @@ class RequestReportController extends Controller
 		//Data Invoice
 		$model=$this->loadModel($id);
 		$model->status = 1;
+		$model->send_id = YII::app()->user->id;
+		$model->send_date = date('Y-m-d h:i:s');
 		$model->save();
 
 		$greet = $this->loadGreeting();
@@ -279,7 +279,7 @@ class RequestReportController extends Controller
 		$message_title = "Laporan Pengujian";
 		$message_content = 
 		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Laporan Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Laporan Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p></br></br></br></br> Terimakasih.
 		";
 		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
 		$message_button = "Konfirmasi";
@@ -287,17 +287,17 @@ class RequestReportController extends Controller
 		//Send Email
 		$email->subject = $request->Company->name." - Laporan Pengujian No. (".$request->code.")";
 		$email->addTo($request->Company->email);
-		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
 
 		// Email Attachment
 		if($model->file!=""){	
-			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/report/".$model->file;
+			$message_link_payment = YiiBase::getPathOfAlias("webroot")."/image/files/report/".$model->file;
 			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
 			$email->attach($swiftAttachment_payment);
 		}
 
 		// Email Template
-		$message_template = $this->renderPartial('/email/informasi',
+		$message_template = $this->renderPartial('/email/notifikasi',
 			array(
 				'email'=>$request->Company->email,
 				'title'=>$message_title,
@@ -310,6 +310,9 @@ class RequestReportController extends Controller
 		if(Yii::app()->mail->send($email)){
 			Yii::app()->user->setFlash('Success', 'Laporan sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
 			$this->redirect(array('request/view','id'=>$model->request_id));
+		}else{
+			Yii::app()->user->setFlash('Warning', 'Gagal Kirim ke Alamat Email '.$request->Company->email.'.');
+			$this->redirect(array('request/view','id'=>$model->request_id));
 		}
 
 	}	
@@ -320,9 +323,13 @@ class RequestReportController extends Controller
 		Yii::import('ext.yii-mail.YiiMailMessage');
 		$email = new YiiMailMessage;	
 
-		//Data Invoice
+		//Data Report & Generate Token
 		$model=$this->loadModel($id);
 		$model->status = 1;
+		$model->token = md5(date('Y-m-d h:i:s'));
+		$model->quesioner_id = YII::app()->user->id;
+		$model->quesioner_date = date('Y-m-d h:i:s');
+		$model->quesioner_status = 1;
 		$model->save();
 
 		$greet = $this->loadGreeting();
@@ -334,18 +341,18 @@ class RequestReportController extends Controller
 		$message_title = "Survei Kepuasan Pelanggan";
 		$message_content = 
 		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>link</i> untuk mengisi Kuesioner Survei Kepuasan Pelanggan Puslitbang Perumahan & Pemukiman atas Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p></br></br>
-		<p>Silahkan klik tombol <b>Isi Kuesioner</b>. Survei kepusan pelanggan PUSPERKIM tahun ".date('Y').", bertujuan menggali masukan, persepsi dan saran dari pelanggan dalam rangka peningkatan kinerja PUSPERKIM.</p></br></br>
-		<p>Nama / Perusahaan masuk akan dirahasiakan. Diharapkan dengan adanya survei ini, PUSPERKIM dapat meningkatkan pelayanan dan dapat memenuhi segala harapan pelanggan.</p></br></br>
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>link</i> untuk mengisi Kuesioner Survei Kepuasan Pelanggan Puslitbang Perumahan & Pemukiman atas Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p>
+		<p>Silahkan klik tombol <b>Isi Kuesioner</b> untuk mengisi Survei kepusan pelanggan PUSPERKIM tahun ".date('Y').". Survei ini bertujuan menggali masukan, persepsi dan saran dari pelanggan dalam rangka peningkatan kinerja PUSPERKIM.</p>
+		<p>Data Nama / Perusahaan yang masuk akan dirahasiakan. Diharapkan dengan adanya survei ini, PUSPERKIM dapat meningkatkan pelayanan dan dapat memenuhi segala harapan pelanggan.</p>
 		Terimakasih.
 		";
-		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_link = Yii::app()->request->hostInfo."/pnbp/kuesioner/".$model->token;
 		$message_button = "Isi Kuesioner";
 
 		//Send Email
 		$email->subject = "Survei Kepuasan ".$request->Company->name." atas Pengujian No. (".$request->code.")";
 		$email->addTo($request->Company->email);
-		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
 
 		// Email Template
 		$message_template = $this->renderPartial('/email/informasi',
@@ -363,7 +370,57 @@ class RequestReportController extends Controller
 			$this->redirect(array('request/view','id'=>$model->request_id));
 		}
 
-	}		
+	}	
+
+
+	public function actionQuesioner($token)
+	{
+		$this->layout = "intro";
+		$model=$this->loadToken($token);
+		$request=$this->loadRequest($model->request_id);
+		$quesioner=new RequestQuesioner;
+		$quesioner->setScenario('create');
+
+		if($model->quesioner_status==1){
+
+			$this->performAjaxValidation($quesioner);
+			if(isset($_POST['RequestQuesioner']))
+			{
+				$quesioner->attributes=$_POST['RequestQuesioner'];
+				$quesioner->created_id = $request->company_id;
+				$quesioner->created_date = date('Y-m-d h:i:s');
+				$quesioner->company_id = $request->company_id;
+				$quesioner->request_id = $model->request_id;
+				$quesioner->report_id = $model->id_report;
+
+				if(!is_array($quesioner->unit)) $quesioner->unit = array();
+				$quesioner->unit = implode(',', $quesioner->unit);
+
+				if($quesioner->save()){
+
+					$model->status = 1;
+					$model->quesioner_status = 2;
+					$model->save();
+					$this->refresh();
+				}
+			}
+
+			$this->render('quesioner',array(
+				'model'=>$model,
+				'quesioner'=>$quesioner,
+				'request'=>$request,
+				));
+
+		}else{
+
+			$this->render('quesioner_finish',array(
+				'model'=>$model,
+				'quesioner'=>$quesioner,
+				'request'=>$request,
+				));
+		}
+
+	}	
 
 
 }

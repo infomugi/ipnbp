@@ -54,7 +54,9 @@ $this->pageTitle='Kelola Jenis Pengujian';
 					array(	
 						'name'=>'lab_id',
 						'value'=>'$data->Lab->name',
-						),					
+						),	
+						'time',
+						'price',
 
 					// array(	
 					// 	'name'=>'status',

@@ -1,6 +1,6 @@
 <?php
 
-class RequestScheduleController extends Controller
+class RequestscheduleController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class RequestScheduleController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search','downloadrab','upload'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search','downloadrab','upload','report','print'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -103,6 +103,14 @@ class RequestScheduleController extends Controller
 		{
 			$model->attributes=$_POST['RequestSchedule'];
 			if($model->save()){
+
+				if($model->status_schedule==1){	
+
+					//$description,$activityid,$type,$point,$status,$part,$object
+					Activities::model()->my($model->task,21,8,1,$model->testing_part,$model->id_schedule);
+
+				}
+
 				$this->redirect(array('request/view','id'=>$model->request_id));
 			}
 		}
@@ -174,6 +182,16 @@ class RequestScheduleController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model->name;
 	}	
+
+
+	public function loadCategory($id)
+	{
+		$model=Category::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->name;
+	}	
+
 
 	public function loadTesting($id)
 	{
@@ -265,6 +283,7 @@ class RequestScheduleController extends Controller
 	{
 		$id_testing='';
 		$id_type='';
+		$part_id='';
 		$testing_lab='';
 		$testing_type='';
 		$testing_part='';
@@ -282,8 +301,9 @@ class RequestScheduleController extends Controller
 			{
 				$id_testing=$ii->id_testing;
 				$id_type=$ii->testing_type;
+				$part_id=$ii->testing_part;
 				$testing_type=$this->loadTesting($ii->testing_type);
-				$testing_lab=$this->loadUnit($ii->testing_lab);
+				$testing_lab=$this->loadCategory($ii->testing_lab);
 				$testing_part=$this->loadUnit($ii->testing_part);
 				$testing_total=$ii->testing_total;
 				// Show Step Number
@@ -294,6 +314,7 @@ class RequestScheduleController extends Controller
 		echo CJSON::encode(array(
 			'id_testing'=>$id_testing,
 			'id_type'=>$id_type,
+			'part_id'=>$part_id,
 			'testing_type'=>$testing_type,
 			'testing_lab'=>$testing_lab,
 			'testing_part'=>$testing_part,
@@ -339,7 +360,7 @@ class RequestScheduleController extends Controller
 			if(strlen(trim(CUploadedFile::getInstance($model,'file'))) > 0) 
 			{ 
 				$tmp=CUploadedFile::getInstance($model,'file'); 
-				$model->file="file-rab-".$model->Request->code.'-'.mktime().'.'.$tmp->extensionName; 
+				$model->file="file-rab-".$model->Request->code.'-'.time().'.'.$tmp->extensionName; 
 			}
 
 			if($model->save()){
@@ -358,5 +379,31 @@ class RequestScheduleController extends Controller
 			'model'=>$model,
 			));
 	}	
+
+
+	public function actionReport()
+	{
+		$this->render('_form_report');
+	}
+
+	public function actionPrint()
+	{
+		$this->layout="print";
+		$company = $_POST['company'];
+		$dataProvider=new CActiveDataProvider('RequestSchedule', array(
+			'criteria'=>array(
+				'condition'=>'company_id=:id',
+				'select' => 't.*, ds.*',
+				'join' => 'LEFT JOIN request ds on ds.id_request = t.request_id',
+				'params'=>array(
+					':id'=>$company),
+				),
+			));
+
+		$this->render('print',array(
+			'dataProvider'=>$dataProvider,
+			));
+	}	
+
 
 }

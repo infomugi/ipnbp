@@ -8,11 +8,14 @@
  * @property string $code
  * @property string $name
  * @property integer $part_id
- * @property integer $lab_id
+ * @property integer $category_id
+ * @property integer $time
+ * @property integer $price
  * @property integer $status
  */
 class Testing extends CActiveRecord
 {
+	private $showTesting;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -29,10 +32,11 @@ class Testing extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name, status', 'required'),
-			array('status, part_id, lab_id', 'numerical', 'integerOnly'=>true),
+			array('code, name, status, time, price', 'required'),
+			array('status, part_id, category_id, time, price', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>25),
 			array('name', 'length', 'max'=>100),
+			array('part_name, lab_name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_testing, code, name, status', 'safe', 'on'=>'search'),
@@ -48,7 +52,7 @@ class Testing extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Balai'=>array(self::BELONGS_TO,'Unit','part_id'),
-			'Lab'=>array(self::BELONGS_TO,'Unit','lab_id'),
+			'Category'=>array(self::BELONGS_TO,'Category','category_id'),
 			);
 	}
 
@@ -62,7 +66,9 @@ class Testing extends CActiveRecord
 			'code' => 'Kode',
 			'name' => 'Nama',
 			'part_id' => 'Balai',
-			'lab_id' => 'Lab',
+			'category_id' => 'Kategori',
+			'time' => 'Waktu',
+			'price' => 'Tarif',
 			'status' => 'Status',
 			);
 	}
@@ -88,6 +94,8 @@ class Testing extends CActiveRecord
 		$criteria->compare('id_testing',$this->id_testing);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('time',$this->time,true);
+		$criteria->compare('price',$this->price,true);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
@@ -106,5 +114,9 @@ class Testing extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public function getShowTesting()
+	{
+		return $this->name . " - " . $this->category_name;
+	}
 
 }

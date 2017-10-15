@@ -198,4 +198,15 @@ class Company extends CActiveRecord
 			return "-";
 		}
 	}	
+
+	public function getCompany(){
+		$sql = "SELECT * FROM company WHERE status=1";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}
+
+	public function name($id){
+		$model = $this->model()->findByPk($id);
+		return $model->name;
+	}
 }

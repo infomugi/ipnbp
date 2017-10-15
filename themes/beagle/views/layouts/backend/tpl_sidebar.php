@@ -24,9 +24,9 @@
 									</li>
 									<li><a href="<?php echo $url; ?>main/requestinvoice/admin">Invoice</a></li>
 									<li><a href="<?php echo $url; ?>main/requestpayment/admin">Pembayaran</a></li>
-									<li><a href="#">Surat Perjanjian Kerja</a></li>
+									<li><a href="<?php echo $url; ?>main/requestinvoice/spk">Surat Perjanjian Kerja</a></li>
 									<li><a href="#">Hasil Uji</a></li>
-									<li><a href="#">Kuesioner</a></li>
+									<li><a href="<?php echo $url; ?>main/requestquesioner/admin">Kuesioner</a></li>
 
 								</ul>
 							</li>
@@ -45,7 +45,7 @@
 									<li><a href="<?php echo $url; ?>">Daftar Antrian</a></li>
 									<li><a href="<?php echo $url; ?>">Laporan Advis Teknis</a></li>
 									<li><a href="<?php echo $url; ?>">Laporan Sertifikasi</a></li>
-									<li><a href="<?php echo $url; ?>">Laporan Pengujian</a></li>
+									<li><a href="<?php echo $url; ?>/main/requestschedule/report">Laporan Pengujian</a></li>
 									<li><a href="<?php echo $url; ?>">Laporan Kuesioner</a></li>
 
 								</ul>
@@ -67,7 +67,7 @@
 
 												<li class="parent"><a href="#"><i class="icon mdi mdi-inbox"></i><span>Pelayanan</span></a>
 													<ul class="sub-menu">
-														<li><a href="<?php echo $url; ?>request/admin">Permohonan</a></li>
+														<li><a href="<?php echo $url; ?>site/balai">Permohonan</a></li>
 														<li class="parent"><a href="<?php echo $url; ?>main/requestschedule/admin">Jadwal & RAB</a>
 															<ul class="sub-menu">
 																<li><a href="<?php echo $url; ?>site/calendar/filter/company">Perusahaan</a></li>

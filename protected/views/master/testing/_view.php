@@ -1,6 +1,12 @@
 <?php
 /* @var $this TestingController */
 /* @var $data Testing */
+
+$datay=Category::model()->findByAttributes(array('name'=>$data->lab_name));
+$data->lab_id = $datay->id_category;
+$data->save();
+
+
 ?>
 
 <div class="col-xs-12 col-md-6 col-lg-6">
@@ -8,8 +14,10 @@
 	<div class="box box-solid">
 		<div class="box-header">
 			<h3 class="box-title">
+			    
+			    <?php echo $datax->lab_id; ?>
 
-					<?php echo CHtml::link(CHtml::encode($data->id_testing), array('view', 'id'=>$data->id_testing)); ?>
+		
 	<br />
 
 				
@@ -20,6 +28,7 @@
 				'data'=>$data,
 				'htmlOptions'=>array("class"=>"table"),
 				'attributes'=>array(
+							'part_name',
 							'id_testing',
 		'code',
 		'name',

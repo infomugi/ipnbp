@@ -1,6 +1,6 @@
 <?php
 
-class RequestPaymentController extends Controller
+class RequestpaymentController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -391,9 +391,10 @@ class RequestPaymentController extends Controller
 
 		//Send Mail
 		$message_title = "Faktur Pembayaran";
+		$message_confirm = "<p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br>";
 		$message_content = 
 		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Faktur Pembayaran No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date).".</p></br></br></br></br> <p>Silahkan klik tombol <b>Konfirmasi</b> apabila file ini sudah diterima. Apabila file tidak terlampir harap segera hubungi petugas kami.</p></br></br></br></br> Terimakasih.
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> untuk Faktur Pembayaran No. (".$model->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->date).".</p></br></br></br></br> Terimakasih.
 		";
 		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
 		$message_button = "Konfirmasi";
@@ -401,22 +402,22 @@ class RequestPaymentController extends Controller
 		//Send Email
 		$email->subject = $request->Company->name." - Faktur Pembayaran (".$model->code.")";
 		$email->addTo($request->Company->email);
-		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+        $email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
 
 		// Email Attachment
 		if($model->file!=""){	
-			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/payment/".$model->file;
+			$message_link_payment = YiiBase::getPathOfAlias("webroot")."/image/files/payment/".$model->file;
 			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
 			$email->attach($swiftAttachment_payment);
 		}
 		if($model->file_payment!=""){	
-			$message_link_payment = "http://192.168.43.29".Yii::app()->baseUrl."/image/files/receipt/".$model->file_payment;
+			$message_link_payment = YiiBase::getPathOfAlias("webroot")."/image/files/receipt/".$model->file_payment;
 			$swiftAttachment_payment = Swift_Attachment::fromPath($message_link_payment);              
 			$email->attach($swiftAttachment_payment);
 		}
 
 		// Email Template
-		$message_template = $this->renderPartial('/email/informasi',
+		$message_template = $this->renderPartial('/email/notifikasi',
 			array(
 				'email'=>$request->Company->email,
 				'title'=>$message_title,

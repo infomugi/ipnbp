@@ -267,24 +267,50 @@
 
 
 
-
 					<div class="form-group">
-						<div class="col-md-12">  
-							<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+
+						<div class="col-sm-4 control-label">
+							<?php echo $form->labelEx($model,'status_schedule'); ?>
+						</div>   
+
+						<div class="col-sm-8 be-radio">
+							<?php echo $form->error($model,'status_schedule'); ?>
+							<?php
+							echo $form->radioButtonList($model,'status_schedule',
+								array('1'=>'Revisi','2'=>'Fix'),
+								array(
+									'template'=>'{input}{label}',
+									'separator'=>'',
+									'labelOptions'=>array(
+										'class'=>'minimal', 'style'=>'padding-right:20px;margin-left:5px'),
+
+									)                              
+								);
+								?>
+							</div>
+
+						</div>  
+
+
+
+
+						<div class="form-group">
+							<div class="col-md-12">  
+								<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+							</div>
 						</div>
+
+
+
 					</div>
 
 
 
+
+
+					<?php $this->endWidget(); ?>
+
 				</div>
-
-
-
-
-
-				<?php $this->endWidget(); ?>
-
 			</div>
-		</div>
-		<!-- form -->
+			<!-- form -->
 

@@ -55,7 +55,7 @@ class RequestTesting extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Balai'=>array(self::BELONGS_TO,'Unit','testing_part'),
-			'Lab'=>array(self::BELONGS_TO,'Unit','testing_lab'),
+			'Category'=>array(self::BELONGS_TO,'Category','testing_lab'),
 			'Testing'=>array(self::BELONGS_TO,'Testing','testing_type'),
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			);
@@ -73,11 +73,13 @@ class RequestTesting extends CActiveRecord
 			'update_date' => 'Tanggal Update',
 			'update_id' => 'Diperbaharui Oleh',
 			'testing_type' => 'Jenis Pengujian',
-			'testing_lab' => 'Lab',
+			'testing_lab' => 'Kategori Pengujian',
 			'testing_part' => 'Balai',
 			'testing_total' => 'Jumlah Sample',
 			'request_id' => 'Permohonan',
 			'status' => 'Status',
+			'time' => 'Waktu',
+			'price' => 'Tarif',
 			);
 	}
 
@@ -130,7 +132,7 @@ class RequestTesting extends CActiveRecord
 	public function getRequest()
 	{
 		$testing=Testing::model()->findByPk($this->testing_type);
-		return $testing->name;
+		return $testing->name . " - " . $testing->category_name;
 	}
 
 	public function checkUnique($attribute,$params)

@@ -4,14 +4,14 @@ $url = Yii::app()->baseUrl."/";
 $cs = Yii::app()->getClientScript();
 
 // Query Notifikasi
-foreach (RequestDisposition::countDisposision(0,YII::app()->user->record->division) as $data) {
-	$total = $data['total']; 						
-} 
-if($total==0){
-	$indicator = "";
-}else{
-	$indicator = "indicator";
-}	
+// foreach (RequestDisposition::countDisposision(0,YII::app()->user->record->division) as $data) {
+// 	$total = $data['total']; 						
+// } 
+// if($total==0){
+// 	$indicator = "";
+// }else{
+// 	$indicator = "indicator";
+// }	
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +37,7 @@ if($total==0){
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/admin/assets/css/style.css" type="text/css"/>
 </head>
 <body>
-	<div class="be-wrapper be-collapsible-sidebar be-collapsible-sidebar-collapsed be-color-header">
+	<div class="be-wrapper be-fixed-sidebar be-collapsible-sidebar be-collapsible-sidebar-collapsed be-color-header">
 		<nav class="navbar navbar-default navbar-fixed-top be-top-header">
 			<div class="container-fluid">
 				<div class="navbar-header"><a href="<?php echo $url; ?>/site/dashboard" class="navbar-brand"></a>
@@ -53,8 +53,8 @@ if($total==0){
 										<div class="user-position online">Sedang Online</div>
 									</div>
 								</li>
-								<!-- <li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>"><span class="icon mdi mdi-face"></span> Account</a></li> -->
-								<!-- <li><a href="<?php echo $url; ?>setting/site"><span class="icon mdi mdi-settings"></span> Settings</a></li> -->
+								<li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>"><span class="icon mdi mdi-face"></span> Account</a></li> 
+								<!-- <li><a href="<?php echo $url; ?>setting/site"><span class="icon mdi mdi-settings"></span> Settings</a></li>  -->
 								<li><a href="<?php echo $url; ?>site/logout"><span class="icon mdi mdi-power"></span> Logout</a></li>
 							</ul>
 						</li>
@@ -62,54 +62,63 @@ if($total==0){
 					<!-- <div class="page-title"><span><?php echo YII::app()->name; ?></span></div> -->
 
 					<ul class="nav navbar-nav navbar-right be-icons-nav">
-						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="<?php echo $indicator; ?>"></span></a>
+						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="<?php //echo $indicator; ?>"></span></a>
 							<ul class="dropdown-menu be-notifications">
 								<li>
-									<div class="title">Permohonan Baru<span class="badge"><?php echo $total; ?></span></div>
+									<div class="title">Permohonan Baru <span class="badge"><?php //echo $total; ?></span></div>
 									<div class="list">
 										<div class="be-scroller">
 											<div class="content">
 												<ul>
 
-													<?php foreach (RequestDisposition::getDisposition(0,YII::app()->user->record->division) as $data) { ?>
+													<?php 
+													if(YII::app()->user->record->level==1){
 
-														<li class="notification notification-unread">
-															<a href="<?php echo $url;?>request/view/id/<?php echo $data['id_request']; ?>">
-																<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
-																<div class="notification-info">
-																	<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> Mengajukan <?php echo $data['letter_subject']; ?></div><span class="date format-date"><?php echo $data['created_date']; ?></span>
-																</div>
-															</a>
-														</li>
+														foreach (Activities::getNotifications(1) as $data) { ?>
 
-														<?php } ?>	
-
-														<?php foreach (RequestDisposition::getDisposition(1,YII::app()->user->record->division) as $data) { ?>
-
-															<li class="notification">
-																<a href="<?php echo $url;?>request/view/id/<?php echo $data['id_request']; ?>">
+															<li class="notification notification-unread">
+																<a href="<?php echo Activities::activityLink($data['activity_id']); ?><?php echo $data['object_id']; ?>">
 																	<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
 																	<div class="notification-info">
-																		<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> <?php echo $data['letter_subject']; ?> Telah di Disposisi</div><span class="date format-date"><?php echo $data['created_date']; ?></span>
+																		<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> <?php echo Activities::activityDescription($data['activity_id']); ?> <b><?php echo $data['description']; ?></b></div><span class="date format-date"><?php echo $data['created_date']; ?></span>
 																	</div>
 																</a>
 															</li>
 
-															<?php } ?>	
+															<?php 
+														} 
+													}else{
 
-														</ul>
-													</div>
-												</div>
+														foreach (Activities::getNotificationsDisposition(1,YII::app()->user->record->division) as $data) {
+															?>
+
+															<li class="notification notification-unread">
+																<a href="<?php echo Activities::activityLink($data['activity_id']); ?><?php echo $data['object_id']; ?>">
+																	<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
+																	<div class="notification-info">
+																		<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> <?php echo Activities::activityDescription($data['activity_id']); ?> <b><?php echo $data['description']; ?></b> Perihal <?php echo $data['subject']; ?> <?php echo $data['company']; ?></div><span class="date format-date"><?php echo $data['date_notification']; ?></span>
+																	</div>
+																</a>
+															</li>
+
+															<?php
+														} 
+													}
+													?>	
+
+												</ul>
 											</div>
-											<div class="footer"> <a href="<?php echo $url; ?>request/admin">Lihat Semua Permohonan</a></div>
-										</li>
-									</ul>
+										</div>
+									</div>
+									<div class="footer"> <a href="<?php echo $url; ?>request/admin">Lihat Semua Permohonan</a></div>
 								</li>
-
 							</ul>
-						</div>
-					</div>
-				</nav>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>
 
 
 

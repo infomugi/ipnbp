@@ -1,0 +1,4 @@
+[25-Sep-2017 02:32:25 Asia/Jakarta] PHP Parse error:  syntax error, unexpected end of file in /home/sinerjit/public_html/pnbp/protected/controllers/main/ResponseController.php on line 286
+[25-Sep-2017 23:02:28 Asia/Jakarta] PHP Parse error:  syntax error, unexpected ';' in /home/sinerjit/public_html/pnbp/protected/views/request/_form_testing.php on line 54
+[03-Oct-2017 16:54:59 Asia/Jakarta] PHP Fatal error:  Call to a member function setScenario() on null in /home/sinerjit/public_html/pnbp/protected/controllers/SiteController.php on line 178
+[05-Oct-2017 12:51:01 Asia/Jakarta] PHP Fatal error:  Call to a member function getValidators() on null in /home/sinerjit/public_html/pnbp/yii/framework/web/widgets/CActiveForm.php on line 506

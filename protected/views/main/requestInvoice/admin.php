@@ -11,9 +11,9 @@ $this->pageTitle='Kelola Invoice';
 ?>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'request-invoice-grid',
+	'id'=>'invoice-grid',
 	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+// 			'filter'=>$model,	
 	'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
 	'columns'=>array(
 
@@ -22,44 +22,114 @@ $this->pageTitle='Kelola Invoice';
 			'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
 			'htmlOptions'=>array('width'=>'10px', 
 				'style' => 'text-align: center;')),
+		
+		array(	
+			'header'=>'Nama Perusahaan',
+			'value'=>'Company::model()->name($data->Request->company_id)',
+				// 	'filter'=>Chtml::listData(Company::model()->findAll(),'id_company','name'),
+			),							
 
 		'code',
 		'date',
 		'description',
-		'total',
-		'signature_id',
-		'file_invoice',
-		'file_spk',
-		// 'note',
-		// 'request_id',
 
 		array(	
-			'name'=>'status',
-			'filter'=>array('0'=>'Disable','1'=>'Enable'),
-			'value'=>'Users::model()->status($data->status)',
+			'name'=>'total',
+			'value'=>'Request::model()->rupiah($data->total)',
+			),
+
+
+		array(	
+			'name'=>'balance',
+			'value'=>'Request::model()->rupiah($data->balance)',
+			),	
+
+
+		array(
+			'header'=>'Print',      
+			'class'=>'CButtonColumn',
+			'template'=>'{Print}',
+			'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+			'buttons'=>array(
+				'Print'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/print", array("id"=>$data->id_invoice))',
+					'imageUrl'=>YII::app()->baseUrl.'/image/setting/print.png',
+					),
+				),
+			),
+
+		array(
+			'header'=>'Kirim Email (Invoice)',      
+			'class'=>'CButtonColumn',
+			'template'=>'{Send}',
+			'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+			'buttons'=>array(
+				'Send'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/send", array("id"=>$data->id_invoice))',
+					'imageUrl'=>YII::app()->baseUrl.'/image/setting/email.png',
+					),
+				),
+			),	
+
+
+
+		array(
+			'header'=>'Download',      
+			'class'=>'CButtonColumn',
+			'template'=>'{Invoice}',
+			'htmlOptions'=>array('width'=>'15px', 'style' => 'text-align: center;'),
+			'buttons'=>array(
+				'Invoice'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/downloadinvoice", array("id"=>$data->id_invoice))',
+					'imageUrl'=>YII::app()->baseUrl.'/image/setting/invoice.png',
+					'visible'=>'$data->file_invoice!=NULL',
+					),
+				),
+			),
+
+
+
+
+
+		array(
+			'header'=>'Upload',      
+			'class'=>'CButtonColumn',
+			'template'=>'{Upload Invoice}',
+			'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+			'buttons'=>array(
+				'Upload Invoice'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/uploadinvoice", array("id"=>$data->id_invoice))',
+					'imageUrl'=>YII::app()->baseUrl.'/image/setting/upload.png',
+					'visible'=>'$data->print_by!=NULL',
+					),
+				),
 			),
 
 		array(
 			'class'=>'CButtonColumn',
 			'template'=>'{view}{update}{delete}',
-			'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
+			'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
 			'buttons'=>array(
 				'view'=>
 				array(
 					'url'=>'Yii::app()->createUrl("main/requestinvoice/view", array("id"=>$data->id_invoice))',
-					'options'=>array(
-						'ajax'=>array(
-							'type'=>'POST',
-							'url'=>"js:$(this).attr('href')",
-							'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
-							),
-						),
+					),
+				'update'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/update", array("id"=>$data->id_invoice))',
+					),
+				'delete'=>
+				array(
+					'url'=>'Yii::app()->createUrl("main/requestinvoice/delete", array("id"=>$data->id_invoice))',
 					),
 				),
 			),
 		),
 		)); ?>
-
 
 
 		<!-- Modal -->

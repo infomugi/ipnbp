@@ -28,6 +28,10 @@ class TestingController extends Controller
 	{
 		return array(
 			array('allow',
+				'actions'=>array('load'),
+				'users'=>array('@'),
+				),			
+			array('allow',
 				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
@@ -132,7 +136,9 @@ class TestingController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Testing');
+		$dataProvider=new CActiveDataProvider('Testing',array( 'pagination' => array(
+			'pageSize' => 100,
+			)));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 			));
@@ -195,5 +201,37 @@ class TestingController extends Controller
 		$model->status = 0;
 		$model->save();
 		$this->redirect(array('index'));
-	}			
+	}		
+
+	public function actionLoad()
+	{
+		$data=Testing::model()->findAll('category_id=:category_id AND part_id='.YII::app()->user->record->division, 
+			array(':category_id'=>(int) $_POST['category_id']));
+
+		$data=CHtml::listData($data,'id_testing','name');
+		foreach($data as $value=>$name)
+		{
+			echo CHtml::tag('option',
+				array('value'=>$value),CHtml::encode($name),true,array(
+					"empty"=>"- Pilih Jenis Pengujian -", 
+					'class'=>'form-control select2',
+					'ajax' => array(
+						'type'=>'POST',
+						'dataType'=>'json',
+						'url'=>CController::createUrl('main/requesttesting/search'),
+						'data' => "js:{data:$(this).val()}",
+						'success'=>'function(data){
+							$("#name").val(data.name);
+							$("#part").val(data.part);
+							$("#category").val(data.category);
+							$("#time").val(data.time);
+							$("#price").val(data.price);
+							$("#RequestTesting_testing_type").val(data.id_testing);
+							$("#RequestTesting_testing_part").val(data.part_id);
+							$("#RequestTesting_testing_lab").val(data.category_id);
+							$("#RequestTesting_testing_total").focus();
+						}',),							
+					));
+		}
+	}	
 }

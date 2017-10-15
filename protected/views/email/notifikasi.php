@@ -53,6 +53,7 @@
 			}
 			td[class=wrapper] {
 				min-width: 0 !important;
+				padding-top: 0 !important;
 				padding-left: 0 !important;
 				padding-right: 0 !important;
 			}
@@ -64,65 +65,103 @@
 
 	<!-- /\/\/\/\/\/\/\/\/ START Inbox Preview Text /\/\/\/\/\/\/\/\/ -->
 	<div style="display: none; width: 0px; height: 0px; min-height: 0px; overflow: hidden; font-size: 0px; line-height: 0px; color: #ffffff; mso-hide: all;">
-		Ada pesan baru dari infomugi.com
 	</div>
 	<!-- /\/\/\/\/\/\/\/\/ END Inbox Preview Text /\/\/\/\/\/\/\/\/ -->
 
 	<table align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
-	<tr>
-		<!-- Change background color of email -->
-		<td style="background-color: #cdd7de;">
-			<table align="center" class="mobile-width" width="680" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; margin: 0 auto;">
-			<tr>
-				<!-- min-width necessary in order to prevent auto-sizing in Gmail app -->
-				<td class="wrapper" style="padding-left: 20px; padding-right: 20px; padding-top: 45px; padding-bottom: 45px; min-width: 640px;">
+		<tbody><tr>
+			<!-- Change background color of email -->
+			<td style="background-color: #ecf0f1;">
+				<table align="center" class="mobile-width" width="680" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; margin: 0 auto;">
+					<tbody><tr>
+						<!-- min-width necessary in order to prevent auto-sizing in Gmail app -->
+						<td class="wrapper" style="padding-left: 20px; padding-right: 20px; padding-top: 15px; padding-bottom: 45px; min-width: 640px;">
 
-					<!-- /\/\/\/\/\/\/\/\/ START Body Content /\/\/\/\/\/\/\/\/ -->
-					<table class="mobile-width" width="640" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
-					<tr>
-						<td style="padding-left: 50px; padding-right: 50px; padding-top: 60px; padding-bottom: 60px; background-color: #ffffff;">
-							<table class="mobile-width" width="540" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
-							<tr>
-								<td valign="top" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 17px; line-height: 30px; color: #707582; text-align: left;">
-									<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 31px; line-height: 43px; color: #292c34; text-align: center;">Pesan dari <?php echo nl2br($name); ?></div>
-									<div style="font-size: 12px; line-height: 30px; mso-line-height-rule: exactly;">&nbsp;</div>
-									<?php echo nl2br($message); ?>
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" style="padding-top: 30px; text-align: center;">
-									<!-- Hero Button -->
-									<table cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; display: inline-block;">
-									<tr>
-										<td style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #60b2e4;">
-											<a href="mailto:<?php echo nl2br($email); ?>" target="_blank" style="padding: 10px 40px; display: inline-block; border: 1px solid #60b2e4; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 18px; line-height: normal; color: #ffffff; font-weight: bold; text-decoration: none;"><!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->Balas Pesan<!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]--></a>
-										</td>
-									</tr>
+							<!-- /\/\/\/\/\/\/\/\/ START Hero /\/\/\/\/\/\/\/\/ -->
+							<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+								<tbody><tr>
+									<td style="background-color: #f39c12;">
+										<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+											<tbody><tr>
+												<td valign="top">
+													<table align="left" class="mobile-width" width="582" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+														<tbody><tr>
+															<td valign="top" class="center" style="padding-left: 40px; padding-top: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 35px; line-height: 47px;color: #FFF; text-align: left;font-weight: 700;">
+																<img src="https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/072012/14kemenpu.jpg?itok=2R_j-FA4" width="28px" /> PNBP
+																<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;line-height: 27px;color: #f5f5f5;margin-bottom: 15px;font-weight: 700;">
+																	Pusat Litbang Perumahan dan Pemukiman
+																</div>
+															</td>
+														</tr>
+													</tbody></table>
+													<!--[if mso]></td><td valign="top"><![endif]-->
+													<table align="left" class="mobile-width" width="420" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+														<tbody><tr>
+															<td valign="bottom">
+															</td>
+														</tr>
+													</tbody></table>
+												</td>
+											</tr>
+										</tbody></table>
+									</td>
+								</tr>
+							</tbody></table>
+							<!-- /\/\/\/\/\/\/\/\/ END Hero /\/\/\/\/\/\/\/\/ -->
+
+							<!-- /\/\/\/\/\/\/\/\/ START Body Content /\/\/\/\/\/\/\/\/ -->
+							<table class="mobile-width" width="640" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
+								<tbody><tr>
+									<td style="padding-left: 29px; padding-right: 29px; padding-top: 20px; padding-bottom: 20px; background-color: #ffffff;">
+										<table class="mobile-width" width="582" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
+											<tbody>
+												<tr>
+													<td valign="top">
+														<table align="left" class="mobile-width" width="582" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
+															<tbody>
+																<tr>
+																	<td valign="top" style="padding-left: 11px; padding-right: 11px; padding-bottom: 50px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px; line-height: 26px; color: #707582; text-align: center;">
+																		<div style="font-size: 12px; line-height: 25px; mso-line-height-rule: exactly;">&nbsp;</div>
+																		<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 24px; line-height: 28px; color: #292c34; font-weight: bold;"><?php echo nl2br($title); ?></div>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										<table class="mobile-width" width="582" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+											<tbody>
+												<tr>
+													<td valign="top">
+														<table class="mobile-width" width="582" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+															<tbody><tr>
+																<td style="padding-left:20px;padding-right:20px;padding-top:22px;padding-bottom:22px;border-radius:4px;background-color: #f5ead0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:26px;color: #000;text-align:justify;">
+																	<?php echo nl2br($message); ?>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
 									</table>
 								</td>
 							</tr>
-							</table>
-						</td>
-					</tr>
-					</table>
-					<!-- /\/\/\/\/\/\/\/\/ END Body Content /\/\/\/\/\/\/\/\/ -->
+						</tbody></table>
+						<!-- /\/\/\/\/\/\/\/\/ END Body Content /\/\/\/\/\/\/\/\/ -->
 
-					<!-- /\/\/\/\/\/\/\/\/ START Footer /\/\/\/\/\/\/\/\/ -->
-					<table class="mobile-width" width="640" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
-					<tr>
-						<td style="padding-left: 40px; padding-right: 40px; padding-top: 30px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; line-height: 24px; color: #76858f; text-align: center;">
-							Email ini dikirim oleh <a href="mailto:infomugi@gmail.com" style="color: #ffffff; border: 0 none; text-decoration: none;">infomugi.com@gmail.com</a>. 
-						</td>
-					</tr>
-					</table>
-					<!-- /\/\/\/\/\/\/\/\/ END Footer /\/\/\/\/\/\/\/\/ -->
 
-				</td>
-			</tr>
-			</table>
+					</td>
+				</tr>
+			</tbody></table>
 		</td>
 	</tr>
-	</table>
+</tbody></table>
+
 
 </body>
 </html>
+
+

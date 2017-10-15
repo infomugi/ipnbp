@@ -12,6 +12,7 @@
  * @property integer $update_id
  * @property string $date
  * @property integer $company_id
+ * @property integer $category_id
  * @property string $letter_date
  * @property string $letter_code
  * @property string $letter_subject
@@ -42,7 +43,7 @@ class Request extends CActiveRecord
 		return array(
 			// array('code, created_date, created_id, update_date, update_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment, status', 'required'),
 			array('code, created_date, created_id, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'create'),
-			array('code, update_id, update_date, date, company_id, letter_date, letter_code, letter_subject, letter_attachment', 'required','on'=>'update'),
+			array('code, update_id, update_date, date, company_id, letter_date, letter_code, letter_subject', 'required','on'=>'update'),
 			array('created_id, update_id, company_id, status, disposition_to', 'numerical', 'integerOnly'=>true),
 			array('code, disposition_date', 'length', 'max'=>50),
 			array('letter_code', 'length', 'max'=>255),
@@ -87,6 +88,7 @@ class Request extends CActiveRecord
 			'update_id' => 'Diperbaharui Oleh',
 			'date' => 'Tanggal Masuk',
 			'company_id' => 'Perusahaan',
+			'category_id' => 'Kategori Pengujian',
 			'letter_date' => 'Tanggal Surat',
 			'letter_code' => 'Nomor Surat',
 			'letter_subject' => 'Perihal',
@@ -138,7 +140,7 @@ class Request extends CActiveRecord
 			'criteria'=>$criteria,
 			));
 	}
-
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -173,6 +175,8 @@ class Request extends CActiveRecord
 			return "Laporan Dikirim";
 		}else if($data==7){
 			return "Laporan Diterima";
+		}else if($data==8){
+			return "Jadwal & RAB";			
 		}else{
 			return "-";
 		}

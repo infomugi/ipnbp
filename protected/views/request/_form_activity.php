@@ -11,6 +11,11 @@
 		<!-- <div class="user-timeline-description">Tanggal Disposisi</div> -->
 	</li>
 	<li>
+		<div class="user-timeline-date format-date"><?php echo $activity->schedule_date; ?></div>
+		<div class="user-timeline-title">Jadwal & RAB</div>
+		<!-- <div class="user-timeline-description">Tanggal Disposisi</div> -->
+	</li>	
+	<li>
 		<div class="user-timeline-date format-date"><?php echo $activity->response_date; ?></div>
 		<div class="user-timeline-title">Surat Tanggapan</div>
 		<!-- <div class="user-timeline-description">Tanggal Kirim Surat Tanggapan</div> -->

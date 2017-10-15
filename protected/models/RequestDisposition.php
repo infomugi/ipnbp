@@ -50,7 +50,7 @@ class RequestDisposition extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
-			'Balai'=>array(self::BELONGS_TO,'unit','disposition_to'),
+			'Balai'=>array(self::BELONGS_TO,'Unit','disposition_to'),
 			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_by'),
 			);
 	}
@@ -135,20 +135,26 @@ class RequestDisposition extends CActiveRecord
 
 	public static function getDisposition($data,$division){
 		$sql = "
-		SELECT r.id_request, rd.disposition_date, r.letter_subject, r.letter_code, r.created_date, c.name, u.image 
+		SELECT r.id_request, rd.disposition_date, r.letter_subject, r.letter_code, rd.created_date as created_date, c.name, u.image 
 		FROM request as r
 		LEFT JOIN company as c ON r.company_id=c.id_company 
 		LEFT JOIN users as u ON r.created_id=u.id_user
 		LEFT JOIN request_disposition as rd ON rd.request_id=r.id_request
-		WHERE rd.status=".$data." AND rd.disposition_to=".$division." ORDER BY r.id_request DESC LIMIT 6";
+		WHERE rd.status=".$data." AND rd.disposition_to=".$division." ORDER BY rd.id_disposition DESC LIMIT 6";
 		$command = YII::app()->db->createCommand($sql);
 		return $command->queryAll();
 	}
 
 	public static function countDisposision($data,$division){
-		$sql = "SELECT count(id_disposition) as total FROM request_disposition WHERE status=".$data." AND disposition_to=".$division;
+		$sql = "
+		SELECT count(rd.id_disposition) 
+		FROM request as r
+		LEFT JOIN company as c ON r.company_id=c.id_company 
+		LEFT JOIN users as u ON r.created_id=u.id_user
+		LEFT JOIN request_disposition as rd ON rd.request_id=r.id_request
+		WHERE rd.status=".$data." AND rd.disposition_to=".$division;
 		$command = YII::app()->db->createCommand($sql);
-		return $command->queryAll();
+		return $command->queryAll();		
 	}
 
 	public function checkUnique($attribute,$params)

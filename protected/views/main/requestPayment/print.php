@@ -50,16 +50,19 @@ function terbilang($satuan){
 }
 ?>
 
-<div class="kotak">
+<div class="kotak" style="font-family:times">
 	<div class="line3"></div>
 	<div class="line2"></div>
+	<div style="text-align:left;">
+		NOMOR : <?php echo $model->code; ?>
+	</div>
 	<BR> <BR>
-		<div class="judul"><U>K U I T A N S I</U></div>
-		<div class="info">NOMOR : <?php echo $model->code; ?></div>
+		<div class="judul" style="font-family:times"><U>K U I T A N S I</U></div>
+		
 
 	</div>
 
-	<div class="kotak" style="text-align:justify;font-size:18px;line-height:20px;">
+	<div class="kotak" style="font-family:times;text-align:justify;font-size:18px;line-height:20px;">
 		<div class="isi">
 
 			<BR> <BR>
@@ -74,18 +77,18 @@ function terbilang($satuan){
 							<tr>
 								<td width="28%">Banyaknya Uang</td>
 								<td width="2%">:</td>
-								<td width="70%"> <b>== <?php echo strtoupper(terbilang($model->total)); ?> ==</b></td>
+								<td width="70%"> === <?php echo ucwords(terbilang($model->total)); ?> Rupiah ===</td>
 							</tr>
 							<tr>
 								<td width="28%">Untuk Pembayaran</td>
 								<td width="2%">:</td>
-								<td width="70%"><b><?php echo $model->Invoice->description; ?></b></td>
+								<td width="70%"><?php echo $model->Invoice->description; ?></td>
 							</tr>
 
 							<tr>
-								<td width="28%"><b>Jumlah</b></td>
+								<td width="28%"><h3><b>Jumlah</b></h3></td>
 								<td width="2%">:</td>
-								<td width="70%"> <b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></td>
+								<td width="70%"><h3><b>Rp. <?php echo Yii::app()->numberFormatter->format("###,###,###",$model->total); ?>,-</b></h3></td>
 							</tr>
 
 
@@ -101,7 +104,7 @@ function terbilang($satuan){
 					<div class="kiri">
 
 					</div>
-					<div class="kanan" style="font-size:18px;line-height:20px;text-align: center;">
+					<div class="kanan" style="font-family:times;font-size:18px;line-height:20px;text-align: center;">
 
 						<BR>
 							<BR>

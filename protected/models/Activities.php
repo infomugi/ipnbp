@@ -10,6 +10,8 @@
  * @property string $description
  * @property integer $activity_id
  * @property integer $user_id
+ * @property integer $part_id
+ * @property integer $object_id
  * @property integer $point
  * @property integer $status
  */
@@ -58,7 +60,8 @@ class Activities extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'Member'=>array(self::BELONGS_TO,'Users','user_id'),
+			'User'=>array(self::BELONGS_TO,'Users','user_id'),
+			'Balai'=>array(self::BELONGS_TO,'Unit','part_id'),
 			);
 	}
 
@@ -74,6 +77,8 @@ class Activities extends CActiveRecord
 			'description' => 'Description',
 			'activity_id' => 'Activity',
 			'user_id' => 'User',
+			'part_id' => 'Balai',
+			'object_id' => 'Obyek',
 			'point' => 'Point',
 			'status' => 'Status',
 			);
@@ -124,7 +129,9 @@ class Activities extends CActiveRecord
 		}elseif($type==8){
 			return "Update";
 		}elseif($type==9){
-			return "Request";									
+			return "Request";
+		}elseif($type==10){
+			return "Send";												
 		}else{
 			return "Unknow";
 		}
@@ -162,21 +169,44 @@ class Activities extends CActiveRecord
 		}elseif($status==14){
 			return "Add experience";	
 		}elseif($status==15){
-			return "Edit post";																	
+			return "Edit post";
 		}elseif($status==16){
-			return "Upload a file";																	
+			return "Upload a file";
 		}elseif($status==17){
-			return "Update a experience";	
+			return "Update a experience";
 		}elseif($status==18){
 			return "Request password reset";
 		}elseif($status==19){
 			return "Reset password";
 		}elseif($status==20){
-			return "Activated the account";										
+			return "Activated the account";
+		}elseif($status==21){
+			return "Revisi Jadwal & RAB";
+		}elseif($status==22){
+			return "Permohonan Pengujian Baru";
+		}elseif($status==23){
+			return "Disposisi Permohonan ke";	
+		}elseif($status==24){
+			return "Menambahkan Jadwal & RAB";					
 		}else{
 			return "Unknow";
 		}
 	}	
+
+	public function activityLink($status){
+		$url = Yii::app()->baseUrl."/"; 
+		if($status==21){
+			return $url."main/requestschedule/view/id/";
+		}elseif($status==22){
+			return $url."request/view/id/";
+		}elseif($status==23){
+			return $url."request/view/id/";
+		}elseif($status==24){
+			return $url."main/requestschedule/view/id/";
+		}else{
+			return "Unknow";
+		}
+	}		
 
 	function timeAgo($original)
 	{
@@ -256,17 +286,41 @@ class Activities extends CActiveRecord
 		}
 	}
 
-	public function my($userid,$description,$activityid,$type,$point,$status){
+	public function my($description,$activityid,$type,$point,$part,$object){
 		$activity=new Activities;
-		$activity->user_id = $userid;
+		$activity->user_id = YII::app()->user->id;
+		$activity->status = 1;
 		$activity->description = $description;
 		$activity->activity_id = $activityid;
 		$activity->type = $type;
 		$activity->point = $point;
-		$activity->status = $status;
+		$activity->part_id = $part;
+		$activity->object_id = $object;
 		$activity->created_date = date('Y-m-d H:i:s');
 		$activity->save();
 	}
+
+	public static function getNotifications($status){
+		$sql = "
+		SELECT *,u.image as image, u.first_name as name FROM activities as a LEFT JOIN users as u ON a.user_id=u.id_user
+		WHERE a.status=".$status." ORDER BY a.created_date DESC LIMIT 6";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}
+
+	public static function getNotificationsDisposition($status,$part){
+		$sql = "
+		SELECT *,
+		a.created_date as date_notification,
+		u.image as image, u.first_name as name, r.letter_subject as subject, c.name as company
+		FROM activities as a 
+		LEFT JOIN users as u ON a.user_id=u.id_user
+		LEFT JOIN request as r ON r.id_request=a.object_id
+		LEFT JOIN company as c ON c.id_company=r.company_id
+		WHERE a.status=".$status." AND a.part_id=".$part." AND a.activity_id=23 ORDER BY a.created_date DESC LIMIT 6";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}		
 
 	
 }
