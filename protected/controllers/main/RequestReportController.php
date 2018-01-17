@@ -28,17 +28,17 @@ class RequestreportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','download','send','sendQuesioner'),
+				'actions'=>array('create','update','view','delete','admin','index','download','send','sendQuesioner','sendconfirmation','sendconfirmationemail'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','delete','update'),
+				'actions'=>array('view','delete','update','sendconfirmation','sendconfirmationemail','send'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),
 			array('allow',
-				'actions'=>array('quesioner'),
+				'actions'=>array('quesioner','sendreport','takereport'),
 				'users'=>array('*'),
 				),							
 			array('deny',
@@ -99,15 +99,27 @@ class RequestreportController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		$request=$this->loadRequest($model->request_id);
+		$model->setScenario('update');
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['RequestReport']))
 		{
 			$model->attributes=$_POST['RequestReport'];
-			if($model->save())
+
+			if($model->save()){
+
+
+				if($model->accept_date!="1970-01-01"){
+				// Kode 9 = Selesai
+					$request->status = 9;
+					$request->save();
+				}	
+
+
 				$this->redirect(array('view','id'=>$model->id_report));
+			}
 		}
 
 		$this->render('update',array(
@@ -352,7 +364,8 @@ class RequestreportController extends Controller
 		//Send Email
 		$email->subject = "Survei Kepuasan ".$request->Company->name." atas Pengujian No. (".$request->code.")";
 		$email->addTo($request->Company->email);
-		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+		// $email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
 
 		// Email Template
 		$message_template = $this->renderPartial('/email/informasi',
@@ -379,19 +392,28 @@ class RequestreportController extends Controller
 		$model=$this->loadToken($token);
 		$request=$this->loadRequest($model->request_id);
 		$quesioner=new RequestQuesioner;
-		$quesioner->setScenario('create');
+		// $quesioner->setScenario('create');
 
-		if($model->quesioner_status==1){
+		if($model->quesioner_status!=2){
 
-			$this->performAjaxValidation($quesioner);
-			if(isset($_POST['RequestQuesioner']))
-			{
+			$dataQuesioner=new CActiveDataProvider('Question',array('criteria'=>array('condition'=>'type='.$request->created_id)));
+
+			$result = "";
+			if(isset($_POST['answers']) && isset($_POST['RequestQuesioner'])){
+				$answers = $_POST['answers'];
+				$jumlah_dipilih = count($answers);
+				for($i=1;$i<=$jumlah_dipilih;$i++){
+					$result .= $i.". ".$answers[$i].",";
+				}
+
+				$this->performAjaxValidation($quesioner);
 				$quesioner->attributes=$_POST['RequestQuesioner'];
-				$quesioner->created_id = $request->company_id;
 				$quesioner->created_date = date('Y-m-d h:i:s');
 				$quesioner->company_id = $request->company_id;
+				$quesioner->created_id = $request->company_id;
 				$quesioner->request_id = $model->request_id;
 				$quesioner->report_id = $model->id_report;
+				$quesioner->answers = $result;
 
 				if(!is_array($quesioner->unit)) $quesioner->unit = array();
 				$quesioner->unit = implode(',', $quesioner->unit);
@@ -403,11 +425,12 @@ class RequestreportController extends Controller
 					$model->save();
 					$this->refresh();
 				}
-			}
+			}	
 
 			$this->render('quesioner',array(
 				'model'=>$model,
 				'quesioner'=>$quesioner,
+				'dataQuesioner'=>$dataQuesioner,
 				'request'=>$request,
 				));
 
@@ -420,6 +443,111 @@ class RequestreportController extends Controller
 				));
 		}
 
+	}	
+
+	public function actionSendConfirmation($id)
+	{
+		$model=$this->loadModel($id);
+
+		if(isset($_POST['RequestReport']))
+		{
+			$model->attributes=$_POST['RequestReport'];
+			if($model->save()){
+				// Send EMail
+				$this->actionSendConfirmationEmail($id);
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
+		}
+
+		if(Yii::app()->request->isAjaxRequest)
+		{
+			$this->renderPartial('send',array(
+				'model'=>$this->loadModel($id),
+				), false, true);
+		}
+		else
+		{
+			$this->render('send',array(
+				'model'=>$this->loadModel($id),
+				));
+		}
+	}
+
+	public function actionSendConfirmationEmail($id)
+	{
+		Yii::import('ext.yii-mail.YiiMailMessage');
+		$email = new YiiMailMessage;	
+
+		$model=$this->loadModel($id);
+		$model->status = 1;
+		$model->send_id = YII::app()->user->id;
+		$model->send_date = date('Y-m-d h:i:s');
+		$model->save();
+
+		$greet = $this->loadGreeting();
+
+		//Data Request
+		$request=$this->loadRequest($model->request_id);
+
+		//Send Mail
+		$message_title = "Konfirmasi Laporan";
+		$message_content = 
+		$greet."
+		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, Berikut kami sampaikan perihal Konfirmasi Laporan Pengujian No. (".$request->code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $request->date).".</p><p>".$model->description_email."</p></br></br></br></br> Terimakasih.";
+		$message_link = Yii::app()->theme->baseUrl."/registration/activation/";
+		$message_button = "Konfirmasi";
+
+		//Send Email
+		$email->subject = $request->Company->name." - Konfirmasi Laporan Pengujian No. (".$request->code.")";
+		$email->addTo($request->Company->email);
+		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+
+		// Email Template
+		$message_template = $this->renderPartial('/email/notifikasi',
+			array(
+				'email'=>$request->Company->email,
+				'title'=>$message_title,
+				'message'=>$message_content,
+				'link'=>$message_link,
+				'button'=>$message_button
+				),TRUE);
+
+		$email->setBody($message_template, 'text/html');
+		if(Yii::app()->mail->send($email)){
+			Yii::app()->user->setFlash('Success', 'Konfirmasi Laporan sudah Terkirim ke Alamat Email '.$request->Company->email.'.');
+		}else{
+			Yii::app()->user->setFlash('Warning', 'Gagal Kirim ke Alamat Email '.$request->Company->email.'.');
+		}
+
+	}	
+
+
+	public function actionSendReport($token)
+	{
+		$this->layout = "intro";
+		$model=$this->loadToken($token);
+		$request=$this->loadRequest($model->request_id);
+		$model->delivery = 1;
+		$model->save();
+
+		$this->render('report_notification',array(
+			'model'=>$model,
+			'request'=>$request,
+			));
+	}	
+
+	public function actionTakeReport($token)
+	{
+		$this->layout = "intro";
+		$model=$this->loadToken($token);
+		$request=$this->loadRequest($model->request_id);
+		$model->delivery = 2;
+		$model->save();
+
+		$this->render('report_notification',array(
+			'model'=>$model,
+			'request'=>$request,
+			));
 	}	
 
 

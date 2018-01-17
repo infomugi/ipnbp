@@ -21,6 +21,7 @@
  * @property integer $quesioner_id
  * @property string $quesioner_date
  * @property string $token
+ * @property integer $delivery
  */
 class RequestReport extends CActiveRecord
 {
@@ -41,8 +42,12 @@ class RequestReport extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('created_date, created_id, request_id, status', 'required','on'=>'create'),
-			array('created_id, update_id, request_id, status, send_id, quesioner_id', 'numerical', 'integerOnly'=>true),
+			array('upload_date, accept_date,', 'required','on'=>'update'),
+			array('created_id, update_id, request_id, status, send_id, quesioner_id, delivery', 'numerical', 'integerOnly'=>true),
 			array('file, description, update_date, upload_date, accept_date, send_date, quesioner_date, report_date, token', 'length', 'max'=>255),
+			array('description_email', 'length', 'max'=>1000),
+			array('file', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 100, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 100 Mb', 'on' => 'create'),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_report, created_date, created_id, update_date, update_id, upload_date, accept_date, description, file, request_id, status', 'safe', 'on'=>'search'),
@@ -81,6 +86,7 @@ class RequestReport extends CActiveRecord
 			'report_date' => 'Tanggal Info Laporan',
 			'send_date' => 'Tanggal Kirim Laporan',
 			'description' => 'Catatan',
+			'description_email' => 'Pesan Email (Konfirmasi)',
 			'file' => 'File Laporan',
 			'request_id' => 'Request',
 			'status' => 'Status',
@@ -88,6 +94,7 @@ class RequestReport extends CActiveRecord
 			'quesioner_id' => 'Kuesioner Dikirim Oleh',
 			'quesioner_date' => 'Tanggal Kuesioner Dikirim',
 			'token' => 'Token Kuesioner',
+			'delivery' => 'Pengambilan Laporan',
 			);
 	}
 
@@ -120,6 +127,7 @@ class RequestReport extends CActiveRecord
 		$criteria->compare('file',$this->file,true);
 		$criteria->compare('request_id',$this->request_id);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('delivery',$this->delivery);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -142,13 +150,84 @@ class RequestReport extends CActiveRecord
 	{
 		$this->upload_date = date('Y-m-d', strtotime($this->upload_date));
 		$this->accept_date = date('Y-m-d', strtotime($this->accept_date));
+		$this->report_date = date('Y-m-d', strtotime($this->report_date));
+		$this->send_date = date('Y-m-d', strtotime($this->send_date));
 		return TRUE;
 	}
 	
-	protected function afterFind()
-	{
-		$this->upload_date = date('d-m-Y', strtotime($this->upload_date));
-		$this->accept_date = date('d-m-Y', strtotime($this->accept_date));
-		return TRUE;
-	}   
+	// protected function afterFind()
+	// {
+	// 	$this->upload_date = date('d-m-Y', strtotime($this->upload_date));
+	// 	$this->accept_date = date('d-m-Y', strtotime($this->accept_date));
+	// 	return TRUE;
+	// }   
+
+	public function delivery($data){
+		if($data==1){
+			return "Laporan akan di Kirim dari PUSKIM ke Pelanggan";
+		}elseif($data==2){
+			return "Laporan akan diambil di PUSKIM oleh Pelanggan";
+		}else{
+			return "Belum di Tentukan Pelanggan";
+		}
+	}
+
+	public function ReminderRequest(){
+		$sql = "SELECT request_id FROM request_schedule WHERE status=3 GROUP BY request_id";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}
+
+	public function Reminder(){
+		$sql = "
+		SELECT
+		r.id_request AS id,
+		r.code AS code,
+		r.letter_subject AS subject,
+		MAX(rs.end_date) AS date,
+		datediff(CURDATE(), MAX(rs.end_date)) AS jangkaWaktu,
+		(
+		SELECT
+		count(id_report)
+		FROM
+		request_report
+		WHERE
+		request_id = rs.request_id
+		) AS totalLaporan
+		FROM
+		request_schedule rs
+		LEFT JOIN request AS r ON r.id_request = rs.request_id
+		LEFT JOIN company AS c ON r.company_id = c.id_company
+		WHERE
+		rs.status = 3 AND rs.request_id=r.id_request
+		AND (
+		SELECT
+		count(id_report)
+		FROM
+		request_report
+		WHERE
+		request_id = rs.request_id
+		) = 0
+		";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}	
+
+
+	public function ReminderReport($expire){
+		$sql = "
+		SELECT r.id_request AS id, r.letter_code AS code, r.letter_subject AS subject, rr.accept_date AS date, datediff(CURDATE(), rr.accept_date) AS countDate, rr.id_report as report_id FROM `request_report` as rr LEFT JOIN request as r ON rr.request_id=r.id_request WHERE rr.accept_date!='1970-01-01' AND rr.status=1 AND rr.delivery=0 AND datediff(CURDATE(), rr.accept_date) >=".$expire."
+		";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}		
+
+	public function ReminderSend($expire){
+		$sql = "
+		SELECT r.id_request AS id, r.letter_code AS code, r.letter_subject AS subject, rr.report_date AS date, datediff(CURDATE(), rr.report_date) AS countDate, rr.id_report as report_id FROM `request_report` as rr LEFT JOIN request as r ON rr.request_id=r.id_request WHERE rr.report_date!='1970-01-01' AND rr.status=1 AND rr.send_id is NULL AND datediff(CURDATE(), rr.report_date) >=".$expire."
+		";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}			
+
 }

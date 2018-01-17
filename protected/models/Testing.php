@@ -11,6 +11,8 @@
  * @property integer $category_id
  * @property integer $time
  * @property integer $price
+ * @property string $method
+ * @property integer $type
  * @property integer $status
  */
 class Testing extends CActiveRecord
@@ -32,14 +34,15 @@ class Testing extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name, status, time, price', 'required'),
-			array('status, part_id, category_id, time, price', 'numerical', 'integerOnly'=>true),
+			array('code, name, time, price, part_id, category_id, type, method', 'required'),
+			array('status, part_id, category_id, time, price, type', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>25),
 			array('name', 'length', 'max'=>100),
-			array('part_name, lab_name', 'length', 'max'=>100),
+			array('method', 'length', 'max'=>255),
+			array('part_name, category_name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_testing, code, name, status', 'safe', 'on'=>'search'),
+			array('id_testing, code, name, part_id, category_id, status', 'safe', 'on'=>'search'),
 			);
 	}
 
@@ -68,7 +71,9 @@ class Testing extends CActiveRecord
 			'part_id' => 'Balai',
 			'category_id' => 'Kategori',
 			'time' => 'Waktu',
-			'price' => 'Tarif',
+			'price' => 'Tarif PP 38 Tahun 2012',
+			'method' => 'Metode',
+			'type' => 'Tipe Pengujian',
 			'status' => 'Status',
 			);
 	}
@@ -96,6 +101,8 @@ class Testing extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('time',$this->time,true);
 		$criteria->compare('price',$this->price,true);
+		$criteria->compare('part_id',$this->part_id,true);
+		$criteria->compare('category_id',$this->category_id,true);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
@@ -118,5 +125,23 @@ class Testing extends CActiveRecord
 	{
 		return $this->name . " - " . $this->category_name;
 	}
+
+	public function getUnit($id){
+		$unit = Unit::model()->findBypk($id);
+		if($unit===NULL){
+			return "-";
+		}else{
+			return $unit->name;
+		}
+	}
+
+	public function getCategory($id){
+		$category = Category::model()->findBypk($id);
+		if($category===NULL){
+			return "-";
+		}else{
+			return $category->name;
+		}
+	}	
 
 }

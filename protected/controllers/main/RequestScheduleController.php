@@ -28,12 +28,12 @@ class RequestscheduleController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search','downloadrab','upload','report','print'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search','downloadrab','upload','report','print','printall'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','search','update','delete'),
+				'actions'=>array('view','search','update','delete','upload','downloadrab'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -106,11 +106,11 @@ class RequestscheduleController extends Controller
 
 				if($model->status_schedule==1){	
 
-					//$description,$activityid,$type,$point,$status,$part,$object
-					Activities::model()->my($model->task,21,8,1,$model->testing_part,$model->id_schedule);
+					//$description,$activityid,$type,$point,$status,$part,$object,$subject
+					Activities::model()->my($model->task,21,8,1,$model->testing_part,$model->id_schedule,$model->id_schedule);
 
 				}
-
+				Yii::app()->user->setFlash('Success', 'Jadwal & RAB berhasil di perbaharui.');
 				$this->redirect(array('request/view','id'=>$model->request_id));
 			}
 		}
@@ -127,8 +127,10 @@ class RequestscheduleController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
+		$model = $this->loadModel($id);
+		$activity=$this->loadActivity($id);
+		$activity->delete();
+		$model->delete();
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -207,7 +209,23 @@ class RequestscheduleController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model->testing_total;
+	}
+
+	public function loadPrice($id)
+	{
+		$model=Testing::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model->price;
 	}		
+
+	public function loadActivity($id)
+	{
+		$model=Activities::model()->findByAttributes(array('subject_id'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}			
 
 	public function countStepTesting($data,$request,$id)
 	{
@@ -289,6 +307,8 @@ class RequestscheduleController extends Controller
 		$testing_part='';
 		$testing_total='';
 		$testing_number='';
+		$testing_cost='';
+		$testing_price='';
 
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'status=:status';
@@ -306,6 +326,8 @@ class RequestscheduleController extends Controller
 				$testing_lab=$this->loadCategory($ii->testing_lab);
 				$testing_part=$this->loadUnit($ii->testing_part);
 				$testing_total=$ii->testing_total;
+				$testing_cost=$this->loadPrice($ii->testing_type);
+				$testing_price=RequestTesting::model()->countPrice($ii->id_testing, $testing_cost);
 				// Show Step Number
 				$testing_number=$this->countStepTesting($ii->testing_type,$ii->request_id,$ii->id_testing);
 			}		      
@@ -320,6 +342,8 @@ class RequestscheduleController extends Controller
 			'testing_part'=>$testing_part,
 			'testing_total'=>$testing_total,
 			'testing_number'=>$testing_number,
+			'testing_cost'=>$testing_cost,
+			'testing_price'=>$testing_price,
 			));
 		Yii::app()->end();
 	}		
@@ -389,20 +413,66 @@ class RequestscheduleController extends Controller
 	public function actionPrint()
 	{
 		$this->layout="print";
-		$company = $_POST['company'];
-		$dataProvider=new CActiveDataProvider('RequestSchedule', array(
-			'criteria'=>array(
-				'condition'=>'company_id=:id',
-				'select' => 't.*, ds.*',
-				'join' => 'LEFT JOIN request ds on ds.id_request = t.request_id',
-				'params'=>array(
-					':id'=>$company),
-				),
-			));
+		if(isset($_POST['company']) AND isset($_POST['startdate']) AND isset($_POST['enddate'])){
 
-		$this->render('print',array(
-			'dataProvider'=>$dataProvider,
-			));
+			$company = $_POST['company'];
+			$startdate = $_POST['startdate'];
+			$enddate = $_POST['enddate'];
+
+			$criteria = new CDbCriteria; 
+			$criteria->select='t.*, ds.*';
+			$criteria->join='LEFT JOIN request ds on ds.id_request = t.request_id';
+			$criteria->condition = 'company_id=:id';
+			$criteria->params=array(':id'=>$company);
+			$criteria->addBetweenCondition('t.start_date', $startdate, $enddate, 'AND');
+
+			$dataProvider=new CActiveDataProvider('RequestSchedule', 
+				array('criteria'=>$criteria)
+				);
+
+		// $dataProvider=new CActiveDataProvider('RequestSchedule', array(
+		// 	'criteria'=>array(
+		// 		'condition'=>'company_id=:id',
+		// 		'select' => 't.*, ds.*',
+		// 		'join' => 'LEFT JOIN request ds on ds.id_request = t.request_id',
+		// 		'params'=>array(
+		// 			':id'=>$company),
+		// 		),
+		// 	));
+
+			$this->render('print',array(
+				'dataProvider'=>$dataProvider,
+				'startdate'=>$startdate,
+				'enddate'=>$enddate,
+				'company'=>$company,
+				));
+		}else{
+
+			$this->redirect(array('main/requestschedule/report'));
+
+		}
+
+	}	
+
+
+	public function actionPrintAll()
+	{
+		$this->layout="print_landscape";
+		if(isset($_POST['startdate']) AND isset($_POST['enddate'])){
+
+			$startdate = $_POST['startdate'];
+			$enddate = $_POST['enddate'];
+			
+			$this->render('print_all',array(
+				'startdate'=>$startdate,
+				'enddate'=>$enddate,
+				));
+		}else{
+
+			$this->redirect(array('main/requestschedule/report'));
+
+		}
+
 	}	
 
 

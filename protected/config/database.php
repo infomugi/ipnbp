@@ -3,7 +3,7 @@
 // This is the database connection configuration.
 return array(
 	// 'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-	'connectionString' => 'mysql:host=localhost;dbname=i_pnbp',
+	'connectionString' => 'mysql:host=localhost;dbname=i_pnbp_new',
 	'initSQLs'=>array("set time_zone='+00:00';"), 
 	'emulatePrepare' => true,
 	'username' => 'root',

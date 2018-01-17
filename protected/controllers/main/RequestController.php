@@ -529,11 +529,10 @@ class RequestController extends Controller
 		// echo CJSON::encode($items);
 		// Yii::app()->end();
 		$items = array();
-		$id = YII::app()->user->id;
 		$criteria = new CDbCriteria();
-		$criteria->condition = 'status=:status';
-		$criteria->params = array(':status'=>1);
-		$model = RequestSchedule::model()->findAll($criteria);
+		$criteria->condition = 'status_schedule=:status_schedule';
+		$criteria->params = array(':status_schedule'=>2);
+		$model = RequestSchedule::model()->findAll();
 
 		foreach ($model as $value) {
 			$items[]=array(

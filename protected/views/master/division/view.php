@@ -16,10 +16,10 @@ $this->pageTitle='Detail Division - '.$model->name;
 		array('update', 'id'=>$model->id_division,
 			), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Division'));
 			?>
-			<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+		<!-- 	<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 				array('delete', 'id'=>$model->id_division,
 					),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Delete Division'));
-					?>
+					?> -->
 
 				</span> 
 
@@ -29,10 +29,10 @@ $this->pageTitle='Detail Division - '.$model->name;
 						array('update', 'id'=>$model->id_division,
 							), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Division'));
 							?>
-							<?php echo CHtml::link('Delete', 
+					<!-- 		<?php echo CHtml::link('Delete', 
 								array('delete', 'id'=>$model->id_division,
 									),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Delete Division'));
-									?>
+									?> -->
 
 								</span>
 

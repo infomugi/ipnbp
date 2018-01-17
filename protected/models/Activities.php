@@ -45,7 +45,7 @@ class Activities extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id', 'required'),
-			array('type, activity_id, user_id, point, status', 'numerical', 'integerOnly'=>true),
+			array('type, activity_id, user_id, point, status, subject_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id_activities, created_date, type, description, activity_id, user_id, point, status', 'safe', 'on'=>'search'),
@@ -187,7 +187,9 @@ class Activities extends CActiveRecord
 		}elseif($status==23){
 			return "Disposisi Permohonan ke";	
 		}elseif($status==24){
-			return "Menambahkan Jadwal & RAB";					
+			return "Menambahkan Jadwal & RAB";		
+		}elseif($status==25){
+			return "Menambahkan Tahapan Pengujian";								
 		}else{
 			return "Unknow";
 		}
@@ -203,6 +205,8 @@ class Activities extends CActiveRecord
 			return $url."request/view/id/";
 		}elseif($status==24){
 			return $url."main/requestschedule/view/id/";
+		}elseif($status==25){
+			return $url."main/requesttesting/view/id/";			
 		}else{
 			return "Unknow";
 		}
@@ -286,7 +290,7 @@ class Activities extends CActiveRecord
 		}
 	}
 
-	public function my($description,$activityid,$type,$point,$part,$object){
+	public function my($description,$activityid,$type,$point,$part,$object,$subject){
 		$activity=new Activities;
 		$activity->user_id = YII::app()->user->id;
 		$activity->status = 1;
@@ -296,31 +300,66 @@ class Activities extends CActiveRecord
 		$activity->point = $point;
 		$activity->part_id = $part;
 		$activity->object_id = $object;
+		$activity->subject_id = $subject;
 		$activity->created_date = date('Y-m-d H:i:s');
 		$activity->save();
 	}
 
-	public static function getNotifications($status){
+	public static function getNotifications(){
 		$sql = "
-		SELECT *,u.image as image, u.first_name as name FROM activities as a LEFT JOIN users as u ON a.user_id=u.id_user
-		WHERE a.status=".$status." ORDER BY a.created_date DESC LIMIT 6";
+		SELECT *,a.status as notification_status, u.image as image, u.first_name as name FROM activities as a LEFT JOIN users as u ON a.user_id=u.id_user
+		ORDER BY a.created_date DESC LIMIT 10";
 		$command = YII::app()->db->createCommand($sql);
 		return $command->queryAll();
 	}
 
-	public static function getNotificationsDisposition($status,$part){
+	public static function getCountNotifications(){
 		$sql = "
-		SELECT *,
-		a.created_date as date_notification,
-		u.image as image, u.first_name as name, r.letter_subject as subject, c.name as company
-		FROM activities as a 
-		LEFT JOIN users as u ON a.user_id=u.id_user
-		LEFT JOIN request as r ON r.id_request=a.object_id
-		LEFT JOIN company as c ON c.id_company=r.company_id
-		WHERE a.status=".$status." AND a.part_id=".$part." AND a.activity_id=23 ORDER BY a.created_date DESC LIMIT 6";
+		SELECT count(a.status) as notification_status
+		FROM activities as a LEFT JOIN users as u ON a.user_id=u.id_user
+		WHERE a.status=1";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryScalar();
+	}	
+
+	public static function getNotificationsDisposition($part){
+		$sql = "
+		SELECT
+		a.id_activities AS id,
+		a.activity_id AS activity,
+		a.subject_id AS subject,
+		a.object_id AS object,
+		a.created_date AS date_notification,
+		a.description AS description_notification,
+		a. STATUS AS notification_status,
+		u.image AS image,
+		u.first_name AS name,
+		r.letter_subject AS title,
+		c. NAME AS company
+		FROM
+		activities AS a
+		LEFT JOIN users AS u ON a.user_id = u.id_user
+		LEFT JOIN request AS r ON r.id_request = a.object_id
+		LEFT JOIN company AS c ON c.id_company = r.company_id
+		WHERE
+		a.part_id = ".$part." AND a.activity_id=23
+		ORDER BY
+		date_notification DESC
+		LIMIT 10
+		";
+
 		$command = YII::app()->db->createCommand($sql);
 		return $command->queryAll();
-	}		
+	}	
+
+	public static function getCountNotificationsDisposition($status,$part){
+		$sql = "
+		SELECT count(a.status) as notification_status
+		FROM activities as a LEFT JOIN users as u ON a.user_id=u.id_user
+		WHERE a.status=".$status." AND a.activity_id=23 AND a.part_id=".$part;
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryScalar();
+	}			
 
 	
 }

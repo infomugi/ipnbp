@@ -15,8 +15,8 @@
 			'clientOptions' => array(
 				'validateOnSubmit' => true,
 				),
-			'errorMessageCssClass' => 'label label-danger',
-			'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
+			'errorMessageCssClass' => 'parsley-errors-list filled',
+			'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 			)); ?>
 
 			<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
@@ -28,8 +28,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'username'); ?>
 					<?php echo $form->textField($model,'username',array('class'=>'form-control','placeholder'=>'Username')); ?>
+					<?php echo $form->error($model,'username'); ?>
 				</div>
 
 			</div>  
@@ -42,8 +42,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'password'); ?>
 					<?php echo $form->passwordField($model,'password',array('class'=>'form-control','placeholder'=>'Type Password')); ?>
+					<?php echo $form->error($model,'password'); ?>
 				</div>
 
 			</div>  
@@ -56,8 +56,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'repeat_password'); ?>
 					<?php echo $form->passwordField($model,'repeat_password',array('class'=>'form-control','placeholder'=>'Repeat Password')); ?>
+					<?php echo $form->error($model,'repeat_password'); ?>
 				</div>
 
 			</div>  			
@@ -70,8 +70,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'email'); ?>
 					<?php echo $form->textField($model,'email',array('class'=>'form-control','placeholder'=>'Email Address')); ?>
+					<?php echo $form->error($model,'email'); ?>
 				</div>
 
 			</div>  
@@ -84,8 +84,8 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'first_name'); ?>
 					<?php echo $form->textField($model,'first_name',array('class'=>'form-control','placeholder'=>'First Name')); ?>
+					<?php echo $form->error($model,'first_name'); ?>
 				</div>
 
 			</div>  
@@ -98,13 +98,13 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php echo $form->error($model,'last_name'); ?>
 					<?php echo $form->textField($model,'last_name',array('class'=>'form-control','placeholder'=>'Last Name')); ?>
+					<?php echo $form->error($model,'last_name'); ?>
 				</div>
 
 			</div>  
 
-
+<!-- 
 			<div class="form-group">
 
 				<div class="col-sm-4 control-label">
@@ -265,35 +265,35 @@
 					</div>
 
 				</div>  
+			-->
 
+			<div class="form-group">
 
-				<div class="form-group">
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($model,'division'); ?>
+				</div>   
 
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'division'); ?>
-					</div>   
-
-					<div class="col-sm-8">
+				<div class="col-sm-8">
+					<?php 
+					echo $form->dropDownList($model, "division",
+						CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
+							'id_unit', 'name'
+							),
+						array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
+						); 
+						?> 
 						<?php echo $form->error($model,'division'); ?>
-						<?php 
-						echo $form->dropDownList($model, "division",
-							CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
-								'id_unit', 'name'
-								),
-							array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
-							); 
-							?> 
 
-						</div>
+					</div>
 
-					</div>  
+				</div>  
 
 
-				</div>
-			</div><!-- form -->
-
+			</div>
+		</div><!-- form -->
+		<BR>
 			<div class="panel-footer text-right">
-				<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 				<BR><BR>
 				</div>
 

@@ -29,120 +29,202 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php 
-					// echo CHtml::dropDownList('category_id','', CHtml::listData(Category::model()->findall(array('condition'=>'status=1')),
-					// 	'id_category', 'name'
-					// 	),
-					// array(
-					// 	"empty"=>"- Pilih Kategori Pengujian -", 
-					// 	'class'=>'form-control select2',
-					// 	'ajax' => array(
-					// 		'type'=>'POST', 
-					// 		'url'=>CController::createUrl('master/testing/load'), 
-					// 		'update'=>'#RequestTesting_testing_type', 
-					// 		))); 
 
-					echo $form->dropDownList($testing, "testing_type",
-						CHtml::listData(Testing::model()->findall(array('condition'=>'status=1 AND part_id='.YII::app()->user->record->division)),
-							'id_testing', 'showTesting'
-							),
+					<div class="input-group">
+
+						
+						<?php 
+						if(YII::app()->user->record->level==1){
+
+							echo $form->dropDownList($testing, "testing_type",
+								CHtml::listData(Testing::model()->findall(array('condition'=>'status=1')),
+									'id_testing', 'showTesting'
+									),
 						// array(),
-						array(
-							"empty"=>"- Pilih Jenis Pengujian -", 
-							'class'=>'form-control select2',
-							'ajax' => array(
-								'type'=>'POST',
-								'dataType'=>'json',
-								'url'=>CController::createUrl('main/requesttesting/search'),
-								'data' => "js:{data:$(this).val()}",
-								'success'=>'function(data){
-									$("#name").val(data.name);
-									$("#part").val(data.part);
-									$("#category").val(data.category);
-									$("#time").val(data.time);
-									$("#price").val(data.price);
-									$("#RequestTesting_testing_type").val(data.id_testing);
-									$("#RequestTesting_testing_part").val(data.part_id);
-									$("#RequestTesting_testing_lab").val(data.category_id);
-									$("#RequestTesting_testing_total").focus();
-								}',),							
-							)
-						); 
-						?> 
-						<?php echo $form->error($testing,'testing_type'); ?>
-					</div>
+								array(
+									"empty"=>"- Pilih Jenis Pengujian -", 
+									'class'=>'form-control select2',
+									'ajax' => array(
+										'type'=>'POST',
+										'dataType'=>'json',
+										'url'=>CController::createUrl('main/requesttesting/search'),
+										'data' => "js:{data:$(this).val()}",
+										'success'=>'function(data){
+											$("#name").val(data.name);
+											$("#part").val(data.part);
+											$("#category").val(data.category);
+											$("#time").val(data.time);
+											$("#RequestTesting_testing_type").val(data.id_testing);
+											$("#RequestTesting_testing_part").val(data.part_id);
+											$("#RequestTesting_testing_lab").val(data.category_id);
+											$("#RequestTesting_price").val(data.price);
+											$("#RequestTesting_testing_total").focus();
+										}',),							
+									)
+								); 
 
+						}else{
+
+
+							echo $form->dropDownList($testing, "testing_type",
+								CHtml::listData(Testing::model()->findall(array('condition'=>'status=1 AND part_id='.YII::app()->user->record->division)),
+									'id_testing', 'showTesting'
+									),
+						// array(),
+								array(
+									"empty"=>"- Pilih Jenis Pengujian -", 
+									'class'=>'form-control select2',
+									'ajax' => array(
+										'type'=>'POST',
+										'dataType'=>'json',
+										'url'=>CController::createUrl('main/requesttesting/search'),
+										'data' => "js:{data:$(this).val()}",
+										'success'=>'function(data){
+											$("#name").val(data.name);
+											$("#part").val(data.part);
+											$("#category").val(data.category);
+											$("#time").val(data.time);
+											$("#RequestTesting_testing_type").val(data.id_testing);
+											$("#RequestTesting_testing_part").val(data.part_id);
+											$("#RequestTesting_testing_lab").val(data.category_id);
+											$("#RequestTesting_price").val(data.price);
+											$("#RequestTesting_testing_total").focus();
+										}',),							
+									)
+								); 
+
+						}
+						?> 
+
+						<span data-toggle="modal" data-target="#md-fullWidth" class="input-group-addon btn btn-lg btn-primary"><i class="icon-th mdi mdi-plus"></i></span>
+					</div>
+					
+					<?php echo $form->error($testing,'testing_type'); ?>
 				</div>
 
-				<div class="form-group">
+			</div>
 
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($testing,'testing_part'); ?>
-					</div>   
+			<div class="form-group">
 
-					<div class="col-sm-8">
-						<input type="text" class="form-control" id="part" disabled="true">
-						<?php echo $form->error($testing,'testing_part'); ?>
-						<div style="display:none;">
-							<?php echo $form->textField($testing,'testing_part',array('class'=>'form-control','hidden'=>true)); ?>
-						</div>
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($testing,'testing_part'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="part" disabled="true">
+					<?php echo $form->error($testing,'testing_part'); ?>
+					<div style="display:none;">
+						<?php echo $form->textField($testing,'testing_part',array('class'=>'form-control','hidden'=>true)); ?>
 					</div>
+				</div>
 
-				</div>  
+			</div>  
 
 
-				<div class="form-group">
+			<div class="form-group">
 
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($testing,'testing_lab'); ?>
-					</div>   
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($testing,'testing_lab'); ?>
+				</div>   
 
-					<div class="col-sm-8">
-						<input type="text" class="form-control" id="category" disabled="true">
-						<?php echo $form->error($testing,'testing_lab'); ?>
-						<div style="display:none;">
-							<?php echo $form->textField($testing,'testing_lab',array('class'=>'form-control','hidden'=>true)); ?>
-						</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="category" disabled="true">
+					<?php echo $form->error($testing,'testing_lab'); ?>
+					<div style="display:none;">
+						<?php echo $form->textField($testing,'testing_lab',array('class'=>'form-control','hidden'=>true)); ?>
 					</div>
+				</div>
+
+			</div> 
+
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($testing,'time'); ?>
+				</div>   
+
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="time" disabled="true">
 
 				</div> 
+			</div> 
 
-				<div class="form-group">
+			<div class="form-group">
 
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($testing,'time'); ?>
-					</div>   
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($testing,'price'); ?>
+				</div>   
 
-					<div class="col-sm-8">
-						<input type="text" class="form-control" id="time" disabled="true">
+				<div class="col-sm-8">
+					<?php echo $form->textField($testing,'price',array('class'=>'form-control')); ?>
+					<?php echo $form->error($testing,'price'); ?>
+				</div>
 
-					</div> 
-				</div> 
-
-				<div class="form-group">
-
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($testing,'price'); ?>
-					</div>   
-
-					<div class="col-sm-8">
-						<input type="text" class="form-control" id="price" disabled="true">
-						<?php echo $form->error($testing,'price'); ?>
-
-					</div>
-
-				</div> 				
+			</div>  			
 
 
-				<div class="form-group">
+			<div class="form-group">
 
-					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($testing,'testing_total'); ?>
-					</div>   
+				<div class="col-sm-4 control-label">
+					<?php echo $form->labelEx($testing,'testing_total'); ?>
+				</div>   
 
-					<div class="col-sm-8">
-						<?php echo $form->textField($testing,'testing_total',array('class'=>'form-control')); ?>
-						<?php echo $form->error($testing,'testing_total'); ?>
+				<div class="col-sm-8">
+					<?php echo $form->textField($testing,'testing_total',array('class'=>'form-control')); ?>
+					<?php echo $form->error($testing,'testing_total'); ?>
+				</div>
+
+			</div>  
+
+
+			<div class="form-group">
+
+				<div class="col-sm-4 control-label">
+				</div>   
+
+				<div class="col-sm-8">
+
+
+
+
+					<?php
+					$memberFormConfig = array(
+						'elements'=>array(
+							'name'=>array(
+								'type'=>'text',
+								'class'=>'form-control',
+								),
+							'price'=>array(
+								'type'=>'text',
+								'class'=>'form-control',
+								),
+							));
+
+					$this->widget('ext.multimodelform.MultiModelForm',array(
+						'id' => 'id_testing', 
+						'formConfig' => $memberFormConfig, 
+						'model' => $member, 
+
+						'validatedItems' => $validatedMembers,
+
+						'sortAttribute' => 'name',
+						'hideCopyTemplate'=>true,
+						'clearInputs'=>false,
+						'tableView' => true, 
+						'addItemAsButton' => false,
+						'showAddItemOnError' => false, 
+
+						'fieldsetWrapper' => array('tag' => 'div',
+							'htmlOptions' => array('class' => 'view','style'=>'position:relative;background:#EFEFEF;')
+							),
+
+						'addItemText' => '<div class="btn btn-success"><i class="mdi mdi-plus"></i> Tambah Biaya</div>',
+						'removeText' => '<div class="btn btn-lg btn-danger"><i class="mdi mdi-close"></i> Hapus</div>',
+
+						'data' => $member->findAll('request_testing_id=:request_testing_id', array(':request_testing_id'=>$testing->id_testing)),
+						));
+						?>
+
 					</div>
 
 				</div>  
@@ -204,3 +286,21 @@
 					),
 				),
 				)); ?>
+
+
+				<!--Form Modals-->
+				<div id="md-fullWidth" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+					<div class="modal-dialog custom-width">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
+								<h3 class="modal-title">Tambah Jenis Pengujian</h3>
+							</div>
+							<div class="modal-body">
+
+								<?php echo $this->renderPartial('_form_testing_create', array('testingcreate'=>$testingcreate)); ?>
+
+							</div>
+						</div>
+					</div>
+				</div>

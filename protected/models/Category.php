@@ -38,7 +38,6 @@ class Category extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, status, description', 'required'),
-			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			array('description', 'length', 'max'=>255),
 			// The following rule is used by search().

@@ -14,7 +14,7 @@ $this->pageTitle='Kelola Jenis Pengujian';
 
 	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-md'));
+		array('class' => 'btn pull-right btn-primary btn-md'));
 		?>
 
 	</span> 
@@ -23,7 +23,7 @@ $this->pageTitle='Kelola Jenis Pengujian';
 
 		<?php echo CHtml::link('Tambah Jenis Pengujian',
 			array('create'),
-			array('class' => 'btn btn-primary btn-flat'));
+			array('class' => 'btn pull-right btn-primary btn-flat'));
 			?>
 
 		</span>	
@@ -48,15 +48,23 @@ $this->pageTitle='Kelola Jenis Pengujian';
 
 					array(	
 						'name'=>'part_id',
-						'value'=>'$data->Balai->name',
+						'type'=>'raw',
+						'value'=>'Testing::model()->getUnit($data->part_id)',
+						'filter'=>Chtml::listData(Unit::model()->findAll(array('condition'=>'type=1')),'id_unit','name'),
 						),
 
+					// array(	
+					// 	'name'=>'category_id',
+					// 	'value'=>'$data->Category->name',
+					// 	),	
+					
+					'time',
+
+
 					array(	
-						'name'=>'lab_id',
-						'value'=>'$data->Lab->name',
-						),	
-						'time',
-						'price',
+						'name'=>'price',
+						'value'=>'Request::model()->rupiah($data->price)',
+						),
 
 					// array(	
 					// 	'name'=>'status',
@@ -66,7 +74,8 @@ $this->pageTitle='Kelola Jenis Pengujian';
 
 					array(
 						'class'=>'CButtonColumn',
-						'template'=>'{view}{update}{delete}',
+						'template'=>'{view}{update}',
+						// 'template'=>'{view}{update}{delete}',
 						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
 						'buttons'=>array(
 							'view'=>

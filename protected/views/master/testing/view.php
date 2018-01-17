@@ -20,10 +20,10 @@ $this->pageTitle='Detail Jenis Pengujian - '.$model->name;
 			array('update', 'id'=>$model->id_testing,
 				), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Jenis Pengujian'));
 				?>
-				<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+			<!-- 	<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 					array('delete', 'id'=>$model->id_testing,
 						),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Jenis Pengujian'));
-						?>
+						?> -->
 
 					</span> 
 
@@ -37,10 +37,10 @@ $this->pageTitle='Detail Jenis Pengujian - '.$model->name;
 								array('update', 'id'=>$model->id_testing,
 									), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Jenis Pengujian'));
 									?>
-									<?php echo CHtml::link('Hapus', 
+								<!-- 	<?php echo CHtml::link('Hapus', 
 										array('delete', 'id'=>$model->id_testing,
 											),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Jenis Pengujian'));
-											?>
+											?> -->
 
 										</span>
 
@@ -52,6 +52,19 @@ $this->pageTitle='Detail Jenis Pengujian - '.$model->name;
 												'attributes'=>array(
 													'code',
 													'name',
+													array(	
+														'name'=>'part_id',
+														'value'=>Testing::model()->getUnit($model->part_id),
+														),
+													array(	
+														'name'=>'category_id',
+														'value'=>Testing::model()->getCategory($model->category_id),
+														),
+													array(	
+														'name'=>'price',
+														'value'=>Request::model()->rupiah($model->price),
+														),
+													'time',
 													array(	
 														'name'=>'status',
 														'value'=>Users::model()->status($model->status),

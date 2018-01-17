@@ -77,7 +77,7 @@ class TestingController extends Controller
 		$model=new Testing;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Testing']))
 		{

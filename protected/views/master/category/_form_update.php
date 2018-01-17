@@ -60,7 +60,7 @@
 					<?php echo $form->error($model,'status'); ?>
 					<?php
 					echo $form->radioButtonList($model,'status',
-						array('1'=>'Enable','0'=>'Disable'),
+						array('1'=>'Aktif','0'=>'Tidak Aktif'),
 						array(
 							'template'=>'{input}{label}',
 							'separator'=>'',

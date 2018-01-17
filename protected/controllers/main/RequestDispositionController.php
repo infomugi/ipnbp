@@ -128,7 +128,10 @@ class RequestdispositionController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+		$notification = $this->loadActivity($id);
+		$notification->delete();
+		$model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -175,6 +178,17 @@ class RequestdispositionController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+
+
+	public function loadActivity($id)
+	{
+		$model=Activities::model()->findByAttributes(array('subject_id'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+
 
 	/**
 	 * Performs the AJAX validation.

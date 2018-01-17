@@ -48,6 +48,16 @@ class SiteController extends Controller
 			$this->redirect(array('site/login'));
 
 		}else{
+			$this->layout = "index";
+
+			$dataRequest=new CActiveDataProvider('Request',array(
+				'criteria'=>array(
+					'condition'=>'status != 9 ',
+					'order'=>'id_request DESC'
+					),
+				'pagination'=>array(
+					'pageSize'=>'20',
+					)));	
 
 			$dataShedule=new CActiveDataProvider('RequestTesting');
 
@@ -72,6 +82,7 @@ class SiteController extends Controller
 					)));				
 
 			$this->render('index',array(
+				'dataRequest'=>$dataRequest,
 				'dataUnread'=>$dataUnread,
 				'dataActivity'=>$dataActivity,
 				'dataTesting'=>$dataTesting,
@@ -105,6 +116,24 @@ class SiteController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}	
+
+	public function loadActivity($id)
+	{
+		$model=Activities::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}	
+
+
+	public function loadDisposition($id)
+	{
+		$model=RequestDisposition::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}		
+
 
 
 	/**
@@ -150,8 +179,8 @@ class SiteController extends Controller
 					$name = Yii::app()->user->name;
 					$ip = Yii::app()->request->getUserHostAddress();
 
-					//$userid,$description,$activityid,$type,$point,$status
-					Activities::model()->my($id,"Login from IP : ".$ip,1,1,2,1);
+					//$description,$activityid,$type,$point,$status,$part,$object,$subject					
+					Activities::model()->my($id,"Login from IP : ".$ip,1,1,2,1,1,1);
 
 					if(YII::app()->user->record->level==1){
 						// $this->redirect(Yii::app()->user->returnUrl);
@@ -179,8 +208,8 @@ class SiteController extends Controller
 		$model->active = 0;
 		$ip = Yii::app()->request->getUserHostAddress();
 
-		//$userid,$description,$activityid,$type,$point,$status
-		Activities::model()->my(YII::app()->user->id,"Logout from IP : ".$ip,0,0,0,0);
+		//$description,$activityid,$type,$point,$status,$part,$object,$subject
+		Activities::model()->my(YII::app()->user->id,"Logout from IP : ".$ip,0,0,0,0,0,0);
 
 		if($model->save()){
 			Yii::app()->user->logout();
@@ -191,43 +220,34 @@ class SiteController extends Controller
 	public function actionCalendar($filter)
 	{
 		if(Yii::app()->user->isGuest) {
-
 			$this->redirect(array('site/login'));
-
 		}else{
-
-			// $this->layout="page";			
+			$this->layout="page";			
 			$balai = "";
-			$status = 1;
 
 			$this->render('calendar',array(
 				'filter'=>$filter,
-				'status'=>$status,
 				'balai'=>$balai,
 				));
-
 		}
 	}
 
 	public function actionCalendarBalai()
 	{
 		if(Yii::app()->user->isGuest) {
-
 			$this->redirect(array('site/login'));
-
 		}else{
-			// $this->layout="page";			
-
-			$balai = $_POST["balai"];
-			$status = $_POST["status"];
-			$filter = $_POST["filter"];
-
-			$this->render('calendar',array(
-				'filter'=>$filter,
-				'status'=>$status,
-				'balai'=>$balai,
-				));
-
+			if(isset($_POST["balai"]) || isset($_POST["filter"])){
+				$this->layout="page";			
+				$balai = $_POST["balai"];
+				$filter = $_POST["filter"];
+				$this->render('calendar',array(
+					'filter'=>$filter,
+					'balai'=>$balai,
+					));
+			}else{
+				$this->redirect(array('site/calendar/filter/request'));
+			}
 		}
 	}			
 
@@ -235,24 +255,17 @@ class SiteController extends Controller
 	public function actionReport()
 	{
 		if(Yii::app()->user->isGuest) {
-
 			$this->redirect(array('site/login'));
-
 		}else{
-
 			$this->render('report');
-
 		}
 	}
 	
 	public function actionBalai()
 	{
 		if(Yii::app()->user->isGuest) {
-
 			$this->redirect(array('site/login'));
-
 		}else{
-
 			$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'testing_part='.YII::app()->user->record->division)));
 
 			$dataDisposition=new CActiveDataProvider('RequestDisposition',array('criteria'=>array('condition'=>'disposition_to='.YII::app()->user->record->division)));
@@ -261,8 +274,60 @@ class SiteController extends Controller
 				'dataTesting'=>$dataTesting,
 				'dataDisposition'=>$dataDisposition,
 				));
-
 		}
 	}	
+
+	public function actionNotificationsAdmin($activity,$object,$id,$status)
+	{
+		if(Yii::app()->user->isGuest) {
+			$this->redirect(array('site/login'));
+		}else{
+			$update=$this->loadActivity($id);
+			if($status==2){
+				$this->redirect(Activities::activityLink($activity).$object);
+			}else{
+				// Kode 22 = Permohonan Baru 
+				// Kode 24 = Member Menambahkan Jadwal 
+				// Kode 25 = Tahapan Pengujian
+				if($update->activity_id==22 || $update->activity_id==24 || $update->activity_id==25){
+					$update->status = 2;
+					if($update->save()){
+						$this->redirect(Activities::activityLink($activity).$object);
+					}
+				}else{
+					$this->redirect(Activities::activityLink($activity).$object);
+				}
+			}
+		}
+	}		
+
+
+	public function actionNotificationsMember($activity,$object,$id,$status,$subject)
+	{
+		if(Yii::app()->user->isGuest) {
+			$this->redirect(array('site/login'));
+		}else{
+			$update=$this->loadActivity($id);
+			$disposition=$this->loadDisposition($subject);
+			if($status==2){
+				$this->redirect(Activities::activityLink($activity).$object);
+			}else{
+				// Kode 23 = Disposisi ke Balai
+				if($update->activity_id==23){
+					$update->status = 2;
+					// Kode 1 = Dilihat
+					$disposition->last_view = date('Y-m-d h:i:s');
+					$disposition->status = 1;
+					$disposition->save();
+					if($update->save()){
+						$this->redirect(Activities::activityLink($activity).$object);
+					}
+				}else{
+					$this->redirect(Activities::activityLink($activity).$object);
+				}
+			}
+		}
+	}		
+
 
 }

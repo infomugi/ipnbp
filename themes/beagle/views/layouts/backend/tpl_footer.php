@@ -16,9 +16,11 @@
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap-slider/js/bootstrap-slider.js" type="text/javascript"></script>
-
-<!-- 
+<script src="<?php echo $baseUrl; ?>/admin/assets/lib/jquery.gritter/js/jquery.gritter.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap-color/js/bootstrap-colorpicker.min.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl; ?>/admin/assets/lib/prettify/prettify.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<!-- 
 <script src="<?php echo $baseUrl; ?>/admin/assets/js/main.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/admin/assets/lib/datatables/js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -34,8 +36,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		App.init();
-		App.loaders();
 		App.formElements();
+		App.uiNotifications();
+		// App.loaders();
+		//Runs prettify
+		// prettyPrint();
 	});
 
 //Momen JS
@@ -132,6 +137,7 @@ $(document).ready(function(){
 		
 	});		
 
+	$('#cp2').colorpicker({ format: 'hex', colorSelectors: { 'black': '#000000', 'white': '#ffffff', 'red': '#FF0000', 'default': '#777777', 'primary': '#337ab7', 'success': '#5cb85c', 'info': '#5bc0de', 'warning': '#f0ad4e', 'danger': '#d9534f' } });
 
 // 	$(document).ready(function () {
 // 		$('a').click(function() {

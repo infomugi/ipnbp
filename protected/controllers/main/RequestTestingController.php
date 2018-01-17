@@ -15,7 +15,7 @@ class RequesttestingController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			// 'postOnly + delete', // we only allow deletion via POST request
 			);
 	}
 
@@ -28,12 +28,12 @@ class RequesttestingController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','search','remove'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','search','update','delete'),
+				'actions'=>array('view','search','update','delete','remove'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -94,25 +94,34 @@ class RequesttestingController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+		Yii::import('ext.multimodelform.MultiModelForm');
 		$model=$this->loadModel($id);
+		$model->setScenario('update');
+
+		$member = new RequestTestingPrice;
+        $validatedMembers = array(); //ensure an empty array
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['RequestTesting']))
-		{
-			$model->attributes=$_POST['RequestTesting'];
-			$model->update_id = YII::app()->user->id;
-			$model->update_date = date('Y-m-d h:i:s');	
-			if($model->save()){
-				$this->redirect(array('request/view','id'=>$model->request_id));
-			}
-		}
+        if(isset($_POST['RequestTesting']))
+        {
+        	$model->attributes=$_POST['RequestTesting'];
+        	$model->update_id = YII::app()->user->id;
+        	$model->update_date = date('Y-m-d h:i:s');	
+        	$masterValues = array ('request_testing_id'=>$model->id_testing);
+        	if(MultiModelForm::save($member,$validatedMembers,$deleteMembers,$masterValues) && $model->save()){
+        		Yii::app()->user->setFlash('Success', 'Tahap Pengujian berhasil di perbaharui.');
+        		$this->redirect(array('request/view','id'=>$model->request_id));
+        	}
+        }
 
-		$this->render('update',array(
-			'model'=>$model,
-			));
-	}
+        $this->render('update',array(
+        	'model'=>$model,
+        	'member'=>$member,
+        	'validatedMembers' => $validatedMembers,
+        	));
+    }
 
 	/**
 	 * Deletes a particular model.
@@ -123,12 +132,29 @@ class RequesttestingController extends Controller
 	{
 		$model=$this->loadModel($id);
 		$detail=RequestSchedule::model()->deleteAll('testing_id=:testing_id',array(':testing_id'=>$model->id_testing)); 
+		$detail=RequestTestingPrice::model()->deleteAll('request_testing_id=:request_testing_id',array(':request_testing_id'=>$model->id_testing)); 
+		$activity=$this->loadActivity($id);
+		$activity->delete();		
 		$model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
+
+
+	public function actionRemove($id,$requestid)
+	{
+		$model=$this->loadModel($id);
+		$detail=RequestSchedule::model()->deleteAll('testing_id=:testing_id',array(':testing_id'=>$model->id_testing)); 
+		$detail=RequestTestingPrice::model()->deleteAll('request_testing_id=:request_testing_id',array(':request_testing_id'=>$model->id_testing)); 
+		$activity=$this->loadActivity($id);
+		$activity->delete();
+		$model->delete();
+
+		Yii::app()->user->setFlash('Warning', 'Tahap Pengujian berhasil di hapus.');
+		$this->redirect(array('request/view','id'=>$requestid));
+	}	
 
 	/**
 	 * Lists all models.
@@ -186,6 +212,14 @@ class RequesttestingController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model->name;
 	}	
+
+	public function loadActivity($id)
+	{
+		$model=Activities::model()->findByAttributes(array('subject_id'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}		
 
 	/**
 	 * Performs the AJAX validation.

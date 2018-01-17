@@ -25,11 +25,11 @@ $this->pageTitle='Manage Kuesioner';
 			'htmlOptions'=>array('width'=>'10px', 
 				'style' => 'text-align: center;')),
 
-		// 'id_quesioner',
-		// array('name'=>'created_id','value'=>'$data->CreatedBy->name'),
+
 		array('name'=>'company_id','value'=>'$data->Company->name'),
 		'created_date',
 		array('name'=>'request_id','value'=>'$data->Request->letter_subject'),
+
 		array(
 			'name'=>'unit',
 			'type'=>'html',
@@ -38,36 +38,6 @@ $this->pageTitle='Manage Kuesioner';
 			}
 			),
 
-		// array('header'=>'Total','value'=>'RequestQuesioner::model()->count($model->id_quesioner)'),
-
-		/*
-		'unit',
-		'request_id',
-		'report_id',
-		'question_1',
-		'question_2',
-		'question_3',
-		'question_4',
-		'question_5',
-		'question_6',
-		'question_7',
-		'question_8',
-		'question_9',
-		'question_10',
-		'question_11',
-		'question_12',
-		'question_13',
-		'question_14',
-		'question_15',
-		'question_16',
-		'question_17',
-		'question_18',
-		'question_19',
-		'question_20',
-		'question_21',
-		'question_22',
-		'status',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 			'template'=>'{view}',
@@ -75,41 +45,10 @@ $this->pageTitle='Manage Kuesioner';
 				'view'=>
 				array(
 					'url'=>'Yii::app()->createUrl("main/requestquesioner/view", array("id"=>$data->id_quesioner))',
-					'options'=>array(
-						'ajax'=>array(
-							'type'=>'POST',
-							'url'=>"js:$(this).attr('href')",
-							'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
-							),
-						),
 					),
 				),
 			),
 		),
 		)); ?>
-
-
-
-		<!-- Modal -->
-		<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<!-- Popup Header -->
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title"><strong>Hasil</strong> Kuesioner</h4>
-					</div>
-					<!-- Popup Content -->
-					<div class="modal-body">
-						<p>Details</p>
-					</div>
-					<!-- Popup Footer -->
-					<div class="modal-footer">
-						<BR>
-							<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
 
 

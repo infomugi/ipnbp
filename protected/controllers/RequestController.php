@@ -28,12 +28,12 @@ class RequestController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition','calendarrequestdivision','downloadrequest','downloaddisposition','upload'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','calendarcompany','calendarrequest','detail','disposition','calendarrequestdivision','downloadrequest','downloaddisposition','upload','uploadrequest','unit'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','admin','calendarrequest','calendarcompany','detail','calendarrequestdivision','downloadrequest','downloaddisposition','balai'),
+				'actions'=>array('view','admin','calendarrequest','calendarcompany','detail','calendarrequestdivision','downloadrequest','downloaddisposition','balai','unit'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -54,35 +54,20 @@ class RequestController extends Controller
 		$model=$this->loadModel($id);
 		$disposition=$this->loadModel($id);
 		$model->setScenario('update');
-		$model->setScenario('disposition');
 		if(isset($_POST['Request']))
 		{
 			$model->attributes=$_POST['Request'];
 			$model->update_id = YII::app()->user->id;
 			$model->update_date = date('Y-m-d h:i:s');	
-			$disposition_letter=CUploadedFile::getInstance($model,'disposition_letter');
-			$tmp2;
-			if (!empty($disposition_letter)) {
-				if(strlen(trim(CUploadedFile::getInstance($model,'disposition_letter'))) > 0) 
-				{ 
-					$tmp2=CUploadedFile::getInstance($model,'disposition_letter'); 
-					$model->disposition_letter="surat-disposisi-".$model->code.'.'.$tmp2->extensionName; 
-				}
-
-			}
+			
 			if($model->save()){
-				if (!empty($disposition_letter)) {
-					if(strlen(trim($model->disposition_letter)) > 0){
-						$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/disposition/'.$model->disposition_letter);	
-					} 
-				} 
-				Yii::app()->user->setFlash('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Diperbaharui.');
-				$this->redirect(array('view','id'=>$id));
+				Yii::app()->end('Success', 'Permohonan Pengujian '.$model->Company->name.' telah Diperbaharui.', true);
+				return;
 			}
 		}
 
 
-		
+
 		// Tab Form Surat Tanggapan
 		$response=new Response;
 		$response->setScenario('create');
@@ -99,10 +84,21 @@ class RequestController extends Controller
 				$response->letter_attachment="surat-tanggapan-".$model->code.'-'.time().'.'.$tmp->extensionName; 
 			}
 
+			$tmp2;
+			if(strlen(trim(CUploadedFile::getInstance($response,'confirmation_attachment'))) > 0) 
+			{ 
+				$tmp2=CUploadedFile::getInstance($response,'confirmation_attachment'); 
+				$response->confirmation_attachment="surat-konfirmasi-".$model->code.'-'.time().'.'.$tmp->extensionName; 
+			}			
+
 			if($response->save()){
 
 				if(strlen(trim($response->letter_attachment)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->letter_attachment);	
+				} 	
+
+				if(strlen(trim($response->confirmation_attachment)) > 0){
+					$tmp2->saveAs(Yii::getPathOfAlias('webroot').'/image/files/response/'.$response->confirmation_attachment);	
 				} 				
 
 				Yii::app()->user->setFlash('Success', 'Surat Tanggapan Permohonan Pengujian No. '.$response->letter_code.' Disimpan.');
@@ -121,9 +117,13 @@ class RequestController extends Controller
 			}
 		}
 
-		
+
 
 		// Tab Form Jenis Pengujian
+		Yii::import('ext.multimodelform.MultiModelForm');
+		$member = new Requesttestingprice;
+		$validatedMembers = array(); 
+
 		$testing=new RequestTesting;
 		$testing->setScenario('create');
 		if(isset($_POST['RequestTesting']))
@@ -132,15 +132,39 @@ class RequestController extends Controller
 			$testing->created_id = YII::app()->user->id;
 			$testing->created_date = date('Y-m-d h:i:s');
 			$testing->status = 1;		
-			$testing->request_id = $id;			
-			if($testing->save()){
-				Yii::app()->user->setFlash('Success', 'Tahapan '.$testing->Testing->name.' Disimpan.');
+			$testing->request_id = $id;	
 
+			if(MultiModelForm::validate($member,$validatedMembers,$deleteItems) && $testing->save()){
+				$masterValues = array ('request_testing_id'=>$testing->id_testing);
+				if (MultiModelForm::save($member,$validatedMembers,$deleteMembers,$masterValues)){
+
+					//$description,$activityid,$type,$point,$status,$part,$object,$subject
+					Activities::model()->my($testing->Testing->name,25,5,1,$testing->testing_part,$testing->id_testing,$testing->id_testing);
+
+					// Kode 2 = Feedback
+					$disposition=$this->loadDisposition($testing->request_id);
+					$disposition->status = 2;
+					$disposition->save();
+
+					Yii::app()->user->setFlash('Success', 'Tahapan '.$testing->Testing->name.' Disimpan.');
+					$this->redirect(array('view','id'=>$id));
+				}
+			}
+		}
+
+
+		// Tab Form Tambah Jenis Pengujian
+		$testingcreate=new Testing;
+		if(isset($_POST['Testing']))
+		{
+			$testingcreate->attributes=$_POST['Testing'];
+			$testingcreate->status = 1;
+			if($testingcreate->save()){
+				Yii::app()->user->setFlash('Success', 'Tahapan '.$testingcreate->name.' Ditambahkan.');
 				$this->redirect(array('view','id'=>$id));
 			}
 		}
 
-		
 
 		// Tab Form Penjadwalan
 		$schedule=new RequestSchedule;
@@ -161,8 +185,8 @@ class RequestController extends Controller
 
 			if($schedule->save()){
 
-				//$description,$activityid,$type,$point,$status,$part,$object
-				Activities::model()->my($schedule->task,24,5,1,$schedule->testing_part,$schedule->id_schedule);
+				//$description,$activityid,$type,$point,$status,$part,$object,$subject
+				Activities::model()->my($schedule->task,24,5,1,$schedule->testing_part,$schedule->id_schedule,$schedule->id_schedule);
 
 				if(strlen(trim($schedule->file)) > 0){
 					$tmp->saveAs(Yii::getPathOfAlias('webroot').'/image/files/schedule/'.$schedule->file);	
@@ -177,7 +201,7 @@ class RequestController extends Controller
 			}
 		}
 
-		
+
 
 		// Tab Form Invoice
 		$invoice=new RequestInvoice;
@@ -226,7 +250,7 @@ class RequestController extends Controller
 			}
 		}
 
-		
+
 
 		// Tab Form Pembayaran
 		$payment=new RequestPayment;
@@ -279,6 +303,7 @@ class RequestController extends Controller
 			$report->attributes=$_POST['RequestReport'];
 			$report->created_id = YII::app()->user->id;
 			$report->created_date = date('Y-m-d h:i:s');
+			$report->token = md5(date('Y-m-d h:i:s'));
 			$report->status = 1;		
 			$report->request_id = $id;	
 			$report->testing_part = YII::app()->user->record->division;
@@ -291,6 +316,8 @@ class RequestController extends Controller
 				$report->file="laporan-pengujian-".$model->code.'-'.time().'.'.$tmp->extensionName; 
 			}
 
+
+
 			if($report->save()){
 
 				if(strlen(trim($report->file)) > 0){
@@ -302,7 +329,13 @@ class RequestController extends Controller
 				$model->save();
 				//Type 5 = Report 
 				$this->setActivity($id,5);	
-				// endif;			
+				// endif;	
+
+				if($report->accept_date!="1970-01-01"){
+					// Kode 9 = Selesai
+					$model->status = 9;
+					$model->save();
+				}						
 
 				$this->redirect(array('view','id'=>$id));
 			}
@@ -314,7 +347,8 @@ class RequestController extends Controller
 		$activity=$this->loadActivity($id);
 		$disposition=new RequestDisposition;
 		$disposition->setScenario('create');
-		if(isset($_POST['RequestDisposition']))
+		$this->performAjaxValidation($disposition);
+		if(Yii::app()->request->isAjaxRequest && isset($_POST['RequestDisposition']))
 		{
 			$disposition->attributes=$_POST['RequestDisposition'];
 			$disposition->created_date = date('Y-m-d h:i:s');
@@ -322,16 +356,25 @@ class RequestController extends Controller
 			$disposition->request_id = $id;
 			$disposition->status = 0;
 			if($disposition->save()){
-				
-				//$description,$activityid,$type,$point,$status,$part,$object
-				Activities::model()->my($disposition->Balai->name,23,10,1,$disposition->disposition_to,$disposition->request_id);	
 
-				Yii::app()->user->setFlash('Success', 'Berhasil di Disposisi ke '.$disposition->Balai->name.'.');
-				$this->redirect(array('request/view','id'=>$disposition->request_id));
+				// Kode 2 = Disposition
+				$model->status = 2;
+				$model->save();
+				//Type 1 = Disposition 
+				$this->setActivity($id,1);					
+
+				//$description,$activityid,$type,$point,$status,$part,$object,$subject
+				Activities::model()->my($disposition->Balai->name,23,10,1,$disposition->disposition_to,$disposition->request_id,$disposition->id_disposition);
+
+				echo('Berhasil di Disposisi ke '.$disposition->Balai->name);
+				return;
+
 			}else{
-				Yii::app()->user->setFlash('Warning', 'Disposisi ke '.$disposition->Balai->name.' Sudah ada.');
-				$this->redirect(array('request/view','id'=>$disposition->request_id));
+
+				echo('Disposisi ke '.$disposition->Balai->name. ' Sudah ada');
+				return;
 			}
+
 		}		
 
 		if(YII::app()->user->record->level==1){
@@ -393,6 +436,7 @@ class RequestController extends Controller
 			'response'=>$response,
 			'dataResponse'=>$dataResponse,
 			'testing'=>$testing,
+			'testingcreate'=>$testingcreate,
 			'dataTesting'=>$dataTesting,
 			'schedule'=>$schedule,
 			'dataSchedule'=>$dataSchedule,
@@ -403,6 +447,8 @@ class RequestController extends Controller
 			'report'=>$report,
 			'dataReport'=>$dataReport,
 			'activity'=>$activity,
+			'member'=>$member,
+			'validatedMembers' => $validatedMembers,
 			));
 
 	}
@@ -417,9 +463,20 @@ class RequestController extends Controller
 		$activity=new RequestActivity;
 		$model->setScenario('create');
 
+		$company=new Company;
+		if(isset($_POST['Company']))
+		{
+			$company->attributes=$_POST['Company'];
+			$company->created_date = date('Y-m-d h:i:s');
+			$company->update_date = date('Y-m-d h:i:s');
+			$company->status = 1;
+			if($company->save()){
+				$this->refresh();
+			}
+		}
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Request']))
 		{
 			$model->attributes=$_POST['Request'];
@@ -447,8 +504,8 @@ class RequestController extends Controller
 
 			if($model->save()){
 
-				//$description,$activityid,$type,$point,$status,$part,$object
-				Activities::model()->my($model->letter_subject . " - " . $model->Company->name,22,5,1,YII::app()->user->record->division,$model->id_request);			
+				//$description,$activityid,$type,$point,$status,$part,$object,$subject
+				Activities::model()->my($model->letter_subject . " - " . $model->Company->name,22,5,1,YII::app()->user->record->division,$model->id_request,$model->id_request);			
 
 				if(strlen(trim($model->letter_attachment)) > 0){
 					$tmp1->saveAs(Yii::getPathOfAlias('webroot').'/image/files/request/'.$model->letter_attachment);	
@@ -483,6 +540,7 @@ class RequestController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
+			'company'=>$company,
 			));
 	}
 
@@ -703,8 +761,8 @@ class RequestController extends Controller
 		$items = array();
 		$id = YII::app()->user->id;
 		$criteria = new CDbCriteria();
-		$criteria->condition = 'status=:status';
-		$criteria->params = array(':status'=>1);
+		$criteria->condition = 'status_schedule=:status';
+		$criteria->params = array(':status'=>2);
 		$model = RequestSchedule::model()->findAll($criteria);
 
 		foreach ($model as $value) {
@@ -723,15 +781,14 @@ class RequestController extends Controller
 	}	
 
 
-	public function actionCalendarRequestDivision($status,$balai)
+	public function actionCalendarRequestDivision($balai)
 	{       
 		$items = array();
-		$id = YII::app()->user->id;
-		$criteria = new CDbCriteria();
 
+		$criteria = new CDbCriteria();
 		$criteria->join='LEFT JOIN request_testing AS a ON a.id_testing=t.testing_id LEFT JOIN ref_unit AS u ON u.id_unit=a.testing_part';
-		$criteria->condition = 't.status=:status AND u.id_unit=:unit';
-		$criteria->params = array(':status'=>$status,':unit'=>$balai);
+		$criteria->condition = 't.status_schedule=:status_schedule AND u.id_unit=:unit';
+		$criteria->params = array(':status_schedule'=>2,':unit'=>$balai);
 		$model = RequestSchedule::model()->findAll($criteria);
 
 		foreach ($model as $value) {
@@ -864,15 +921,66 @@ class RequestController extends Controller
 				if(move_uploaded_file($sourcePath,$targetPath)) {
 					$model->disposition_letter = $newfilename;
 					$model->save();
-					echo "<div class='alert alert-primary'>Surat Disposisi ( ".$newfilename." ) Berhasil di Upload</div>";
+					// echo "<div class='alert alert-primary'>Surat Disposisi ( ".$newfilename." ) Berhasil di Upload</div>";
 					echo CHtml::link('<i class="icon mdi mdi-download"></i> Download Surat Disposisi',
 						array('downloaddisposition', 'id'=>$model->id_request),
-						array('class' => 'btn btn-primary pull-left btn-md'));
+						array('class' => 'btn btn-success pull-left btn-md','title'=>"File : ". $newfilename));
 				}
 			}
 		}
 
 	}
+
+
+
+	public function actionUploadRequest($id){
+		$model=$this->loadModel($id);
+
+		if(is_array($_FILES)) {
+			if(is_uploaded_file($_FILES['userImage']['tmp_name'])) {
+				$sourcePath = $_FILES['userImage']['tmp_name'];
+				
+				$temp = explode(".", $_FILES['userImage']['name']);
+				$newfilename = "surat-permohonan-".$model->id_request . '.' . end($temp);
+				$targetPath = "image/files/request/".$newfilename;
+				if(move_uploaded_file($sourcePath,$targetPath)) {
+					$model->letter_attachment = $newfilename;
+					$model->save();
+					// echo CHtml::link('<i class="icon mdi mdi-download"></i> Download Surat Permohonan',
+					// 	array('downloadrequest', 'id'=>$model->id_request),
+					// 	array('class' => 'btn btn-primary pull-left btn-md','title'=>"File : ". $newfilename));
+				}
+			}
+		}
+
+	}	
+
+
+	public function actionUnit($balai,$id)
+	{
+		$this->layout="page";
+
+		//Data Pengujian
+		$dataTesting=new CActiveDataProvider('RequestTesting',array('criteria'=>array('condition'=>'request_id='.$id.' AND testing_part='.$balai)));
+
+		//Data Penjadwalan
+		$dataSchedule=new CActiveDataProvider('RequestSchedule',array('criteria'=>array('condition'=>'request_id='.$id.' AND testing_part='.$balai)));
+
+		if(Yii::app()->request->isAjaxRequest)
+		{
+			$this->renderPartial('detail',array(
+				'model'=>$this->loadModel($id),
+				'dataTesting'=>$dataTesting,
+				'dataSchedule'=>$dataSchedule,				
+				), false, true);
+		}else{
+			$this->render('detail',array(
+				'model'=>$this->loadModel($id),
+				'dataTesting'=>$dataTesting,
+				'dataSchedule'=>$dataSchedule,	
+				));
+		}
+	}	
 
 
 }

@@ -10,15 +10,15 @@
 
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'id'=>'request-disposition-form',
-			'enableAjaxValidation'=>false,
+			'enableAjaxValidation'=>true,
 			'enableClientValidation' => true,
 			'clientOptions' => array(
 				'validateOnSubmit' => true,
 				),
 			'errorMessageCssClass' => 'parsley-errors-list filled',
 			'htmlOptions' => array(
-				// 'onsubmit'=>"return false;", /* Disable normal form submit */
-				// 'onkeypress'=>" if(event.keyCode == 13){ send(); } " /* Do ajax call when user presses enter key */
+				'onsubmit'=>"return false;",
+				'onkeypress'=>" if(event.keyCode == 13){ send(); } ", 
 				'class' => 'form-horizontal', 'role' => 'form',)
 				)); ?>
 
@@ -62,7 +62,7 @@
 
 					<div class="form-group">
 						<div class="col-md-12">  
-							<?php echo CHtml::submitButton($disposition->isNewRecord ? 'Kirim Disposisi' : 'Edit', array('class' => 'btn btn-success btn-flat pull-right'),array('onclick'=>'send();')); ?>
+							<?php echo CHtml::submitButton($disposition->isNewRecord ? 'Kirim Disposisi' : 'Edit', array('class' => 'btn btn-success btn-flat pull-right', 'onclick'=>'send();')); ?>
 						</div>
 					</div>
 
@@ -116,38 +116,37 @@
 						)); ?>
 
 				<script type="text/javascript">
-					// setInterval(   
-					// 	function(){
-					// 		$.fn.yiiGridView.update('request-disposition-grid', {   
-					// 			data: $(this).serialize()
-					// 		});
-					// 		return false;
-					// 	}, 
-					// 	10000  
-					// 	);
-
 					function send()
 					{
-
 						var data=$("#request-disposition-form").serialize();
-
-
 						$.ajax({
 							type: 'POST',
 							url: '<?php echo Yii::app()->createAbsoluteUrl("request/view/id/".$model->id_request); ?>',
 
 							data:data,
 							success:function(data){
-								alert(data); 
+								$.fn.yiiGridView.update('request-disposition-grid');
+								notification("Informasi",data,"primary")
 							},
-							   error: function(data) { // if error occured
-							   	alert("Error occured.please try again");
-							   	alert(data);
-							   },
+							error: function(data) { 
+								notification("Peringatan","Data Tidak Boleh Kosong","warning")
+							},
+							dataType:'html'
+						});
 
-							   dataType:'html'
+					}
+
+
+					function notification(heading,data,color){
+						$.extend(
+							$.gritter.options, {
+								position: "bottom-right"
 							});
-
+						$.gritter.add({
+							title: heading,
+							text: data,
+							class_name: "color "+ color + ""
+						});
 					}
 
 				</script>

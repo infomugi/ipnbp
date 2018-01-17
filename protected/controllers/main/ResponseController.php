@@ -15,7 +15,7 @@ class ResponseController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			// 'postOnly + delete', // we only allow deletion via POST request
 			);
 	}
 
@@ -28,12 +28,12 @@ class ResponseController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','download','sendreject'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','send','download','sendreject','downloadconfirmation','upload','uploadconfirmation'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('view','index','download','sendreject'),
+				'actions'=>array('view','index','download','sendreject','downloadconfirmation','upload','uploadconfirmation'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -123,13 +123,12 @@ class ResponseController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete($id,$requestid)
 	{
+		ResponseDetail::model()->deleteAll('response_id',$id);
 		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		Yii::app()->user->setFlash('Warning', 'Lampiran Surat Tanggapan Dihapus.');
+		$this->redirect(array('request/view','id'=>$requestid));
 	}
 
 	/**
@@ -172,6 +171,14 @@ class ResponseController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+
+	public function loadModelResponseDetail($id)
+	{
+		$model = ResponseDetail::model()->deleteAll(array('response_id' => $id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}	
 
 	public function loadRequest($id)
 	{
@@ -257,7 +264,8 @@ class ResponseController extends Controller
 		//Send Email
 		$email->subject = $request->Company->name." - Surat Tanggapan No.".$model->letter_code." (".$request->letter_subject.")";
 		$email->addTo($request->Company->email);
-		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+		// $email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
 
 		// Email Attachment
 		if($model->letter_attachment!=""){	
@@ -265,6 +273,12 @@ class ResponseController extends Controller
 			$swiftAttachment = Swift_Attachment::fromPath($message_link_response);              
 			$email->attach($swiftAttachment);
 		}
+
+
+		foreach (ResponseDetail::findDetailAttachment($model->id_response) as $data) {
+			$link = YiiBase::getPathOfAlias("webroot")."/image/files/response/".$data['letter_attachment'];
+			$email->attach(Swift_Attachment::fromPath($link));
+		}		
 
 		// Email Template
 		$message_template = $this->renderPartial('/email/notifikasi',
@@ -288,31 +302,22 @@ class ResponseController extends Controller
 	{
 		Yii::import('ext.yii-mail.YiiMailMessage');
 		$email = new YiiMailMessage;	
-
-		//Data Invoice
 		$model=$this->loadModel($id);
-		// $model->status = 2;
-		// $model->save();
-
-		$greet = $this->loadGreeting();
 
 		//Data Request
 		$request=$this->loadRequest($model->request_id);
 
 		//Send Mail
 		$message_title = "Surat Tanggapan";
-		$message_confirm = "<p>".$model->description_reject."</p>";
-		$message_content = 
-		$greet."
-		<p>Dear Bapak/ Ibu Perwakilan Perusahaan <b>".$request->Company->name."</b>, terlampir <i>softcopy</i> Surat Tanggapan No. (".$model->letter_code.") tanggal ".Yii::app()->dateFormatter->format("dd MMM yyyy", $model->letter_date).".</p>".$message_confirm."</br></br>Terimakasih.";
+		$message_content = "<p>".$model->description_email."</p>";
 		$message_link = Yii::app()->request->hostInfo."/registration/activation/";
 		$message_button = "Konfirmasi";
 
 		//Send Email
 		$email->subject = $request->Company->name." - Surat Tanggapan No.".$model->letter_code." (".$request->letter_subject.")";
 		$email->addTo($request->Company->email);
-		// $email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
-		$email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
+		$email->setFrom(array('pnbp@pu.go.id' => 'PNBP - Kementerian PU'));
+		// $email->setFrom(array('infomugi.com@gmail.com' => 'PNBP - Kementerian PU'));
 
 		// Email Attachment
 		if($model->letter_attachment!=""){	
@@ -320,6 +325,11 @@ class ResponseController extends Controller
 			$swiftAttachment = Swift_Attachment::fromPath($message_link_response);              
 			$email->attach($swiftAttachment);
 		}
+
+		foreach (ResponseDetail::findDetailAttachment($model->id_response) as $data) {
+			$link = YiiBase::getPathOfAlias("webroot")."/image/files/response/".$data['letter_attachment'];
+			$email->attach(Swift_Attachment::fromPath($link));
+		}	
 
 		// Email Template
 		$message_template = $this->renderPartial('/email/notifikasi',
@@ -361,4 +371,48 @@ class ResponseController extends Controller
 		}
 
 	}	
+
+	public function actionDownloadConfirmation($id){
+		$model=$this->loadModel($id);
+		if($model->letter_attachment==""){
+			throw new CHttpException(404,'File Download Lembar Konfirmasi tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/response/".$model->confirmation_attachment;
+			$this->downloadFile($path);
+		}
+	}	
+
+	public function actionUpload($id){
+		$model=$this->loadModel($id);
+		if(is_array($_FILES)) {
+			if(is_uploaded_file($_FILES['userImage']['tmp_name'])) {
+				$sourcePath = $_FILES['userImage']['tmp_name'];
+				$temp = explode(".", $_FILES['userImage']['name']);
+				$newfilename = "surat-tanggapan-".$model->id_response . '.' . end($temp);
+				$targetPath = "image/files/response/".$newfilename;
+				if(move_uploaded_file($sourcePath,$targetPath)) {
+					$model->letter_attachment = $newfilename;
+					$model->save();
+				}
+			}
+		}
+	}
+
+	public function actionUploadConfirmation($id){
+		$model=$this->loadModel($id);
+		if(is_array($_FILES)) {
+			if(is_uploaded_file($_FILES['userImage']['tmp_name'])) {
+				$sourcePath = $_FILES['userImage']['tmp_name'];
+				$temp = explode(".", $_FILES['userImage']['name']);
+				$newfilename = "surat-konfirmasi-".$model->id_response . '.' . end($temp);
+				$targetPath = "image/files/response/".$newfilename;
+				if(move_uploaded_file($sourcePath,$targetPath)) {
+					$model->letter_attachment = $newfilename;
+					$model->save();
+				}
+			}
+		}
+	}	
+
+
 }

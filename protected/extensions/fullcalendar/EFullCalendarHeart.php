@@ -55,7 +55,7 @@ class EFullCalendarHeart extends CWidget
         $assets=Yii::app()->assetManager->publish($assetsDir);
 
         $cs=Yii::app()->clientScript;
-        $cs->registerCoreScript('jquery');
+        // $cs->registerCoreScript('jquery');
         $cs->registerCoreScript('jquery.ui');
 
         //$ext=defined('YII_DEBUG') && YII_DEBUG ? 'js' : 'min.js';

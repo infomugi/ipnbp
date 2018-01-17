@@ -28,12 +28,12 @@ class ResponsedetailController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','download'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
 			array('allow',
-				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable'),
+				'actions'=>array('create','update','view','delete','admin','index','changeimage','enable','disable','download'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==2',
 				),			
@@ -118,15 +118,23 @@ class ResponsedetailController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		$model->setScenario('update');
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['ResponseDetail']))
 		{
 			$model->attributes=$_POST['ResponseDetail'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_response_detail));
+			$tmp;
+			if(strlen(trim(CUploadedFile::getInstance($model,'letter_attachment'))) > 0) 
+			{ 
+				$tmp=CUploadedFile::getInstance($model,'letter_attachment'); 
+				$model->letter_attachment="surat-tanggapan-".$model->request_id.'-'.time().'.'.$tmp->extensionName; 
+			}	
+			if($model->save()){
+				Yii::app()->user->setFlash('Success', 'Tambahan Lampiran Surat Tanggapan Permohonan Pengujian Disimpan.');
+				$this->redirect(array('request/view','id'=>$model->request_id));
+			}
 		}
 
 		$this->render('update',array(
@@ -139,12 +147,11 @@ class ResponsedetailController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete($id,$requestid)
 	{
 		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		$this->redirect(Yii::app()->user->returnUrl);
+		Yii::app()->user->setFlash('Warning', 'Tambahan Lampiran Surat Tanggapan Dihapus.');
+		$this->redirect(array('request/view','id'=>$requestid));
 		
 		// if(!isset($_GET['ajax']))
 			// $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -218,5 +225,28 @@ class ResponsedetailController extends Controller
 		$model->status = 0;
 		$model->save();
 		$this->redirect(array('index'));
-	}			
+	}		
+
+	public function downloadFile($fullpath){
+		if(!empty($fullpath)){ 
+			header("Content-type:application/pdf"); 
+			header('Content-Disposition: attachment; filename="'.basename($fullpath).'"'); 
+			header('Content-Length: ' . filesize($fullpath));
+			readfile($fullpath);
+			Yii::app()->end();
+		}
+	}
+
+	public function actionDownload($id){
+		$model=$this->loadModel($id);
+		if($model->letter_attachment==""){
+			throw new CHttpException(404,'File Download Detail Surat Tanggapan tidak Tersedia.');
+		}else{
+			$path = Yii::getPathOfAlias('webroot')."/image/files/response/".$model->letter_attachment;
+			$this->downloadFile($path);
+		}
+
+	}	
+
+
 }

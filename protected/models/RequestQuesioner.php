@@ -11,28 +11,6 @@
  * @property integer $request_id
  * @property integer $report_id
  * @property string $unit
- * @property integer $question_1
- * @property integer $question_2
- * @property integer $question_3
- * @property integer $question_4
- * @property integer $question_5
- * @property integer $question_6
- * @property integer $question_7
- * @property integer $question_8
- * @property integer $question_9
- * @property integer $question_10
- * @property integer $question_11
- * @property integer $question_12
- * @property integer $question_13
- * @property integer $question_14
- * @property integer $question_15
- * @property integer $question_16
- * @property integer $question_17
- * @property integer $question_18
- * @property integer $question_19
- * @property integer $question_20
- * @property integer $question_21
- * @property integer $question_22
  * @property integer $status
  */
 class RequestQuesioner extends CActiveRecord
@@ -53,12 +31,13 @@ class RequestQuesioner extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_id, created_date, company_id, request_id, report_id, unit, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, question_16, question_17, question_18, question_19', 'required','on'=>'create'),
-			array('created_id, company_id, request_id, report_id, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, question_16, question_17, question_18, question_19, question_20, question_21, question_22, status', 'numerical', 'integerOnly'=>true),
+			array('created_id, created_date, company_id, request_id, report_id, unit', 'required','on'=>'create'),
+			array('created_id, company_id, request_id, report_id, status', 'numerical', 'integerOnly'=>true),
 			array('unit', 'length', 'max'=>255),
+			array('answers', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_quesioner, created_id, created_date, company_id, request_id, report_id, unit, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, question_16, question_17, question_18, question_19, question_20, question_21, question_22, status', 'safe', 'on'=>'search'),
+			array('id_quesioner, created_id, created_date, company_id, request_id, report_id, unit, status', 'safe', 'on'=>'search'),
 			);
 	}
 
@@ -90,28 +69,6 @@ class RequestQuesioner extends CActiveRecord
 			'request_id' => 'Pengujian',
 			'report_id' => 'Report ID',
 			'unit' => 'Pelayanan',
-			'question_1' => '1. a',
-			'question_2' => '1. b',
-			'question_3' => '2. a',
-			'question_4' => '2. b',
-			'question_5' => '3. a',
-			'question_6' => '3. b',
-			'question_7' => '4. a',
-			'question_8' => '4. b',
-			'question_9' => '5. a',
-			'question_10' => '5 b',
-			'question_11' => '6. a',
-			'question_12' => '6. b',
-			'question_13' => '7. a',
-			'question_14' => '7. b',
-			'question_15' => '8. a',
-			'question_16' => '8. b',
-			'question_17' => '9. a',
-			'question_18' => '9. b',
-			'question_19' => '10. a',
-			'question_20' => '10. b',
-			'question_21' => '11. a',
-			'question_22' => '11. b',
 			'status' => 'Status',
 			);
 	}
@@ -141,28 +98,6 @@ class RequestQuesioner extends CActiveRecord
 		$criteria->compare('request_id',$this->request_id);
 		$criteria->compare('report_id',$this->report_id);
 		$criteria->compare('unit',$this->unit,true);
-		$criteria->compare('question_1',$this->question_1);
-		$criteria->compare('question_2',$this->question_2);
-		$criteria->compare('question_3',$this->question_3);
-		$criteria->compare('question_4',$this->question_4);
-		$criteria->compare('question_5',$this->question_5);
-		$criteria->compare('question_6',$this->question_6);
-		$criteria->compare('question_7',$this->question_7);
-		$criteria->compare('question_8',$this->question_8);
-		$criteria->compare('question_9',$this->question_9);
-		$criteria->compare('question_10',$this->question_10);
-		$criteria->compare('question_11',$this->question_11);
-		$criteria->compare('question_12',$this->question_12);
-		$criteria->compare('question_13',$this->question_13);
-		$criteria->compare('question_14',$this->question_14);
-		$criteria->compare('question_15',$this->question_15);
-		$criteria->compare('question_16',$this->question_16);
-		$criteria->compare('question_17',$this->question_17);
-		$criteria->compare('question_18',$this->question_18);
-		$criteria->compare('question_19',$this->question_19);
-		$criteria->compare('question_20',$this->question_20);
-		$criteria->compare('question_21',$this->question_21);
-		$criteria->compare('question_22',$this->question_22);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
@@ -193,25 +128,46 @@ class RequestQuesioner extends CActiveRecord
 		}
 	}
 
-	public function answer($data){
-		if($data==1){
-			return "Tidak Setuju";
-		}elseif($data==2){
-            return "Kurang Setuju";
-		}elseif($data==3){
-			return "Setuju";
-		}elseif($data==4){
-			return "Sangat Setuju";			
-		}else{
-			return "-";
+	public function showAnswer($data,$number){
+		$pecah = explode(',',$data);
+		for ( $i = 0; $i < count($pecah); $i++ ) {
+			$pecahx = explode($i.'. ',$pecah[$i]);
+			for ( $x = 0; $x < count($pecahx); $x++ ) {
+				$no = substr($pecahx[$x], 0, 1);
+				if($number==$no){	
+					$answer = substr($pecahx[$x], -1);
+					return $answer . " (" . $this->answer($answer).")";
+				}
+			}
 		}
 	}
 
-	// public function count($id){
-	// 	$data = $this->model()->findbyPk($id);
+	public function answer($data){
+		if($data==1){
+			return "Tidak Puas";
+		}elseif($data==2){
+			return "Kurang Puas";
+		}elseif($data==3){
+			return "Puas";
+		}elseif($data==4){
+			return "Sangat Puas";			
+		}else{
+			return "-";
+		}
+	}	
 
-	// 	$total = SUM($data->question_1,$data->question_2,$data->question_3,$data->question_4,$data->question_5,$data->question_6,$data->question_7,$data->question_8,$data->question_9,$data->question_10,$data->question_11,$data->question_12,$data->question_13,$data->question_14,$data->question_15,$data->question_16,$data->question_17,$data->question_18,$data->question_19,$data->question_20,$data->question_21,$data->question_22);
+	public function color($data){
+		if($data==1){
+			return "danger";
+		}elseif($data==2){
+			return "warning";
+		}elseif($data==3){
+			return "success";
+		}elseif($data==4){
+			return "info";			
+		}else{
+			return "-";
+		}
+	}	
 
-	// 	return $total;
-	// }
 }

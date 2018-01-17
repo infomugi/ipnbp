@@ -23,100 +23,101 @@
 
 		<div class="col-md-10"> 
 
-
-			<div class="form-group">
-
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'testing_id'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<?php echo $form->error($model,'testing_id'); ?>
-					<?php 
-					echo $form->dropDownList($model, "testing_id",
-						CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$model->request_id)), 'id_testing', 'request')),
-						array(
-							"empty"=>"- Pilih Jenis Pengujian -", 
-							'class'=>'form-control select2',
-							'ajax' => array(
-								'type'=>'POST',
-								'dataType'=>'json',
-								'url'=>CController::createUrl('main/requestschedule/search'),
-								'data' => "js:{data:$(this).val()}",
-								'success'=>'function(data){
-									$("#RequestSchedule_testing_id").val(data.id_testing);
-									$("#RequestSchedule_testing_type").val(data.id_type);
-									$("#testing_lab").val(data.testing_lab);
-									$("#testing_type").val(data.testing_type);
-									$("#testing_part").val(data.testing_part);
-									$("#RequestSchedule_testing_number").val(data.testing_number);
-									$("#testing_total").val(data.testing_total);
-									$("#RequestSchedule_task").focus();
-								}',),							
-							)
-						); 
-						?> 
-					</div>
-
-
-				</div> 
-
-
-				<div class="form-group" style="display:none;">
+			<div style="display:none">
+				<div class="form-group">
 
 					<div class="col-sm-4 control-label">
-						<?php echo $form->labelEx($model,'testing_type'); ?>
+						<?php echo $form->labelEx($model,'testing_id'); ?>
 					</div>   
 
 					<div class="col-sm-8">
-						<?php echo $form->error($model,'testing_type'); ?>
-						<input type="text" name="" id="testing_type" class="form-control" readonly="true">
-						<div>
-							<?php echo $form->textField($model,'testing_type',array('class'=>'form-control')); ?>
+						<?php echo $form->error($model,'testing_id'); ?>
+						<?php 
+						echo $form->dropDownList($model, "testing_id",
+							CHtml::encodeArray(CHtml::listData(RequestTesting::model()->findall(array('condition'=>'status=1 AND request_id='.$model->request_id)), 'id_testing', 'request')),
+							array(
+								"empty"=>"- Pilih Jenis Pengujian -", 
+								'class'=>'form-control select2',
+								'ajax' => array(
+									'type'=>'POST',
+									'dataType'=>'json',
+									'url'=>CController::createUrl('main/requestschedule/search'),
+									'data' => "js:{data:$(this).val()}",
+									'success'=>'function(data){
+										$("#RequestSchedule_testing_id").val(data.id_testing);
+										$("#RequestSchedule_testing_type").val(data.id_type);
+										$("#testing_lab").val(data.testing_lab);
+										$("#testing_type").val(data.testing_type);
+										$("#testing_part").val(data.testing_part);
+										$("#RequestSchedule_testing_number").val(data.testing_number);
+										$("#testing_total").val(data.testing_total);
+										$("#RequestSchedule_task").focus();
+									}',),							
+								)
+							); 
+							?> 
 						</div>
-					</div>
-
-				</div>  
 
 
-				<div class="form-group">
-
-					<div class="col-sm-4 control-label">
-						Balai
-					</div>   
-
-					<div class="col-sm-8">
-						<input type="text" name="" id="testing_part" class="form-control" readonly="true">
-					</div>
-
-				</div>  
+					</div> 
 
 
+					<div class="form-group" style="display:none;">
 
-				<div class="form-group">
+						<div class="col-sm-4 control-label">
+							<?php echo $form->labelEx($model,'testing_type'); ?>
+						</div>   
 
-					<div class="col-sm-4 control-label">
-						Lab
-					</div>   
-
-					<div class="col-sm-8">
-						<input type="text" name="" id="testing_lab" class="form-control" readonly="true">
+						<div class="col-sm-8">
+							<?php echo $form->error($model,'testing_type'); ?>
+							<input type="text" name="" id="testing_type" class="form-control" readonly="true">
+							<div>
+								<?php echo $form->textField($model,'testing_type',array('class'=>'form-control')); ?>
+							</div>
+						</div>
 
 					</div>  
-				</div>  
 
 
-				<div class="form-group">
+					<div class="form-group">
 
-					<div class="col-sm-4 control-label">
-						Total Sample
-					</div>   
+						<div class="col-sm-4 control-label">
+							Balai
+						</div>   
 
-					<div class="col-sm-8">
-						<input type="text" name="" id="testing_total" class="form-control" readonly="true">
-					</div>
+						<div class="col-sm-8">
+							<input type="text" name="" id="testing_part" class="form-control" readonly="true">
+						</div>
 
-				</div>  
+					</div>  
+
+
+
+					<div class="form-group">
+
+						<div class="col-sm-4 control-label">
+							Lab
+						</div>   
+
+						<div class="col-sm-8">
+							<input type="text" name="" id="testing_lab" class="form-control" readonly="true">
+
+						</div>  
+					</div>  
+
+
+					<div class="form-group">
+
+						<div class="col-sm-4 control-label">
+							Total Sample
+						</div>   
+
+						<div class="col-sm-8">
+							<input type="text" name="" id="testing_total" class="form-control" readonly="true">
+						</div>
+
+					</div>  
+				</div>			
 
 
 				<div class="form-group">
@@ -133,7 +134,7 @@
 						?>
 					</div>
 
-				</div>  				
+				</div>  	
 
 
 				<div class="form-group">

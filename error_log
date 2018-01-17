@@ -2,3 +2,21 @@
 [25-Sep-2017 23:02:28 Asia/Jakarta] PHP Parse error:  syntax error, unexpected ';' in /home/sinerjit/public_html/pnbp/protected/views/request/_form_testing.php on line 54
 [03-Oct-2017 16:54:59 Asia/Jakarta] PHP Fatal error:  Call to a member function setScenario() on null in /home/sinerjit/public_html/pnbp/protected/controllers/SiteController.php on line 178
 [05-Oct-2017 12:51:01 Asia/Jakarta] PHP Fatal error:  Call to a member function getValidators() on null in /home/sinerjit/public_html/pnbp/yii/framework/web/widgets/CActiveForm.php on line 506
+[26-Oct-2017 13:48:40 Asia/Jakarta] PHP Fatal error:  Call to a member function setScenario() on null in /home/sinerjit/public_html/pnbp/protected/controllers/SiteController.php on line 207
+[26-Oct-2017 13:48:43 Asia/Jakarta] PHP Fatal error:  Call to a member function setScenario() on null in /home/sinerjit/public_html/pnbp/protected/controllers/SiteController.php on line 207
+[30-Oct-2017 00:05:43 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:06:36 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:06:58 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:07:05 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:07:51 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:08:22 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:08:24 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:09:19 Asia/Jakarta] PHP Fatal error:  Class 'RequestReport' not found in /home/sinerjit/public_html/pnbp/protected/controllers/main/RequestreportController.php on line 179
+[30-Oct-2017 00:10:05 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:10:15 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:10:28 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:10:49 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:10:51 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 00:16:12 Asia/Jakarta] PHP Fatal error:  Call to a member function isAttributeRequired() on null in /home/sinerjit/public_html/yii/framework/web/helpers/CHtml.php on line 1514
+[30-Oct-2017 21:50:27 Asia/Jakarta] PHP Parse error:  syntax error, unexpected ''encryptio' (T_ENCAPSED_AND_WHITESPACE), expecting ')' in /home/sinerjit/public_html/pnbp/protected/config/main.php on line 54
+[30-Oct-2017 21:52:39 Asia/Jakarta] PHP Fatal error:  Class 'Users' not found in /home/sinerjit/public_html/pnbp/protected/controllers/master/UsersController.php on line 307

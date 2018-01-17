@@ -21,10 +21,10 @@ $this->pageTitle='Detail Kategori Instansi';
 			array('update', 'id'=>$model->id_industry,
 				), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Kategori Instansi'));
 				?>
-				<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+			<!-- 	<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 					array('delete', 'id'=>$model->id_industry,
 						),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Kategori Instansi'));
-						?>
+						?> -->
 
 					</span> 
 
@@ -39,10 +39,10 @@ $this->pageTitle='Detail Kategori Instansi';
 								array('update', 'id'=>$model->id_industry,
 									), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Kategori Instansi'));
 									?>
-									<?php echo CHtml::link('Delete', 
+								<!-- 	<?php echo CHtml::link('Delete', 
 										array('delete', 'id'=>$model->id_industry,
 											),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Kategori Instansi'));
-											?>
+											?> -->
 
 										</span>
 

@@ -29,7 +29,10 @@
 						<?php echo $this->renderPartial('_form_testing', 
 							array(
 								'testing'=>$testing,
+								'testingcreate'=>$testingcreate,
 								'dataTesting'=>$dataTesting,
+								'member'=>$member,
+								'validatedMembers'=>$validatedMembers
 								)); ?>
 							</div>
 

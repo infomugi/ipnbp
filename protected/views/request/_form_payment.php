@@ -246,7 +246,7 @@
 					),			
 
 				array(
-					'header'=>'Kirim Email (Kwintansi)',      
+					'header'=>'Kirim Email (Kuitansi)',      
 					'class'=>'CButtonColumn',
 					'template'=>'{Send}',
 					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
@@ -286,7 +286,7 @@
 					'header'=>'Upload',      
 					'class'=>'CButtonColumn',
 					'template'=>'{Upload Kuitansi}{Upload Bukti Pembayaran}',
-					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
 						'Upload Kuitansi'=>
 						array(
@@ -307,7 +307,7 @@
 				array(
 					'class'=>'CButtonColumn',
 					'template'=>'{view}{update}{delete}',
-					'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
+					'htmlOptions'=>array('width'=>'250px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
 						'view'=>
 						array(

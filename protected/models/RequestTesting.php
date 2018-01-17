@@ -14,6 +14,7 @@
  * @property integer $testing_part
  * @property integer $testing_total
  * @property integer $request_id
+ * @property integer $price
  * @property integer $status
  */
 class RequestTesting extends CActiveRecord
@@ -37,8 +38,8 @@ class RequestTesting extends CActiveRecord
 		return array(
 			// array('created_date, created_id, update_date, update_id, testing_type, testing_lab, testing_part, request_id, status', 'required'),
 			array('created_date, created_id, testing_type, testing_lab, testing_part, request_id, testing_total, status', 'required','on'=>'create'),
-			array('update_date, update_id', 'required','on'=>'update'),
-			array('created_id, update_id, testing_type, testing_lab, testing_part, request_id, status, testing_total', 'numerical', 'integerOnly'=>true),
+			array('update_date, update_id, price, testing_total', 'required','on'=>'update'),
+			array('created_id, update_id, testing_type, testing_lab, testing_part, request_id, status, testing_total, price', 'numerical', 'integerOnly'=>true),
 			array('testing_type', 'checkUnique','on'=>'create'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -54,6 +55,8 @@ class RequestTesting extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'CreatedBy'=>array(self::BELONGS_TO,'Users','created_id'),
+			'UpdateBy'=>array(self::BELONGS_TO,'Users','update_id'),			
 			'Balai'=>array(self::BELONGS_TO,'Unit','testing_part'),
 			'Category'=>array(self::BELONGS_TO,'Category','testing_lab'),
 			'Testing'=>array(self::BELONGS_TO,'Testing','testing_type'),
@@ -141,5 +144,12 @@ class RequestTesting extends CActiveRecord
 		if(count($models)>0){
 			$this->addError($attribute, 'Tahapan Pengujian ini sudah ada.');
 		}
+	}	
+
+	public function countPrice($testingID, $testingCost){
+		$sql = "SELECT SUM(price) as total FROM request_testing_price WHERE request_testing_id=".$testingID;
+		$command = YII::app()->db->createCommand($sql);
+		$priceDetail = $command->queryScalar();
+		return $priceDetail + $testingCost;
 	}	
 }

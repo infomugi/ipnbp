@@ -185,16 +185,12 @@ class CompanycontactController extends Controller
 	public function actionEnable($id)
 	{
 		$model=$this->loadModel($id);
-		$model->status = 1;
-		$model->save();
-		$this->redirect(array('index'));
-	}	
+		$model->status_contact = 1;
+		CompanyContact::model()->updateAll(array('status_contact'=>0),'company_id='.$model->company_id);
 
-	public function actionDisable($id)
-	{
-		$model=$this->loadModel($id);
-		$model->status = 0;
 		$model->save();
-		$this->redirect(array('index'));
-	}			
+		Yii::app()->user->setFlash('Success', $model->name.' telah dijadikan sebagai <b>Up</b> '.$model->Company->name.'.');
+		$this->redirect(array('master/company/view','id'=>$model->company_id));
+	}	
+	
 }

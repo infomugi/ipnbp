@@ -13,7 +13,7 @@ $this->pageTitle='Kelola Invoice';
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'invoice-grid',
 	'dataProvider'=>$model->search(),
-// 			'filter'=>$model,	
+	'filter'=>$model,	
 	'itemsCssClass' => 'table-responsive table table-striped table-hover table-vcenter',
 	'columns'=>array(
 

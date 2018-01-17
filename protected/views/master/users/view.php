@@ -2,7 +2,7 @@
 $baseUrl = Yii::app()->theme->baseUrl; 
 ?>
 
-<div class="col-md-4 col-xs-12 col-lg-12">
+<div class="col-md-4 col-xs-4 col-lg-12">
 	<div class="user-display">
 		<div class="user-display-bg"><img src="<?php echo Yii::app()->baseUrl; ?>/image/cover/<?PHP echo $model->cover; ?>" alt="Profile Background"></div>
 		<div class="user-display-bottom">
@@ -53,7 +53,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
 </div>
 
-<div class="col-md-8 col-xs-12 col-lg-12">
+<div class="col-md-8 col-xs-4 col-lg-12">
 	<div class="panel panel-default">
 		<div class="panel-heading panel-heading-divider">Riwayat Aktivitas
 		</div>

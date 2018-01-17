@@ -7,7 +7,8 @@ $this->breadcrumbs=array(
 	$model->id_quesioner,
 	);
 
-$this->pageTitle='Detail RequestQuesioner';
+$this->pageTitle='Detail Kuesioner';
+$dataQuesioner=new CActiveDataProvider('Question',array('criteria'=>array('condition'=>'type='.$model->Request->created_id)));
 ?>
 
 <span class="visible-xs">
@@ -39,46 +40,40 @@ $this->pageTitle='Detail RequestQuesioner';
 								<HR>
 
 
-									<?php $this->widget('zii.widgets.CDetailView', array(
-										'data'=>$model,
-										'htmlOptions'=>array("class"=>"table"),
-										'attributes'=>array(
-															// 'id_quesioner',
-															// 'created_id',
-															// 'created_date',
-															// 'company_id',
-															// 'request_id',
-															// 'report_id',
-															// 'unit',
-											array('name'=>'question_1','value'=>RequestQuesioner::model()->answer($model->question_1)),
-											array('name'=>'question_2','value'=>RequestQuesioner::model()->answer($model->question_2)),
-											array('name'=>'question_3','value'=>RequestQuesioner::model()->answer($model->question_3)),
-											array('name'=>'question_4','value'=>RequestQuesioner::model()->answer($model->question_4)),
-											array('name'=>'question_5','value'=>RequestQuesioner::model()->answer($model->question_5)),
-											array('name'=>'question_6','value'=>RequestQuesioner::model()->answer($model->question_6)),
-											array('name'=>'question_7','value'=>RequestQuesioner::model()->answer($model->question_7)),
-											array('name'=>'question_8','value'=>RequestQuesioner::model()->answer($model->question_8)),
-											array('name'=>'question_9','value'=>RequestQuesioner::model()->answer($model->question_9)),
-											array('name'=>'question_10','value'=>RequestQuesioner::model()->answer($model->question_10)),
+									<?php
+									echo "<table class='table table-responsive table-striped table-hover'>
+									<THEAD>
+										<TD><b>No.</b></TD>
+										<TD width='70%'><b>Pertanyaan</b>
+										</TD>
+										<TD width='30%'>
+											<span class='pull-left'>
+												<b>
+													<span class='label label-info'>Jawaban</span> 
+												</b>
+											</span>
 
-											array('name'=>'question_11','value'=>RequestQuesioner::model()->answer($model->question_11)),
-											array('name'=>'question_12','value'=>RequestQuesioner::model()->answer($model->question_12)),
-											array('name'=>'question_13','value'=>RequestQuesioner::model()->answer($model->question_13)),
-											array('name'=>'question_14','value'=>RequestQuesioner::model()->answer($model->question_14)),
-											array('name'=>'question_15','value'=>RequestQuesioner::model()->answer($model->question_15)),
-											array('name'=>'question_16','value'=>RequestQuesioner::model()->answer($model->question_16)),
-											array('name'=>'question_17','value'=>RequestQuesioner::model()->answer($model->question_17)),
-											array('name'=>'question_18','value'=>RequestQuesioner::model()->answer($model->question_18)),
-											array('name'=>'question_19','value'=>RequestQuesioner::model()->answer($model->question_19)),
-											array('name'=>'question_20','value'=>RequestQuesioner::model()->answer($model->question_20)),
-											array('name'=>'question_21','value'=>RequestQuesioner::model()->answer($model->question_21)),
-											array('name'=>'question_22','value'=>RequestQuesioner::model()->answer($model->question_22)),
+										</TD>
+									</THEAD>
+									<TBODY>";
+										$x=0;
+										foreach($dataQuesioner->getData() as $key => $question) {
+											$x++;
+											?>
 
-															// 'status',
-											),
-											)); ?>
+											<TR>
+												<TD><?php echo CHtml::encode($question->question_sort); ?></TD>
+												<TD><?php echo CHtml::encode($question->question); ?></TD>
+												<TD><?php echo CHtml::encode(RequestQuesioner::model()->showAnswer($model->answers,$question->question_sort)); ?></TD>
+											</TR>
 
-									<STYLE>
-										th{width:150px;}
-									</STYLE>
+											<?php
+											
+										}
 
+										echo "</TBODY>";
+										echo "<TFOOT><TD colspan='3'><span class='pull-right'>
+										<b><span class='label label-info'>4</span> = Sangat Puas, <span class='label label-success'>3</span> = Puas, <span class='label label-warning'>2</span> = Kurang Puas, <span class='label label-danger'>1</span> = Tidak Puas</b></span></TD></TFOOT><TABLE>";
+										echo "<HR>";
+
+										?>

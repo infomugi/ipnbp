@@ -3,15 +3,24 @@ $baseUrl = Yii::app()->theme->baseUrl;
 $url = Yii::app()->baseUrl."/"; 
 $cs = Yii::app()->getClientScript();
 
-// Query Notifikasi
-// foreach (RequestDisposition::countDisposision(0,YII::app()->user->record->division) as $data) {
-// 	$total = $data['total']; 						
-// } 
-// if($total==0){
-// 	$indicator = "";
-// }else{
-// 	$indicator = "indicator";
-// }	
+if(YII::app()->user->record->level==1){
+
+// Query Notifikasi Admin
+	$total = Activities::getCountNotifications();
+
+}else{
+
+// Query Notifikasi Member
+	$total = Activities::getCountNotificationsDisposition(1,YII::app()->user->record->division);
+
+}
+
+if($total==0){
+	$indicator = "";
+}else{
+	$indicator = "indicator";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +44,8 @@ $cs = Yii::app()->getClientScript();
     <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/admin/assets/lib/select2/css/select2.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap-slider/css/bootstrap-slider.css"/>
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/admin/assets/css/style.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/admin/assets/lib/jquery.gritter/css/jquery.gritter.css"/>
+    <link href="<?php echo $baseUrl; ?>/admin/assets/lib/bootstrap-color/css/bootstrap-colorpicker.min.css" rel="stylesheet">
 </head>
 <body>
 	<div class="be-wrapper be-fixed-sidebar be-collapsible-sidebar be-collapsible-sidebar-collapsed be-color-header">
@@ -53,8 +64,11 @@ $cs = Yii::app()->getClientScript();
 										<div class="user-position online">Sedang Online</div>
 									</div>
 								</li>
-								<li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>"><span class="icon mdi mdi-face"></span> Account</a></li> 
-								<!-- <li><a href="<?php echo $url; ?>setting/site"><span class="icon mdi mdi-settings"></span> Settings</a></li>  -->
+								<li><a href="<?php echo $url; ?>profile/<?php echo YII::app()->user->name; ?>"><span class="icon mdi mdi-face"></span> Edit Profil</a></li> 
+								<?php if(YII::app()->user->record->level==1): ?>
+									<li><a href="<?php echo $url; ?>settings"><span class="icon mdi mdi-settings"></span> Setting</a></li> 
+								<?php endif; ?>
+								<li><a href="<?php echo $url; ?>password"><span class="icon mdi mdi-lock"></span> Edit Password</a></li> 
 								<li><a href="<?php echo $url; ?>site/logout"><span class="icon mdi mdi-power"></span> Logout</a></li>
 							</ul>
 						</li>
@@ -62,55 +76,10 @@ $cs = Yii::app()->getClientScript();
 					<!-- <div class="page-title"><span><?php echo YII::app()->name; ?></span></div> -->
 
 					<ul class="nav navbar-nav navbar-right be-icons-nav">
-						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="<?php //echo $indicator; ?>"></span></a>
+						<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="<?php echo $indicator; ?>"></span></a>
 							<ul class="dropdown-menu be-notifications">
 								<li>
-									<div class="title">Permohonan Baru <span class="badge"><?php //echo $total; ?></span></div>
-									<div class="list">
-										<div class="be-scroller">
-											<div class="content">
-												<ul>
-
-													<?php 
-													if(YII::app()->user->record->level==1){
-
-														foreach (Activities::getNotifications(1) as $data) { ?>
-
-															<li class="notification notification-unread">
-																<a href="<?php echo Activities::activityLink($data['activity_id']); ?><?php echo $data['object_id']; ?>">
-																	<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
-																	<div class="notification-info">
-																		<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> <?php echo Activities::activityDescription($data['activity_id']); ?> <b><?php echo $data['description']; ?></b></div><span class="date format-date"><?php echo $data['created_date']; ?></span>
-																	</div>
-																</a>
-															</li>
-
-															<?php 
-														} 
-													}else{
-
-														foreach (Activities::getNotificationsDisposition(1,YII::app()->user->record->division) as $data) {
-															?>
-
-															<li class="notification notification-unread">
-																<a href="<?php echo Activities::activityLink($data['activity_id']); ?><?php echo $data['object_id']; ?>">
-																	<div class="image"><img src="<?php echo $url; ?>/image/avatar/<?php echo $data['image']; ?>" alt="Avatar"></div>
-																	<div class="notification-info">
-																		<div class="text"><span class="user-name"> <?php echo $data['name']; ?></span> <?php echo Activities::activityDescription($data['activity_id']); ?> <b><?php echo $data['description']; ?></b> Perihal <?php echo $data['subject']; ?> <?php echo $data['company']; ?></div><span class="date format-date"><?php echo $data['date_notification']; ?></span>
-																	</div>
-																</a>
-															</li>
-
-															<?php
-														} 
-													}
-													?>	
-
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="footer"> <a href="<?php echo $url; ?>request/admin">Lihat Semua Permohonan</a></div>
+									<?php require_once('tpl_header_notifications.php'); ?>
 								</li>
 							</ul>
 						</li>

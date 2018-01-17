@@ -8,32 +8,50 @@ $this->breadcrumbs=array(
 	);
 
 $this->pageTitle='Detail Company';
-?>
+
+$this->widget('ext.yii-toastr.MugiToastr', array(
+	'flashMessagesOnly' => true, 
+	'options' => array(
+		"closeButton" => true,
+		"debug" => true,
+		"progressBar"=> true,
+		"positionClass" => "toast-bottom-right",
+		"showDuration" => "600",
+		"hideDuration" => "1000",
+		"timeOut" => "15000",
+		"extendedTimeOut" => "1000",
+		"showEasing" => "swing",
+		"hideEasing" => "linear",
+		"showMethod" => "fadeIn",
+		"hideMethod" => "fadeOut"
+		)
+	));
+	?>
 
 
 
 
 
-<span class="visible-xs">
+	<span class="visible-xs">
 
-	<?php echo CHtml::link('<i class="fa fa-plus"></i>',
-		array('create'),
-		array('class' => 'btn btn-primary btn-md'));
-		?>
+		<?php echo CHtml::link('<i class="fa fa-plus"></i>',
+			array('create'),
+			array('class' => 'btn btn-primary btn-md'));
+			?>
 
-		<?php echo CHtml::link('Tambah Kontak', 
-			array('master/companycontact/create', 'id'=>$model->id_company,
-				), array('class' => 'btn btn-info btn-flat', 'title'=>'Tambah Kontak Personal'));
-				?>
+			<?php echo CHtml::link('Tambah Kontak', 
+				array('master/companycontact/create', 'id'=>$model->id_company,
+					), array('class' => 'btn btn-info btn-flat', 'title'=>'Tambah Kontak Personal'));
+					?>
 
-				<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
-					array('update', 'id'=>$model->id_company,
-						), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Perusahaan'));
-						?>
-						<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+					<?php echo CHtml::link('<i class="fa fa-edit"></i>', 
+						array('update', 'id'=>$model->id_company,
+							), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Perusahaan'));
+							?>
+					<!-- 	<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 							array('delete', 'id'=>$model->id_company,
 								),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Perusahaan'));
-								?>
+								?> -->
 
 							</span> 
 
@@ -53,10 +71,10 @@ $this->pageTitle='Detail Company';
 												array('update', 'id'=>$model->id_company,
 													), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Perusahaan'));
 													?>
-													<?php echo CHtml::link('Delete', 
+											<!-- 		<?php echo CHtml::link('Delete', 
 														array('delete', 'id'=>$model->id_company,
 															),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Perusahaan'));
-															?>
+															?> -->
 
 														</span>
 
@@ -103,10 +121,24 @@ $this->pageTitle='Detail Company';
 																				'style' => 'text-align: center;')),
 
 
-																		'name',
+																		array('name'=>'name','value'=>'$data->name . CompanyContact::model()->status($data->status_contact)'),
 																		'address',
 																		'phone',
 																		'email',
+
+																		array(
+																			'header'=>'Jadikan UP ?',
+																			'class'=>'CButtonColumn',
+																			'template'=>'{Jadikan UP ?}',
+																			'buttons'=>array(
+																				'Jadikan UP ?'=>
+																				array(
+																					'visible'=>'$data->status_contact==0',
+																					'imageUrl'=>YII::app()->baseUrl.'/image/setting/user.png',
+																					'url'=>'Yii::app()->createUrl("master/companycontact/enable", array("id"=>$data->id_company_contact))',
+																					),
+																				),
+																			),
 
 																		array(
 																			'class'=>'CButtonColumn',

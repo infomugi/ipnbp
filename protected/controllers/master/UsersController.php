@@ -32,7 +32,7 @@ class UsersController extends Controller
 				'users'=>array('@'),
 				),
 			array('allow',
-				'actions'=>array('create','update','edit','view','delete','admin','index','changeimage', 'changecover','changepassword','team','default','setadmin','setuser'),
+				'actions'=>array('create','update','edit','view','delete','admin','index','changeimage', 'changecover','changepassword','team','default','setadmin','setuser','password'),
 				'users'=>array('@'),
 				'expression'=>'Yii::app()->user->record->level==1',
 				),
@@ -134,11 +134,10 @@ class UsersController extends Controller
 			$model->background = "#FFF";			
 			$model->password = md5($model->password);
 			$model->repeat_password = md5($model->repeat_password);
-			if($model->save())
-				//$userid,$description,$activityid,$type,$point,$status
-				Activities::model()->my($model->id_user,"Add account ".$model->username,$model->id_user,5,50,6);
-			Yii::app()->user->setFlash('Success', 'Account has been created.');
-			$this->redirect(array('profile','view'=>$model->username));
+			if($model->save()){
+				Yii::app()->user->setFlash('Success', 'Account has been created.');
+				$this->redirect(array('profile','view'=>$model->username));
+			}
 		}
 
 		$this->render('create',array(
@@ -203,8 +202,9 @@ class UsersController extends Controller
 
 	}	
 
-	public function actionChangePassword($id)
+	public function actionChangePassword()
 	{
+		$id = YII::app()->user->id;
 		$model=$this->loadModel($id);
 		$model->setScenario('changePassword');
 		if($id==Yii::app()->user->record->id_user){
@@ -428,7 +428,31 @@ class UsersController extends Controller
 		$model->save();
 		Yii::app()->user->setFlash('Success', '<i>'.$model->first_name.'</i> set as Member.');
 		$this->redirect(array('index'));
-	}			
+	}		
+
+	public function actionPassword($id)
+	{
+		$model=$this->loadModel($id);
+		$model->setScenario('changePassword');
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Users']))
+		{
+			$model->attributes=$_POST['Users'];
+			$model->password = md5($model->password);
+			$model->repeat_password = md5($model->repeat_password);
+			if($model->save()){
+				Yii::app()->user->setFlash('Success', 'Password has been update.');
+				$this->redirect(array('profile','view'=>$model->username));
+			}
+		}
+
+		$this->render('password',array(
+			'model'=>$model,
+			));
+
+	}		
 
 
 }

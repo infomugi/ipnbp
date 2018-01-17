@@ -20,10 +20,10 @@ $this->pageTitle='Detail Kategori Pengujian';
 			array('update', 'id'=>$model->id_category,
 				), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Kategori Pengujian'));
 				?>
-				<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+			<!-- 	<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 					array('delete', 'id'=>$model->id_category,
 						),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Kategori Pengujian'));
-						?>
+						?> -->
 
 					</span> 
 
@@ -37,10 +37,10 @@ $this->pageTitle='Detail Kategori Pengujian';
 								array('update', 'id'=>$model->id_category,
 									), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Kategori Pengujian'));
 									?>
-									<?php echo CHtml::link('Hapus', 
+								<!-- 	<?php echo CHtml::link('Hapus', 
 										array('delete', 'id'=>$model->id_category,
 											),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Kategori Pengujian'));
-											?>
+											?> -->
 
 										</span>
 

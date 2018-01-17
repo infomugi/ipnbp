@@ -50,16 +50,16 @@
 										$("#RequestInvoice_spk_no").val("");
 									}
 									if($("#part_id").val()==8){
-										jQuery("#RequestInvoice_spk_no").mask("999/KS/PNBP/AMPLP/LP/2099");
+										jQuery("#RequestInvoice_spk_no").mask("99/KS/PNBP/AMPLP/LP/"+new Date().getFullYear() );
 									}
 									if($("#part_id").val()==9){
-										$("#RequestInvoice_spk_no").val("__/KS/PNBP/BB/LP/20__");
+										jQuery("#RequestInvoice_spk_no").mask("99/KS/PNBP/LP/LP/"+new Date().getFullYear() );
 									}
 									if($("#part_id").val()==10){
-										jQuery("#RequestInvoice_spk_no").mask("999/KS/PNBP/SAINS/LP/2099");
+										jQuery("#RequestInvoice_spk_no").mask("99/KS/PNBP/SAINS/LP/"+new Date().getFullYear() );
 									}
 									if($("#part_id").val()==11){
-										jQuery("#RequestInvoice_spk_no").mask("999/KS/SKB/SKB/LP/2099");
+										jQuery("#RequestInvoice_spk_no").mask("99/KS/SKB/SKB/LP/"+new Date().getFullYear() );
 									}
 									$("#RequestInvoice_code").focus();
 								}',),							
@@ -346,7 +346,7 @@
 					'header'=>'Upload',      
 					'class'=>'CButtonColumn',
 					'template'=>'{Upload Invoice}{Upload SPK}',
-					'htmlOptions'=>array('width'=>'10px', 'style' => 'text-align: center;'),
+					'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
 						'Upload Invoice'=>
 						array(
@@ -366,7 +366,7 @@
 				array(
 					'class'=>'CButtonColumn',
 					'template'=>'{view}{update}{delete}',
-					'htmlOptions'=>array('width'=>'100px', 'style' => 'text-align: center;'),
+					'htmlOptions'=>array('width'=>'250px', 'style' => 'text-align: center;'),
 					'buttons'=>array(
 						'view'=>
 						array(

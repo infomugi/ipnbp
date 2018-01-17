@@ -51,6 +51,8 @@
 									$("#testing_part").val(data.testing_part);
 									$("#RequestSchedule_testing_number").val(data.testing_number);
 									$("#testing_total").val(data.testing_total);
+									$("#testing_cost").val(data.testing_cost);
+									$("#RequestSchedule_cost").val(data.testing_price);
 									$("#RequestSchedule_task").focus();
 								}',),							
 							)
@@ -61,7 +63,6 @@
 
 
 				</div> 
-
 
 				<div class="form-group" style="display:none;">
 

@@ -31,30 +31,32 @@ return array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>false,
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1','192.168.43.164'),
+			'ipFilters'=>array('127.0.0.1','::1','192.168.49.164'),
 			),
 		
 		),
 
 	// application components
 	'components'=>array(
-  
+		
 
 		'mail' => array(
 			'class' => 'ext.yii-mail.YiiMail',
 			'transportType' => 'smtp',
 			'transportOptions'=>array(
+
 				'encryption'=>'ssl', 
 				'host'=>'smtp.gmail.com',
 				'username'=>'infomugi.com@gmail.com',
 				'password'=>'areyouhackerman?',	
 				'port'=>465,
 
-					// 'host'=>'mail.sinerjiteknoindo.com',
-					// 'encryption'=>'ssl', 
-					// 'username'=>'pnbp@sinerjiteknoindo.com',
-					// 'password'=>'Vl*{J2MCT7A$',
-					// 'port'=>465,				
+				// 'host'=>'mail.sinerjiteknoindo.com',
+				// 'encryption'=>'ssl', 
+				// 'username'=>'pnbp@sinerjiteknoindo.com',
+				// 'password'=>'Vl*{J2MCT7A$',
+				// 'port'=>465,				
+				
 				),
 			'viewPath' => 'application.views.mail',
 			'logging' => true,
@@ -80,23 +82,23 @@ return array(
 				'login' => 'site/login',
 				'logout' => 'site/logout',
 				'dashboard' => 'site/dashboard',
-				'home' => 'site/home', 
 				'index' => 'site/index', 
-				'contact' => 'site/contact',
-				'about' => 'site/about',
-				'success' => 'site/success',
 
 				//Page URL Activation and Reset
 				'reset/<token:[a-zA-Z0-9-]+>/'=>'site/reset',
 				'activation/<token:[a-zA-Z0-9-]+>/'=>'site/activation',
 				'kuesioner/<token:[a-zA-Z0-9-]+>/'=>'main/requestreport/quesioner',
+				'send/<token:[a-zA-Z0-9-]+>/'=>'main/requestreport/sendreport',
+				'take/<token:[a-zA-Z0-9-]+>/'=>'main/requestreport/takereport',
 
 				// Page
 				'view/<id:[a-zA-Z0-9-]+>/'=>'main/request/view',
+				'settings'=>'main/requestnotificationsetting/update',
 				
 				//Profile
 				'/member/<name:[a-zA-Z0-9-]+>/'=>'master/profile/user',
 				'/profile/<view:[a-zA-Z0-9-]+>/'=>'master/users/profile',
+				'/password/'=>'master/users/changepassword',
 
 				),
 

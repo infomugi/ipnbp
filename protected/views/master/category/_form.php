@@ -29,7 +29,7 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'name'); ?>
-					<?php echo $form->textField($model,'name',array('class'=>'form-control','placeHolder'=>'Category Name')); ?>
+					<?php echo $form->textField($model,'name',array('class'=>'form-control','placeHolder'=>'Nama Kategori')); ?>
 				</div>
 				
 			</div>  
@@ -43,35 +43,37 @@
 
 				<div class="col-sm-8">
 					<?php echo $form->error($model,'description'); ?>
-					<?php echo $form->textArea($model,'description',array('class'=>'form-control','placeHolder'=>'Description')); ?>
+					<?php echo $form->textArea($model,'description',array('class'=>'form-control','placeHolder'=>'Keterangan')); ?>
 				</div>
 
 			</div>  
-
 			
-	<!-- 		<div class="form-group">
-				
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'status'); ?>
-				</div>   
 
-				<div class="col-sm-8 be-radio">
-					<?php echo $form->error($model,'status'); ?>
-					<?php
-					echo $form->radioButtonList($model,'status',
-						array('1'=>'Enable','0'=>'Disable'),
-						array(
-							'template'=>'{input}{label}',
-							'separator'=>'',
-							'labelOptions'=>array(
-								'style'=>'padding-right:20px;margin-left:15px'),
+			<?php if(!$model->isNewRecord){ ?>
+				<div class="form-group">
 
-							)                              
-						);
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'status'); ?>
+					</div>   
+
+					<div class="col-sm-8 be-radio">
+						<?php echo $form->error($model,'status'); ?>
+						<?php
+						echo $form->radioButtonList($model,'status',
+							array('1'=>'Aktif','0'=>'Tidak Aktif'),
+							array(
+								'template'=>'{input}{label}',
+								'separator'=>'',
+								'labelOptions'=>array(
+									'style'=>'padding-right:20px;margin-left:15px'),
+
+								)                              
+							);
 						?>
 					</div>
-					
-				</div>  --> 
+
+				</div> 
+				<?php } ?>
 
 			</div>
 		</div><!-- form -->

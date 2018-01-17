@@ -5,8 +5,10 @@
  *
  * The followings are the available columns in table 'ref_unit':
  * @property integer $id_unit
+ * @property string $code
  * @property string $name
  * @property string $address
+ * @property string $email
  * @property integer $type
  * @property integer $status
  */
@@ -28,9 +30,12 @@ class Unit extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, address, type, status', 'required'),
+			array('name, address, type', 'required'),
 			array('type, status', 'numerical', 'integerOnly'=>true),
+			array('code', 'length', 'max'=>25),
 			array('name', 'length', 'max'=>255),
+			array('email', 'length', 'max'=>150),
+			array('email', 'email'),			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_unit, name, address, type, status', 'safe', 'on'=>'search'),
@@ -55,8 +60,10 @@ class Unit extends CActiveRecord
 	{
 		return array(
 			'id_unit' => 'Id Unit',
+			'code' => 'Singkatan',
 			'name' => 'Nama Unit',
 			'address' => 'Pejabat',
+			'email' => 'Alamat Email',
 			'type' => 'Tipe',
 			'status' => 'Status',
 			);
@@ -81,6 +88,7 @@ class Unit extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_unit',$this->id_unit);
+		$criteria->compare('code',$this->code,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('type',$this->type);

@@ -13,8 +13,8 @@
 			'clientOptions' => array(
 				'validateOnSubmit' => true,
 				),
-			'errorMessageCssClass' => 'label label-danger',
-			'htmlOptions' => array('class' => 'form-horizontal', 'role' => 'form')
+			'errorMessageCssClass' => 'parsley-errors-list filled',
+			'htmlOptions' => array('enctype' => 'multipart/form-data','autocomplete'=>'off'),
 			)); ?>
 
 			<?php echo $form->errorSummary($model, null, null, array('class' => 'alert alert-warning')); ?>
@@ -74,7 +74,7 @@
 
 			</div>  
 
-
+<!-- 
 			<div class="form-group">
 
 				<div class="col-sm-3 control-label">
@@ -242,32 +242,32 @@
 
 				</div>  
 
+			-->
+			<div class="form-group">
 
-				<div class="form-group">
+				<div class="col-sm-3 control-label">
+					<?php echo $form->labelEx($model,'division'); ?>
+				</div>   
 
-					<div class="col-sm-3 control-label">
-						<?php echo $form->labelEx($model,'division'); ?>
-					</div>   
+				<div class="col-sm-9">
+					<?php echo $form->error($model,'division'); ?>
+					<?php 
+					echo $form->dropDownList($model, "division",
+						CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
+							'id_unit', 'name'
+							),
+						array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
+						); 
+						?> 
 
-					<div class="col-sm-9">
-						<?php echo $form->error($model,'division'); ?>
-						<?php 
-						echo $form->dropDownList($model, "division",
-							CHtml::listData(Unit::model()->findall(array('condition'=>'status=1 AND type=1')),
-								'id_unit', 'name'
-								),
-							array("empty"=>"-- Pilih Balai --", 'class'=>'select2 form-control')
-							); 
-							?> 
+					</div>
 
-						</div>
-
-					</div>  
+				</div>  
 
 
-				</div>
-			</div><!-- form -->
-
+			</div>
+		</div><!-- form -->
+		<BR>
 			<div class="panel-footer text-right">
 				<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 				<BR><BR>

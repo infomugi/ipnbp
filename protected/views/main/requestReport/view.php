@@ -62,6 +62,7 @@ $this->pageTitle='Detail Laporan';
 															'report_date',
 															'description',
 															'file',
+															array('label'=>'Status Pendistribusian Laporan','value'=>RequestReport::model()->delivery($model->delivery))
 															),
 															)); ?>
 

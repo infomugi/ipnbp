@@ -52,7 +52,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 						array('downloaddisposition', 'id'=>$model->id_request),
 						array('class' => 'btn btn-primary pull-right btn-md'));
 				}else{
-					echo "<div class='pull-right label label-warning'>Surat Disposisi belum di Upload</div>";
+					echo "<div id='show-disposition' class='pull-right label label-warning'>Surat Disposisi belum di Upload</div>";
 				}
 
 
@@ -62,7 +62,8 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 				if(YII::app()->user->record->level==1){
 
 					echo $this->renderPartial('_form_update', array('model'=>$model));
-
+					echo "<hr>";
+					
 					if($model->disposition_letter!=""){
 
 						echo $this->renderPartial('_form_upload_disposition', 
@@ -74,7 +75,16 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 
 
 					}else{
-						// echo "<div class='pull-right label label-warning'>Surat Disposisi belum di Upload</div>";
+
+						echo "<div id='showDisposition' style='display: none'>";
+						echo $this->renderPartial('_form_upload_disposition', 
+							array(
+								'model'=>$model,
+								'disposition'=>$disposition,
+								'dataDisposition'=>$dataDisposition
+								));
+						echo "</div>";
+
 					}
 					
 				}else{
@@ -92,12 +102,6 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 							'letter_date',
 							'letter_code',
 							'letter_subject',
-							'letter_attachment',
-							'disposition_letter',
-							// 'color',
-							// 'disposition_to',
-							// 'disposition_date',
-							// 'status',
 							),
 						)); 
 
@@ -138,9 +142,9 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 				<?php 
 
 				if(YII::app()->user->record->level==1){
-					echo require_once("_tab_admin.php");
+					include "_tab_admin.php";
 				}else{
-					echo require_once("_tab_balai.php");
+					include "_tab_balai.php";
 				}
 
 				?>
@@ -153,3 +157,25 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 </div>
 
 
+<script type="text/javascript">
+	$(document).ready(function (e) {
+		$("#uploadForm").on('change',(function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: "<?php echo Yii::app()->request->hostInfo.Yii::app()->baseUrl."/request/upload/id/".$model->id_request; ?>",
+				type: "POST",
+				data:  new FormData(this),
+				contentType: false,
+				cache: false,
+				processData:false,
+				success: function(data)
+				{
+					$("#show-disposition").removeClass("label label-warning");
+					$("#show-disposition").html(data);
+					$("#showDisposition").show();
+					notification("Informasi","File Surat Disposisi Berhasil di Perbaharui","primary")
+				},	        
+			});
+		}));
+	});
+</script>

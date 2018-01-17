@@ -62,14 +62,18 @@
 				</div>   
 
 				<div class="col-sm-8">
-					<?php 
-					echo $form->dropDownList($model, "company_id",
-						CHtml::listData(Company::model()->findall(array('condition'=>'status=1')),
-							'id_company', 'name'
-							),
-						array("empty"=>"-- Perusahaan --", 'class'=>'select2 form-control')
-						); 
-						?> 
+
+					<div class="input-group">
+						<?php 
+						echo $form->dropDownList($model, "company_id",
+							CHtml::listData(Company::model()->findall(array('condition'=>'status=1')),
+								'id_company', 'name'
+								),
+							array("empty"=>"-- Perusahaan --", 'class'=>'select2 form-control')
+							); 
+							?> 
+							<span data-toggle="modal" data-target="#md-fullWidth" class="input-group-addon btn btn-lg btn-primary"><i class="icon-th mdi mdi-plus"></i></span>
+						</div>
 						<?php echo $form->error($model,'company_id'); ?>
 					</div>
 
@@ -190,72 +194,78 @@
 
 			</div>  
 
-			<!-- 
-			<div class="form-group">
 
+			<div class="form-group">
+				
 				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'disposition_letter'); ?>
+					<?php echo $form->labelEx($model,'category_id'); ?>
 				</div>   
 
-				<div class="col-sm-8">
-					<?php echo $form->fileField($model,'disposition_letter',array('class'=>'btn btn-info')); ?>
-					<?php echo $form->error($model,'disposition_letter'); ?>
-				</div>
+				<div class="col-sm-8 be-radio">
+					<?php echo $form->error($model,'category_id'); ?>
+					<?php
+					echo $form->radioButtonList($model,'category_id',
+						array('1'=>'Pengujian','2'=>'Sertifikasi','3'=>'Advis Teknis','4'=>'Inspeksi SLF'),
+						array(
+							'template'=>'{input}{label}',
+							'separator'=>'',
+							'labelOptions'=>array(
+								'style'=>'padding-right:20px;margin-left:15px'),
 
-			</div>  
+							)                              
+						);
+						?>
+					</div>
+					
+				</div>  			
 
-			
-			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'disposition_to'); ?>
-				</div>   
+				<div class="form-group">
 
-				<div class="col-sm-8">
-					<?php 
-					echo $form->dropDownList($model, "disposition_to",
-						CHtml::listData(Unit::model()->findall(array('condition'=>'type=1')),
-							'id_unit', 'name'
-							),
-						array("empty"=>"-- Disposisi Ke --", 'class'=>'select2 form-control')
-						); 
-						?> 
-						<?php echo $form->error($model,'disposition_to'); ?>
+					<div class="col-sm-4 control-label">
+						<?php echo $form->labelEx($model,'color'); ?>
+					</div>   
+
+					<div class="col-sm-8">
+						<div id="cp2" class="input-group colorpicker-component"><?php echo $form->textField($model,'color',array('class'=>'form-control')); ?><span class="input-group-addon"><i class="fa fa-square"></i></span> 
+						</div> 
+						<?php echo $form->error($model,'color'); ?>
+
+
 					</div>
 
-				</div> 		
-
-			-->
+				</div>  				
 
 
-			<div class="form-group">
 
-				<div class="col-sm-4 control-label">
-					<?php echo $form->labelEx($model,'color'); ?>
-				</div>   
-
-				<div class="col-sm-8">
-					<div id="cp2" class="input-group colorpicker-component"><?php echo $form->textField($model,'color',array('class'=>'form-control')); ?><span class="input-group-addon"><i class="fa fa-square"></i></span> 
-					</div> 
-					<?php echo $form->error($model,'color'); ?>
-
-					
+				<div class="form-group">
+					<div class="col-md-12">  
+					</br></br>
+					<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 				</div>
-
-			</div>  				
-
-
-
-			<div class="form-group">
-				<div class="col-md-12">  
-				</br></br>
-				<?php echo CHtml::submitButton($model->isNewRecord ? 'Simpan' : 'Edit', array('class' => 'btn btn-info btn-flat pull-right')); ?>
 			</div>
+
+			<?php $this->endWidget(); ?>
+
 		</div>
 
-		<?php $this->endWidget(); ?>
+	</div><!-- form -->
 
+
+
+	<!--Form Modals-->
+	<div id="md-fullWidth" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+		<div class="modal-dialog custom-width">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
+					<h3 class="modal-title">Tambah Instansi / Perusahaan Baru</h3>
+				</div>
+				<div class="modal-body">
+					
+					<?php echo $this->renderPartial('_form_company', array('company'=>$company)); ?>
+
+				</div>
+			</div>
+		</div>
 	</div>
-
-</div><!-- form -->
-

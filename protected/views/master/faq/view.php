@@ -24,10 +24,10 @@ $this->pageTitle='Detail Faq';
 				array('update', 'id'=>$model->id_faq,
 					), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Faq'));
 					?>
-					<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
+				<!-- 	<?php echo CHtml::link('<i class="fa fa-remove"></i>', 
 						array('delete', 'id'=>$model->id_faq,
 							),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Faq'));
-							?>
+							?> -->
 
 						</span> 
 
@@ -45,10 +45,10 @@ $this->pageTitle='Detail Faq';
 										array('update', 'id'=>$model->id_faq,
 											), array('class' => 'btn btn-info btn-flat', 'title'=>'Edit Faq'));
 											?>
-											<?php echo CHtml::link('Hapus', 
+										<!-- 	<?php echo CHtml::link('Hapus', 
 												array('delete', 'id'=>$model->id_faq,
 													),  array('class' => 'btn btn-danger btn-flat', 'title'=>'Hapus Faq'));
-													?>
+													?> -->
 
 												</span>
 

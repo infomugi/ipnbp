@@ -2,7 +2,7 @@
 $baseUrl = Yii::app()->theme->baseUrl; 
 ?>
 
-<div class="col-md-4 col-xs-12 col-lg-12">
+<div class="col-md-4">
 	<div class="user-display">
 		<BR>
 			<BR>
@@ -27,6 +27,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 									<td class="item">Bagian<span class="icon s7-portfolio"></span></td>
 									<td><?php echo CHtml::encode($model->Division->name); ?></td>
 								</tr>
+								<!-- 	
 								<tr>
 									<td class="icon"><span class="mdi mdi-cake"></span></td>
 									<td class="item">Tanggal Lahir<span class="icon s7-gift"></span></td>
@@ -41,26 +42,27 @@ $baseUrl = Yii::app()->theme->baseUrl;
 									<td class="icon"><span class="mdi mdi-globe-alt"></span></td>
 									<td class="item">Alamat<span class="icon s7-map-marker"></span></td>
 									<td><?php echo CHtml::encode($model->location); ?></td>
-								</tr>
-								<tr>
-									<td class="icon"><span class="mdi mdi-pin"></span></td>
-									<td class="item">Email<span class="icon s7-mail"></span></td>
-									<td><?php echo CHtml::encode($model->email); ?></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="col-md-8 col-xs-12 col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading panel-heading-divider">Edit Profil
-				</div>
-				<div class="panel-body">
-					<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>
+								</tr> 
+							-->
+							<tr>
+								<td class="icon"><span class="mdi mdi-pin"></span></td>
+								<td class="item">Email<span class="icon s7-mail"></span></td>
+								<td><?php echo CHtml::encode($model->email); ?></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
+
+	</div>
+
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading panel-heading-divider">Edit Profil
+			</div>
+			<div class="panel-body">
+				<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>
+			</div>
+		</div>
+	</div>

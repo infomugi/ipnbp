@@ -43,13 +43,13 @@ class Company extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			// array('created_date, update_date, company_code, name, address, email, phone, faximile, postal_code, province, city, category_id, status', 'required'),
-			array('created_date, update_date, company_code, name, address, email, phone', 'required'),
+			array('created_date, update_date, name, address, email, phone', 'required'),
 			array('postal_code, type, place, category_id, status', 'numerical', 'integerOnly'=>true),
 			array('company_code, phone, phone_second, classification', 'length', 'max'=>15),
-			array('name', 'length', 'max'=>100),
+			array('name', 'length', 'max'=>255),
 			array('owner, email, email_second, city, province', 'length', 'max'=>50),
 			array('faximile', 'length', 'max'=>25),
+			array('email', 'email'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_company, created_date, update_date, company_code, name, owner, address, email, phone, faximile, postal_code, type, place, classification, province, city, category_id, status', 'safe', 'on'=>'search'),
@@ -204,6 +204,15 @@ class Company extends CActiveRecord
 		$command = YII::app()->db->createCommand($sql);
 		return $command->queryAll();
 	}
+
+
+	public function getTotalCompany($data){
+		$sql = "SELECT count(category_id) FROM company WHERE category_id=".$data;
+		$command = YII::app()->db->createCommand($sql);
+		$data = $command->queryScalar();
+		return $data;
+	}
+
 
 	public function name($id){
 		$model = $this->model()->findByPk($id);

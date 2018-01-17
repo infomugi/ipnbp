@@ -10,6 +10,7 @@
  * @property string $phone
  * @property string $email
  * @property integer $company_id
+ * @property integer $status_contact
  * @property integer $status
  */
 class CompanyContact extends CActiveRecord
@@ -31,7 +32,7 @@ class CompanyContact extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, address, phone, email, company_id, status', 'required'),
-			array('company_id, status', 'numerical', 'integerOnly'=>true),
+			array('company_id, status, status_contact', 'numerical', 'integerOnly'=>true),
 			array('name, email', 'length', 'max'=>50),
 			array('phone', 'length', 'max'=>25),
 			// The following rule is used by search().
@@ -48,6 +49,7 @@ class CompanyContact extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'Company'=>array(self::BELONGS_TO,'Company','company_id'),
 			);
 	}
 
@@ -63,6 +65,7 @@ class CompanyContact extends CActiveRecord
 			'phone' => 'HP',
 			'email' => 'Alamat Email',
 			'company_id' => 'Perusahaan',
+			'status_contact' => 'UP',
 			'status' => 'Status',
 			);
 	}
@@ -108,4 +111,16 @@ class CompanyContact extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function status($data){
+		if($data==1){
+			return " (UP)";
+		}else{
+			return "";
+		}
+	}
+
+	public function showUP($company){
+		echo Yii::app()->db->createCommand('SELECT name FROM ref_company_contact WHERE status_contact=1 AND company_id='.$company)->queryScalar();
+	}		
 }

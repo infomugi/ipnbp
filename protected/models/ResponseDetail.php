@@ -34,8 +34,11 @@ class ResponseDetail extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('created_date, created_id, letter_attachment, request_id, response_id, status', 'required','on'=>'create'),
+			array('letter_attachment', 'required','on'=>'update'),
 			array('created_id, update_id, request_id, response_id, status', 'numerical', 'integerOnly'=>true),
 			array('letter_attachment, description', 'length', 'max'=>255),
+
+			array('letter_attachment', 'file', 'types' => 'pdf, doc, docx, xls, xlsx, png, jpg, jpeg, rar, zip', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 100, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 100 Mb', 'on' => 'create'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_response_detail, created_date, created_id, update_date, update_id, letter_attachment, description, request_id, response_id, status', 'safe', 'on'=>'search'),
@@ -116,4 +119,10 @@ class ResponseDetail extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function findDetailAttachment($responseID){
+		$sql = "SELECT letter_attachment FROM request_response_detail WHERE response_id='".$responseID."'";
+		$command = YII::app()->db->createCommand($sql);
+		return $command->queryAll();
+	}	
 }

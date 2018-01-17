@@ -78,8 +78,7 @@ class CategoryController extends Controller
 		if(isset($_POST['Category']))
 		{
 			$model->attributes=$_POST['Category'];
-			$model->type=1;
-			$model->icon="fa fa-home";
+			$model->status=1;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id_category));
 		}

@@ -87,6 +87,7 @@ class CompanyController extends Controller
 			$model->attributes=$_POST['Company'];
 			$model->created_date = date('Y-m-d h:i:s');
 			$model->update_date = date('Y-m-d h:i:s');
+			$model->status = 1;
 			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id_company));
 			}

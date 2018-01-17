@@ -82,7 +82,8 @@ function terbilang($satuan){
 				Kepada Yth. : </BR>
 				<B>
 					<?php echo RequestPayment::model()->findCompany($model->Request->company_id); ?></BR>
-					<?php echo RequestPayment::model()->findCompanyAddress($model->Request->company_id); ?>
+					<?php echo RequestPayment::model()->findCompanyAddress($model->Request->company_id); ?></BR>
+					Up. <?php echo CompanyContact::model()->showUP($model->Request->company_id); ?>
 				</B>
 
 			</div>

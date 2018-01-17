@@ -10,4 +10,4 @@ $this->breadcrumbs=array(
 $this->pageTitle='Tambah Permohonan Pengujian';
 ?>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'company'=>$company)); ?>

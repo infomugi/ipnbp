@@ -25,7 +25,7 @@
 									<li><a href="<?php echo $url; ?>main/requestinvoice/admin">Invoice</a></li>
 									<li><a href="<?php echo $url; ?>main/requestpayment/admin">Pembayaran</a></li>
 									<li><a href="<?php echo $url; ?>main/requestinvoice/spk">Surat Perjanjian Kerja</a></li>
-									<li><a href="#">Hasil Uji</a></li>
+									<li><a href="<?php echo $url; ?>main/requestreport/admin">Hasil Uji</a></li>
 									<li><a href="<?php echo $url; ?>main/requestquesioner/admin">Kuesioner</a></li>
 
 								</ul>
@@ -36,6 +36,7 @@
 									<li><a href="<?php echo $url; ?>master/category/admin">Kategori Pengujian</a></li>
 									<li><a href="<?php echo $url; ?>master/testing/admin">Jenis Pengujian</a></li>
 									<li><a href="<?php echo $url; ?>master/company/admin">Perusahaan/ Instansi</a></li>
+									<li><a href="<?php echo $url; ?>master/question/admin">Kuesioner</a></li>
 
 								</ul>
 							</li>
@@ -45,12 +46,14 @@
 									<li><a href="<?php echo $url; ?>">Daftar Antrian</a></li>
 									<li><a href="<?php echo $url; ?>">Laporan Advis Teknis</a></li>
 									<li><a href="<?php echo $url; ?>">Laporan Sertifikasi</a></li>
-									<li><a href="<?php echo $url; ?>/main/requestschedule/report">Laporan Pengujian</a></li>
+									<li><a href="<?php echo $url; ?>main/requestschedule/report">Laporan Pengujian</a></li>
 									<li><a href="<?php echo $url; ?>">Laporan Kuesioner</a></li>
 
 								</ul>
 							</li>
 
+
+							<li><a href="<?php echo $url; ?>reminder"><i class="icon mdi mdi-home"></i><span>Reminder</span></a></li>
 
 							<li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>Manajemen User</span></a>
 								<ul class="sub-menu">
@@ -68,12 +71,13 @@
 												<li class="parent"><a href="#"><i class="icon mdi mdi-inbox"></i><span>Pelayanan</span></a>
 													<ul class="sub-menu">
 														<li><a href="<?php echo $url; ?>site/balai">Permohonan</a></li>
-														<li class="parent"><a href="<?php echo $url; ?>main/requestschedule/admin">Jadwal & RAB</a>
+														<li class="parent"><a href="#">Jadwal & RAB</a>
+
 															<ul class="sub-menu">
-																<li><a href="<?php echo $url; ?>site/calendar/filter/company">Perusahaan</a></li>
 																<li><a href="<?php echo $url; ?>site/calendar/filter/request">Permohonan</a></li>
 
 															</ul>
+
 														</li>
 
 

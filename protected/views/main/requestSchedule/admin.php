@@ -23,7 +23,7 @@ $this->pageTitle='Kelola Permohonan Penjadwalan';
 			'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
 			'htmlOptions'=>array('width'=>'10px', 
 				'style' => 'text-align: center;')),
-
+		array('name'=>'testing_part','value'=>'$data->Unit->name'),
 		'task',
 		'cost',
 		'start_date',
@@ -36,9 +36,9 @@ $this->pageTitle='Kelola Permohonan Penjadwalan';
 		'file',
 		
 		array(	
-			'name'=>'status',
-			'filter'=>array('0'=>'Disable','1'=>'Enable'),
-			'value'=>'Users::model()->status($data->status)',
+			'name'=>'status_schedule',
+			'filter'=>array('0'=>'-','1'=>'Revisi','1'=>'Fix'),
+			'value'=>'RequestSchedule::model()->statusSchedule($data->status_schedule)',
 			),
 
 		array(

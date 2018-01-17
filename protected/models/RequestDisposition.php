@@ -121,6 +121,8 @@ class RequestDisposition extends CActiveRecord
 			return "Terkirim";
 		else if($a==1)
 			return "Diterima";
+		else if($a==2)
+			return "Feedback";
 		else 
 			return "-";
 	}

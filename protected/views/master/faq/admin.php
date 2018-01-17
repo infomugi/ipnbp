@@ -58,7 +58,8 @@ $this->pageTitle='Kelola Faq';
 
 					array(
 						'class'=>'CButtonColumn',
-						'template'=>'{view}{update}{delete}',
+						'template'=>'{view}{update}',
+						// 'template'=>'{view}{update}{delete}',
 						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
 						'buttons'=>array(
 							'view'=>

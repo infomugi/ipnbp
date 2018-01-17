@@ -53,8 +53,8 @@ class RequestInvoice extends CActiveRecord
 			array('file_invoice', 'required','on'=>'upload_invoice'),
 			array('file_spk', 'required','on'=>'upload_spk'),
 
-			array('file_invoice', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'upload_invoice'),
-			array('file_spk', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 50, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 50 Mb', 'on' => 'upload_spk'),
+			array('file_invoice', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 100, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 100 Mb', 'on' => 'upload_invoice'),
+			array('file_spk', 'file', 'types' => 'pdf, doc, docx', 'allowEmpty'=>true,'maxSize' => 1024 * 1024 * 100, 'tooLarge' => 'Ukuran File Tidak Boleh Melebihi 100 Mb', 'on' => 'upload_spk'),
 
 			array('update_id, update_date', 'required','on'=>'update'),
 			array('created_id, update_id, signature_id, request_id, status, print_by, print_click, testing_id', 'numerical', 'integerOnly'=>true),

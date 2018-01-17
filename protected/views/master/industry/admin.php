@@ -53,7 +53,8 @@ $this->pageTitle='Manage Kategori Instansi';
 
 					array(
 						'class'=>'CButtonColumn',
-						'template'=>'{view}',
+						'template'=>'{view}{update}',
+						// 'template'=>'{view}{update}{delete}',
 						'buttons'=>array(
 							'view'=>
 							array(

@@ -14,7 +14,7 @@ $this->pageTitle='Kelola Kategori Pengujian';
 
 	<?php echo CHtml::link('<i class="icon mdi mdi-plus"></i>',
 		array('create'),
-		array('class' => 'btn btn-primary btn-md'));
+		array('class' => 'btn pull-right btn-primary btn-md'));
 		?>
 
 	</span> 
@@ -23,7 +23,7 @@ $this->pageTitle='Kelola Kategori Pengujian';
 
 		<?php echo CHtml::link('Tambah Kategori Pengujian',
 			array('create'),
-			array('class' => 'btn btn-primary btn-flat'));
+			array('class' => 'btn pull-right btn-primary btn-flat'));
 			?>
 
 		</span>	
@@ -54,7 +54,8 @@ $this->pageTitle='Kelola Kategori Pengujian';
 
 					array(
 						'class'=>'CButtonColumn',
-						'template'=>'{view}{update}{delete}',
+						'template'=>'{view}{update}',
+						// 'template'=>'{view}{update}{delete}',
 						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
 						'buttons'=>array(
 							'view'=>

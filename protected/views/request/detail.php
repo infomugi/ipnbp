@@ -46,7 +46,7 @@ $this->pageTitle='Detail Permohonan Pengujian - '.$model->code;
 			<?php foreach($dataTesting->getData() as $key => $valueTesting) { ?>
 
 				<tr class="clickable" data-toggle="collapse" id="row1" data-target=".<?php echo $valueTesting->id_testing; ?>">
-					<td colspan="4"><H4><i class="icon mdi mdi-caret-right-circle"></i> <?php echo $valueTesting->Testing->name; ?></H4></td>
+					<td colspan="4"><H4><i class="icon mdi mdi-caret-right-circle"></i> <b><?php echo $valueTesting->Testing->name; ?></b> ( <?php echo Unit::model()->name($valueTesting->testing_part); ?> )</H4></td>
 					<td>
 
 						<?php echo CHtml::link('<i class="icon mdi mdi-edit"></i>', 

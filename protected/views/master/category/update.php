@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 	'Edit',
 	);
 
-	$this->pageTitle='Edit Category';
-	?>
+$this->pageTitle='Edit Kategori';
+?>
 
-	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>

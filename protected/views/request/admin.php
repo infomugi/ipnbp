@@ -46,17 +46,23 @@ $this->pageTitle='Kelola Permohonan Pengujian';
 					'code',
 					'date',
 					'letter_subject',
-					array('name'=>'company_id','value'=>'$data->Company->name'),
+					array(
+						'name'=>'company_id',
+						'value'=>'$data->Company->name',
+						'type'=>'raw',
+						'filter'=>Chtml::listData(Company::model()->findAll(),'id_company','name'),
+						// 'filter' => CHtml::activeTextField($model, 'searchCompany'),
+						),
 
 					array(	
 						'name'=>'status',
-						'filter'=>array('0'=>'-','1'=>'Permohonan','2'=>'Disposisi','8'=>'Jadwal & RAB','3'=>'Surat Tanggapan','4'=>'Invoice & SPK','5'=>'Kuitansi','6'=>'Laporan Dikirim','7'=>'Laporan Diterima'),
+						'filter'=>array('0'=>'-','1'=>'Permohonan','2'=>'Disposisi','8'=>'Jadwal & RAB','3'=>'Surat Tanggapan','4'=>'Invoice & SPK','5'=>'Kuitansi','6'=>'Laporan Dikirim','7'=>'Laporan Diterima','9'=>'Selesai'),
 						'value'=>'Request::model()->history($data->status)',
 						),
 
 					array(
 						'class'=>'CButtonColumn',
-						'template'=>'{view}{update}{delete}',
+						'template'=>'{view}{delete}',
 						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
 						// 'buttons'=>array(
 						// 	'view'=>

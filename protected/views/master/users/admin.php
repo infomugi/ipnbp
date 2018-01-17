@@ -54,20 +54,27 @@ $this->pageTitle='Kelola Pengguna';
 						),
 
 					array(
+						'header'=>'Edit Password',
 						'class'=>'CButtonColumn',
-						'template'=>'{view}{delete}',
+						'template'=>'{Edit}',
+						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
+						'buttons'=>array(
+							'Edit'=>
+							array(
+								'url'=>'Yii::app()->createUrl("master/users/password", array("id"=>$data->id_user))',
+								'imageUrl'=>YII::app()->baseUrl.'/image/setting/lock.png',
+								),
+							),
+						),					
+
+					array(
+						'class'=>'CButtonColumn',
+						'template'=>'{view}',
 						'htmlOptions'=>array('width'=>'70px', 'style' => 'text-align: center;'),
 						'buttons'=>array(
 							'view'=>
 							array(
 								'url'=>'Yii::app()->createUrl("master/users/view", array("id"=>$data->id_user))',
-								'options'=>array(
-									'ajax'=>array(
-										'type'=>'POST',
-										'url'=>"js:$(this).attr('href')",
-										'success'=>'function(data) { $("#viewModal .modal-body p").html(data); $("#viewModal").modal(); }'
-										),
-									),
 								),
 							),
 						),
@@ -75,25 +82,3 @@ $this->pageTitle='Kelola Pengguna';
 					),
 					)); ?>
 
-
-					<!-- Modal -->
-					<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<!-- Popup Header -->
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title"><strong>View</strong> User</h4>
-								</div>
-								<!-- Popup Content -->
-								<div class="modal-body">
-									<p>Details</p>
-								</div>
-								<!-- Popup Footer -->
-								<div class="modal-footer">
-									<BR>
-										<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-									</div>
-								</div>
-							</div>
-						</div>

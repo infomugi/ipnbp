@@ -66,6 +66,7 @@ class RequestSchedule extends CActiveRecord
 		return array(
 			'Request'=>array(self::BELONGS_TO,'Request','request_id'),
 			'Testing'=>array(self::BELONGS_TO,'Testing','testing_type'),
+			'Unit'=>array(self::BELONGS_TO,'Unit','testing_part'),
 			);
 	}
 
@@ -223,5 +224,32 @@ class RequestSchedule extends CActiveRecord
 			return "-";
 		}
 	}
+
+
+	public function unitSchedule($balai){
+		$criteria = new CDbCriteria();
+		$criteria->join='LEFT JOIN request_testing AS a ON a.id_testing=t.testing_id LEFT JOIN ref_unit AS u ON u.id_unit=a.testing_part';
+		$criteria->condition = 't.status_schedule=:status_schedule AND u.id_unit=:unit';
+		$criteria->params = array(':status_schedule'=>2,':unit'=>$balai);
+		return RequestSchedule::model()->count($criteria);
+	}
+
+	public static function testingPeriode($requestID)
+	{
+		$start = "SELECT MIN(start_date) FROM request_schedule WHERE request_id=".$requestID;
+		$end = "SELECT MAX(end_date) FROM request_schedule WHERE request_id=".$requestID;
+		$startdate = Yii::app()->db->createCommand($start);
+		$enddate = Yii::app()->db->createCommand($end);
+		$mulai = $startdate->queryScalar();
+		$berakhir = $enddate->queryScalar();
+
+		if($mulai=="" && $berakhir==""){
+			return "Jadwal Belum di Tentukan";
+		}else{
+			return Request::model()->date($mulai) . " s/d " . Request::model()->date($berakhir) . " - ( ".Request::model()->countMinute($mulai, $berakhir)." Hari ) ";
+		}
+
+	}	
+
 	
 }
